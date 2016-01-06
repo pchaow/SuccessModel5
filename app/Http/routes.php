@@ -29,3 +29,19 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
+
+
+Route::group(['prefix'=>'backend'],function(){
+    Route::get('/','BackendController@index');
+
+    Route::get('/faculty/','Backends\\FacultyController@index');
+
+    Route::get('/faculty/addForm','Backends\\FacultyController@addForm');
+    Route::post('/faculty/doAdd','Backends\\FacultyController@doAdd');
+
+    Route::get('/faculty/{id}/edit','Backends\\FacultyController@editForm');
+    Route::post('/faculty/{id}/doEdit','Backends\\FacultyController@doEdit');
+
+    Route::post('/faculty/{id}/delete','Backends\\FacultyController@doDelete');
+
+});
