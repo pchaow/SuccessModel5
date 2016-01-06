@@ -11,8 +11,18 @@ class BackendController extends BaseController
 {
     //use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function index(){
+    public function index()
+    {
         return view('backends.index');
+    }
+
+    public function login()
+    {
+        return view('backends.login');
+    }
+
+    public function doLogin(){
+        return redirect('/backend');
     }
 
 }

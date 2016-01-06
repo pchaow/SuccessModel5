@@ -32,9 +32,13 @@ Route::group(['middleware' => ['web']], function () {
 
 
 Route::group(['prefix'=>'backend'],function(){
+
+    //login
+    Route::get('login',"BackendController@login");
+    Route::post('doLogin',"BackendController@doLogin");
+
     //Dashboard
     Route::get('/','BackendController@index');
-
 
     //faculty
     Route::get('/faculty/','Backends\\FacultyController@index');
