@@ -90,7 +90,11 @@
                             <div class="fluid menu">
                                 <a href="/backend/faculty"
                                    class="{{ Request::is('backend/faculty') || Request::is('backend/faculty/*') ? 'active' : ''   }} teal item">
-                                    จัดการรายการคณะ
+                                    รายการคณะ
+                                </a>
+                                <a href="/backend/role"
+                                   class="{{ Request::is('backend/role') || Request::is('backend/role/*') ? 'active' : ''   }} teal item">
+                                    รายการสิทธิ์
                                 </a>
                                 <a class="item">FAQs</a>
                             </div>

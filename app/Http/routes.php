@@ -32,8 +32,11 @@ Route::group(['middleware' => ['web']], function () {
 
 
 Route::group(['prefix'=>'backend'],function(){
+    //Dashboard
     Route::get('/','BackendController@index');
 
+
+    //faculty
     Route::get('/faculty/','Backends\\FacultyController@index');
 
     Route::get('/faculty/addForm','Backends\\FacultyController@addForm');
@@ -43,5 +46,8 @@ Route::group(['prefix'=>'backend'],function(){
     Route::post('/faculty/{id}/doEdit','Backends\\FacultyController@doEdit');
 
     Route::post('/faculty/{id}/delete','Backends\\FacultyController@doDelete');
+
+    //role
+    Route::get('role','Backends\\RoleController@index');
 
 });
