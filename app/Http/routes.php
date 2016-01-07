@@ -57,4 +57,15 @@ Route::group(['prefix'=>'backend'],function(){
     //project status
     Route::get('project-status','Backends\\ProjectStatusController@index');
 
+    //admin project
+    Route::get('admin/project',"Backends\\AdminProjectController@index");
+
+    Route::get('admin/project/addForm','Backends\\AdminProjectController@addForm');
+    Route::post('admin/project/doAdd','Backends\\AdminProjectController@doAdd');
+
+    Route::get('admin/project/{id}/edit','Backends\\AdminProjectController@editForm');
+    Route::post('admin/project/{id}/doEdit','Backends\\AdminProjectController@doEdit');
+
+    Route::post('admin/project/{id}/delete','Backends\\AdminProjectController@doDelete');
+
 });
