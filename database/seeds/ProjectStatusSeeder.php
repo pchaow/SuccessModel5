@@ -14,6 +14,7 @@ class ProjectStatusSeeder extends Seeder {
 
 	public function run()
 	{
+        DB::table('project_status')->delete();
 
         $statuses = [
             ["draft","Draft","Project is in draft or not submit"],

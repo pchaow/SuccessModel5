@@ -14,14 +14,13 @@ class AdminSeeder extends Seeder {
 
 	public function run()
 	{
+        DB::table('users')->delete();
+
 
         $user = new \App\Models\User();
         $user->email="admin@success.local";
         $user->password =  \Hash::make("admin");
         $user->save();
-
-        $role = \App\Models\Role::where("key","=","admin")->first();
-        $user->roles()->attach($role->id);
 
     }
 
