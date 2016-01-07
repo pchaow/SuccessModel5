@@ -17,7 +17,7 @@ class AdminProjectController extends BaseController
 
     public function index()
     {
-        return view("backends.admin-project-index");
+        return view("backends.admins.admin-project-index");
     }
 
     public function addForm(Request $request)
