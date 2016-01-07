@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backends;
 
 use App\Models\Faculty;
+use App\Models\Project;
 use App\Models\ProjectStatus;
 use App\Models\Role;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -29,14 +30,15 @@ class AdminProjectController extends BaseController
         ];
 
 
-
         return view("backends.admins.project-index")
             ->with("projects", $projects);
     }
 
     public function addForm(Request $request)
     {
-
+        $project = new Project();
+        return view("backends.admins.project-addform")
+            ->with('project', $project);
     }
 
     public function doAdd(Request $request)
