@@ -17,7 +17,20 @@ class AdminProjectController extends BaseController
 
     public function index()
     {
-        return view("backends.admins.admin-project-index");
+        $project = new \stdClass();
+        $project->id = 1;
+        $project->name_th = "ทดสอบ";
+        $project->name_en = "test";
+        $project->faculty = Faculty::find(1);
+
+        $projects = [
+            $project
+        ];
+
+
+
+        return view("backends.admins.admin-project-index")
+            ->with("projects", $projects);
     }
 
     public function addForm(Request $request)
