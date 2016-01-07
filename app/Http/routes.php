@@ -26,46 +26,42 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
-});
 
-
-Route::group(['prefix'=>'backend'],function(){
+Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     //login
-    Route::get('login',"BackendController@login");
-    Route::post('doLogin',"BackendController@doLogin");
+    Route::get('login', "BackendController@login");
+    Route::post('doLogin', "BackendController@doLogin");
 
     //Dashboard
-    Route::get('/','BackendController@index');
+    Route::get('/', 'BackendController@index');
 
     //faculty
-    Route::get('/faculty/','Backends\\FacultyController@index');
+    Route::get('/faculty/', 'Backends\\FacultyController@index');
 
-    Route::get('/faculty/addForm','Backends\\FacultyController@addForm');
-    Route::post('/faculty/doAdd','Backends\\FacultyController@doAdd');
+    Route::get('/faculty/addForm', 'Backends\\FacultyController@addForm');
+    Route::post('/faculty/doAdd', 'Backends\\FacultyController@doAdd');
 
-    Route::get('/faculty/{id}/edit','Backends\\FacultyController@editForm');
-    Route::post('/faculty/{id}/doEdit','Backends\\FacultyController@doEdit');
+    Route::get('/faculty/{id}/edit', 'Backends\\FacultyController@editForm');
+    Route::post('/faculty/{id}/doEdit', 'Backends\\FacultyController@doEdit');
 
-    Route::post('/faculty/{id}/delete','Backends\\FacultyController@doDelete');
+    Route::post('/faculty/{id}/delete', 'Backends\\FacultyController@doDelete');
 
     //role
-    Route::get('role','Backends\\RoleController@index');
+    Route::get('role', 'Backends\\RoleController@index');
 
     //project status
-    Route::get('project-status','Backends\\ProjectStatusController@index');
+    Route::get('project-status', 'Backends\\ProjectStatusController@index');
 
     //admin project
-    Route::get('admin/project',"Backends\\AdminProjectController@index");
+    Route::get('admin/project', "Backends\\AdminProjectController@index");
 
-    Route::get('admin/project/addForm','Backends\\AdminProjectController@addForm');
-    Route::post('admin/project/doAdd','Backends\\AdminProjectController@doAdd');
+    Route::get('admin/project/addForm', 'Backends\\AdminProjectController@addForm');
+    Route::post('admin/project/doAdd', 'Backends\\AdminProjectController@doAdd');
 
-    Route::get('admin/project/{id}/edit','Backends\\AdminProjectController@editForm');
-    Route::post('admin/project/{id}/doEdit','Backends\\AdminProjectController@doEdit');
+    Route::get('admin/project/{id}/edit', 'Backends\\AdminProjectController@editForm');
+    Route::post('admin/project/{id}/doEdit', 'Backends\\AdminProjectController@doEdit');
 
-    Route::post('admin/project/{id}/delete','Backends\\AdminProjectController@doDelete');
+    Route::post('admin/project/{id}/delete', 'Backends\\AdminProjectController@doDelete');
 
 });

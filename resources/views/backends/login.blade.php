@@ -7,18 +7,14 @@
                 <h4>เข้าใช้งานระบบ / Sign in</h4>
             </div>
 
-            @if(Session::has('errors'))
-                <?php
-                $errors = Session::get('errors');
-                print_r($errors)
-                ?>
+            @if($errors->any())
 
                 <div class="ui attached segment">
                     <div class="ui negative message">
                         <div class="header">We had some issues</div>
                         <ul class="list">
-                            @foreach($errors as $e)
-                                <li>{{$e}}</li>
+                            @foreach($errors->all() as $e)
+                                <li><?php print_r($e)?></li>
                             @endforeach
                         </ul>
                     </div>
@@ -26,6 +22,7 @@
             @endif
             <div class="ui attached segment">
                 <form class="ui form" action="/backend/doLogin" method="post">
+                    {{csrf_field()}}
                     <div class="ui field">
                         <label>Username or E-Mail</label>
 
@@ -60,7 +57,12 @@
         </div>
     </div>
 
-    <?php
-            print_r($errors);
-    ?>
+    <script>
+        $(document).ready(function () {
+            $("button[type=submit]").click(function (ev) {
+
+            })
+        })
+    </script>
+
 @endsection
