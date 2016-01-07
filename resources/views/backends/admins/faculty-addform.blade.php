@@ -4,7 +4,7 @@
 
     <h2>เพิ่มรายการคณะ</h2>
 
-    @include('backends.faculty-form', ['action' => '/backend/faculty/doAdd','cancel' => '/backend/faculty'])
+    @include('backends.admins.faculty-form', ['action' => '/backend/faculty/doAdd','cancel' => '/backend/faculty'])
 
 
 @endsection

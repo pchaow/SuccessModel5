@@ -23,7 +23,6 @@
                 </div>
             </div>
 
-
         </div>
         <div class="four wide column">
 
@@ -34,7 +33,10 @@
                 <div class="item">
                     <div class="header">นักวิจัย</div>
                     <div class="menu">
-                        <a class="item">Enterprise</a>
+                        <a href="/backend/project"
+                           class="{{ Request::is('backend/project') || Request::is('backend/project/*') ? 'active' : ''   }} teal item">
+                            รายการโครงการ
+                        </a>
                         <a class="item">Consumer</a>
                     </div>
                 </div>
@@ -56,6 +58,10 @@
                 <div class="item">
                     <div class="header">ผู้ดูแลระบบ</div>
                     <div class="fluid menu">
+                        <a href="/backend/admin/project"
+                           class="{{ Request::is('backend/admin/project') || Request::is('backend/admin/project/*') ? 'active' : ''   }} teal item">
+                            รายการโครงการ
+                        </a>
                         <a href="/backend/faculty"
                            class="{{ Request::is('backend/faculty') || Request::is('backend/faculty/*') ? 'active' : ''   }} teal item">
                             รายการคณะ
