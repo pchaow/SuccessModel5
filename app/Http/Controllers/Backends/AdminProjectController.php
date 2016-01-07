@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backends;
 use App\Models\Faculty;
 use App\Models\Project;
 use App\Models\ProjectStatus;
-use App\Models\Role;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,18 +17,8 @@ class AdminProjectController extends BaseController
 
     public function index()
     {
-        $project = new \stdClass();
-        $project->id = 1;
-        $project->name_th = "ทดสอบ";
-        $project->name_en = "test";
-        $project->faculty = Faculty::find(1);
-        $project->project_status = ProjectStatus::find(1);
 
-        $projects = [
-            $project
-        ];
-
-
+        $projects = Project::with('faculty')->get();
         return view("backends.admins.project-index")
             ->with("projects", $projects);
     }
@@ -43,6 +32,16 @@ class AdminProjectController extends BaseController
 
     public function doAdd(Request $request)
     {
+
+        $project_input = $request->get('project');
+
+        $project = new Project();
+        $project->fill($project_input);
+        $project->save();
+        $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
+        $project->save();
+
+        return redirect('/backend/admin/project');
 
     }
 

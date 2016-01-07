@@ -39,8 +39,8 @@
                     {{$project->name_th}}
                     {{$project->name_en}}
                 </td>
-                <td class="collapsing">{{$project->faculty->name_th}}</td>
-                <td class="center aligned collapsing">{{$project->project_status->name}}</td>
+                <td class="collapsing">{{$project->faculty->name_th or "" }}</td>
+                <td class="center aligned collapsing">{{$project->project_status->name or "" }}</td>
                 <td class="center aligned collapsing">
 
 

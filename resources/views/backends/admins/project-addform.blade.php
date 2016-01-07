@@ -3,7 +3,8 @@
 @section('content')
 
     <h2>เพิ่มรายการโครงการ</h2>
-    <form class="ui form">
+    <form class="ui form" action="/backend/admin/project/doAdd" method="post">
+        {{csrf_field()}}
         <div class="ui pointing secondary menu">
             <a class="item active" data-tab="first">ข้อมูลเบื้องต้น</a>
             <a class="item" data-tab="second">Second</a>
@@ -51,7 +52,7 @@
                 <textarea rows="10"></textarea>
             </div>
 
-            <div class="ui button" tabindex="0">เพิ่มโครงการ</div>
+            <button class="ui button" tabindex="0">เพิ่มโครงการ</button>
 
         </div>
 
