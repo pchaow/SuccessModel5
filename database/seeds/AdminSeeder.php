@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Faculty;
+use App\Models\Role;
 
 class AdminSeeder extends Seeder {
 
@@ -21,6 +21,9 @@ class AdminSeeder extends Seeder {
         $user->email="admin@success.local";
         $user->password =  \Hash::make("admin");
         $user->save();
+
+        $user->roles()->save(Role::where("key","=","admin")->first());
+
 
     }
 
