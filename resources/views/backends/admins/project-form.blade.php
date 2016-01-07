@@ -1,13 +1,14 @@
-<form class="ui form" action="{{$action}}" method="post">
-    {{csrf_field()}}
-    <div class="ui pointing secondary menu">
-        <a class="item active" data-tab="first">ข้อมูลเบื้องต้น</a>
-        <a class="item" data-tab="second">Second</a>
+<div class="ui pointing secondary menu">
+    <a class="item active" data-tab="first">ข้อมูลเบื้องต้น</a>
+    @if($type=="EDIT")
+        <a class="item" data-tab="second">ภาพปก</a>
         <a class="item" data-tab="third">Third</a>
-    </div>
+    @endif
+</div>
 
-    <div class="ui bottom attached tab active" data-tab="first">
-
+<div class="ui bottom attached tab active" data-tab="first">
+    <form class="ui form" action="{{$action}}" method="post">
+        {{csrf_field()}}
         <div class="field">
             <label>กอง/คณะ/วิทยาลัย</label>
             <div class="ui selection dropdown" tabindex="0">
@@ -87,13 +88,55 @@
 
         <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>
 
-    </div>
+    </form>
 
-    <div class="ui bottom attached tab " data-tab="second">
-        Second
-    </div>
+</div>
 
-    <div class="ui bottom attached tab " data-tab="third">
-        Third
-    </div>
-</form>
+<div class="ui bottom attached tab " data-tab="second">
+    <form class="ui form" method="post" action="/backend/admin/project/{{$project->id}}/save-cover"
+          enctype="multipart/form-data">
+        <div class="field">
+            <label>ภาพปก</label>
+            <button id="coverUploadBtn" type="button" class="ui blue button" tabindex="0">เลือกไฟล์</button>
+            <div style="width:0px;height: 0px;overflow: hidden;">
+                <input id="coverInput" type="file" name="project[cover_upload]">
+            </div>
+            <img id="previewImage" src="" alt="Image preview...">
+
+        </div>
+
+        <button class="ui button" tabindex="0">ยืนยัน</button>
+        <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>
+
+        <script>
+            $("#coverUploadBtn").on("click", function () {
+                $("#coverInput").click();
+            })
+
+            function previewFile(evt) {
+                var preview = $("#previewImage");
+                var files = evt.target.files;
+                var file = files[0];
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.attr("src", reader.result);
+                    preview.attr("height", 200);
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = "";
+                }
+            }
+
+            $("#coverInput").on("change", previewFile);
+
+        </script>
+    </form>
+</div>
+
+<div class="ui bottom attached tab " data-tab="third">
+    Third
+</div>
