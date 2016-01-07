@@ -22,5 +22,4 @@ class ProjectStatusController extends BaseController
             ->with('statuses', $statuses);
     }
 
-
 }

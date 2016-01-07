@@ -54,4 +54,7 @@ Route::group(['prefix'=>'backend'],function(){
     //role
     Route::get('role','Backends\\RoleController@index');
 
+    //project status
+    Route::get('project-status','Backends\\ProjectStatusController@index');
+
 });

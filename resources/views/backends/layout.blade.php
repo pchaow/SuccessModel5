@@ -64,6 +64,10 @@
                            class="{{ Request::is('backend/role') || Request::is('backend/role/*') ? 'active' : ''   }} teal item">
                             รายการสิทธิ์
                         </a>
+                        <a href="/backend/project-status"
+                           class="{{ Request::is('backend/project-status') || Request::is('backend/project-status/*') ? 'active' : ''   }} teal item">
+                            รายการสถานะโครงการ
+                        </a>
                         <a class="item">FAQs</a>
                     </div>
                 </div>
