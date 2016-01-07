@@ -40,12 +40,10 @@ class BackendController extends BaseController
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
                 $user = Auth::user();
                 $user->roles;
-                //return $user;
+
                 return redirect("/backend/");
             } else {
-//                return \Response::json([
-//                    "error" => "E-mail or Password is invalid"
-//                ], 500);
+
 
                 $errors = new MessageBag(['LOGIN_ERROR' => ['E-mail or Password is invalid.']]);
 
@@ -63,9 +61,10 @@ class BackendController extends BaseController
             // connect to active directory
             $ad = ldap_connect($server);
             if (!$ad) {
-                return \Response::json([
-                    "error" => "ไม่สามารถติดต่อ server มหาลัยเพื่อตรวจสอบรหัสผ่านได้"
-                ], 500);
+
+                $errors = new MessageBag(['LOGIN_ERROR' => ['ไม่สามารถติดต่อ server มหาลัยเพื่อตรวจสอบรหัสผ่านได้']]);
+                return Redirect::back()->withErrors($errors);
+
             } else {
 
                 $b = @ldap_bind($ad, $userlocal, $password);
@@ -73,6 +72,9 @@ class BackendController extends BaseController
                     return \Response::json([
                         "error" => "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบอีกครั้ง"
                     ], 500);
+
+                    $errors = new MessageBag(['LOGIN_ERROR' => ['ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบอีกครั้ง']]);
+                    return Redirect::back()->withErrors($errors);
 
                 } else {
                     //ldap ok
