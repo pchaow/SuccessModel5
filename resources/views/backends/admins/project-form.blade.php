@@ -53,6 +53,32 @@
             <textarea name="project[description_en]" rows="10">{{$project->description_en}}</textarea>
         </div>
 
+
+        <div class="field">
+            <label>สถานะโครงการ</label>
+            <div class="ui selection dropdown" tabindex="0">
+                <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
+                @if($project->status_id)
+                    <div class="text">{{$project->status->name}}</div>
+                @else
+                    <div class="default text">กรุณาเลือก</div>
+                @endif
+                <i class="dropdown icon"></i>
+                <div class="menu transition hidden" tabindex="-1">
+                    <?php
+                    $statuses = \App\Models\ProjectStatus::all();
+                    ?>
+                    @foreach($statuses as $status)
+                        <div class="item {{ $project->status_id == $status->id ? "active" : ""  }}"
+                             data-value="{{$status->id}}">
+                            {{$status->name}}
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
+        </div>
+
         @if($type == "ADD")
             <button class="ui button" tabindex="0">เพิ่มโครงการ</button>
         @else

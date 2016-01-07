@@ -38,7 +38,13 @@ class AdminProjectController extends BaseController
         $project = new Project();
         $project->fill($project_input);
         $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
-        $project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
+
+        if ($project_input['status']['id'] != "") {
+            $project->status()->associate(ProjectStatus::find($project_input['status']['id']));
+        } else {
+            $project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
+        }
+
         $project->save();
 
         return redirect('/backend/admin/project');
@@ -52,20 +58,24 @@ class AdminProjectController extends BaseController
             ->with('project', $project);
     }
 
-    public function doEdit(Request $request,$id)
+    public function doEdit(Request $request, $id)
     {
         $project_input = $request->get('project');
 
         $project = Project::find($id);
         $project->fill($project_input);
         $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
-        //$project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
+        if ($project_input['status']['id'] != "") {
+            $project->status()->associate(ProjectStatus::find($project_input['status']['id']));
+        } else {
+            $project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
+        }
         $project->save();
 
         return redirect('/backend/admin/project');
     }
 
-    public function doDelete(Request $request,$id)
+    public function doDelete(Request $request, $id)
     {
         Project::find($id)->delete();
         return redirect('/backend/admin/project');
