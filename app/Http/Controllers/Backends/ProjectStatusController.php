@@ -18,7 +18,7 @@ class ProjectStatusController extends BaseController
     public function index()
     {
         $statuses = ProjectStatus::all();
-        return view('backends.project-status-index')
+        return view('backends.admins.project-status-index')
             ->with('statuses', $statuses);
     }
 

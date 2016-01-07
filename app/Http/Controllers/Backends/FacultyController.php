@@ -18,7 +18,7 @@ class FacultyController extends BaseController
 
         $faculties = Faculty::all();
 
-        return view('backends.faculty-index')
+        return view('backends.admins.faculty-index')
             ->with('faculties', $faculties);
     }
 
@@ -27,7 +27,7 @@ class FacultyController extends BaseController
     {
         $faculty = new Faculty();
 
-        return view('backends.faculty-addform')
+        return view('backends.admins.faculty-addform')
             ->with('faculty', $faculty);
     }
 
@@ -43,7 +43,7 @@ class FacultyController extends BaseController
     {
         $faculty = Faculty::find($id);
 
-        return view('backends.faculty-editform')
+        return view('backends.admins.faculty-editform')
             ->with('faculty', $faculty);
     }
 

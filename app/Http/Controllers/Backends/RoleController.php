@@ -17,7 +17,7 @@ class RoleController extends BaseController
     public function index()
     {
         $roles = Role::all();
-        return view('backends.role-index')
+        return view('backends.admins.role-index')
             ->with('roles', $roles);
     }
 
