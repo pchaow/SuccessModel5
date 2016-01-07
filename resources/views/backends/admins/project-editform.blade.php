@@ -6,12 +6,10 @@
 
 
     @include('backends.admins.project-form', [
-        'action' => '/backend/admin/project/doAdd',
+        'action' => "/backend/admin/project/$project->id/doEdit",
         'cancel' => '/backend/admin/project',
-        'type' => "ADD"
+        'type' => "EDIT"
         ])
-
-
 
     <script>
         $('.menu .item')

@@ -36,18 +36,19 @@
             <tr>
                 <td class="center aligned collapsing">{{$project->id}}</td>
                 <td>
-                    {{$project->name_th}}
+                    <b>{{$project->name_th}}</b><br/>
                     {{$project->name_en}}
                 </td>
                 <td class="collapsing">{{$project->faculty->name_th or "" }}</td>
-                <td class="center aligned collapsing">{{$project->project_status->name or "" }}</td>
+                <td class="center aligned collapsing">{{$project->status->name or "" }}</td>
                 <td class="center aligned collapsing">
 
 
                     <form class="inline" id="frmdelete_{{$project->id}}" method="post"
-                          action="/backend/faculty/{{$project->id}}/delete">
+                          action="/backend/admin/project/{{$project->id}}/delete">
+                        {{csrf_field()}}
 
-                        <a href="/backend/faculty/{{$project->id}}/edit" class="ui icon blue button">
+                        <a href="/backend/admin/project/{{$project->id}}/edit" class="ui icon blue button">
                             <i class="edit icon"></i>
                         </a>
 
@@ -80,4 +81,16 @@
         </tfoot>
     </table>
 
+
+    <script type="text/javascript">
+
+        function askDeleteProject(id) {
+            if (confirm('คุณต้องการลบโครงการนี้ ใช่หรือไม่')) {
+                var frmid = "#frmdelete_" + id;
+                $(frmid).submit();
+            }
+        }
+
+
+    </script>
 @endsection

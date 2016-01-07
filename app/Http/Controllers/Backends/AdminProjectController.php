@@ -37,27 +37,38 @@ class AdminProjectController extends BaseController
 
         $project = new Project();
         $project->fill($project_input);
-        $project->save();
         $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
+        $project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
         $project->save();
 
         return redirect('/backend/admin/project');
 
     }
 
-    public function editForm(Request $request)
+    public function editForm(Request $request, $id)
     {
-
+        $project = Project::find($id);
+        return view("backends.admins.project-editform")
+            ->with('project', $project);
     }
 
-    public function doEdit(Request $request)
+    public function doEdit(Request $request,$id)
     {
+        $project_input = $request->get('project');
 
+        $project = Project::find($id);
+        $project->fill($project_input);
+        $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
+        //$project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
+        $project->save();
+
+        return redirect('/backend/admin/project');
     }
 
-    public function doDelete(Request $request)
+    public function doDelete(Request $request,$id)
     {
-
+        Project::find($id)->delete();
+        return redirect('/backend/admin/project');
     }
 
 }

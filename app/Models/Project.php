@@ -20,4 +20,9 @@ class Project extends Model
         return $this->belongsTo("App\\Models\\Faculty", "faculty_id");
     }
 
+    public function status()
+    {
+        return $this->belongsTo("App\\Models\\ProjectStatus", "status_id");
+    }
+
 }

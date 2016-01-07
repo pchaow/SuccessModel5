@@ -41,7 +41,7 @@
 
                     <form class="inline" id="frmdelete_{{$faculty->id}}" method="post"
                           action="/backend/faculty/{{$faculty->id}}/delete">
-
+                        {{csrf_field()}}
                         <a href="/backend/faculty/{{$faculty->id}}/edit" class="ui icon blue button">
                             <i class="edit icon"></i>
                         </a>
