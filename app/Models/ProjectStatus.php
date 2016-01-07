@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model {
+class ProjectStatus extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'project_status';
 
 
     protected $fillable = ['key','name', 'description'];

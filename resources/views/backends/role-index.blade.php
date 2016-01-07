@@ -11,7 +11,6 @@
             <th>คีย์</th>
             <th>ชื่อสิทธิ์</th>
             <th>รายละเอียด</th>
-            <th>การจัดการ</th>
         </tr>
         </thead>
         <tbody>
@@ -21,10 +20,6 @@
                 <td>{{$role->key}}</td>
                 <td>{{$role->name}}</td>
                 <td>{{$role->description}}</td>
-                <td class="center aligned collapsing">
-
-
-                </td>
             </tr>
         @endforeach
         </tbody>
