@@ -30,7 +30,7 @@ class AdminProjectController extends BaseController
 
 
 
-        return view("backends.admins.admin-project-index")
+        return view("backends.admins.project-index")
             ->with("projects", $projects);
     }
 
