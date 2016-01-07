@@ -59,9 +59,11 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     Route::get('admin/project/addForm', 'Backends\\AdminProjectController@addForm');
     Route::post('admin/project/doAdd', 'Backends\\AdminProjectController@doAdd');
 
-    Route::get('admin/project/{id}/edit', 'Backends\\AdminProjectController@editForm');
+    Route::get('admin/project/{id}/edit/{step?}', 'Backends\\AdminProjectController@editForm');
     Route::post('admin/project/{id}/doEdit', 'Backends\\AdminProjectController@doEdit');
 
     Route::post('admin/project/{id}/delete', 'Backends\\AdminProjectController@doDelete');
+
+    Route::post('admin/project/{id}/doSaveCover', 'Backends\\AdminProjectController@doSaveCover');
 
 });

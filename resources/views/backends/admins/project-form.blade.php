@@ -93,21 +93,25 @@
 </div>
 
 <div class="ui bottom attached tab " data-tab="second">
-    <form class="ui form" method="post" action="/backend/admin/project/{{$project->id}}/save-cover"
+    <form class="ui form" method="post" action="/backend/admin/project/{{$project->id}}/doSaveCover"
           enctype="multipart/form-data">
+        {{csrf_field()}}
         <div class="field">
             <label>ภาพปก</label>
             <button id="coverUploadBtn" type="button" class="ui blue button" tabindex="0">เลือกไฟล์</button>
+            <span id="filename"></span>
+
             <div style="width:0px;height: 0px;overflow: hidden;">
                 <input id="coverInput" type="file" name="project[cover_upload]">
             </div>
-            <img id="previewImage" src="" alt="Image preview...">
+        </div>
 
+        <div class="field">
+            <img id="previewImage" src="" alt="Image preview...">
         </div>
 
         <button class="ui button" tabindex="0">ยืนยัน</button>
         <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>
-
         <script>
             $("#coverUploadBtn").on("click", function () {
                 $("#coverInput").click();
@@ -117,6 +121,7 @@
                 var preview = $("#previewImage");
                 var files = evt.target.files;
                 var file = files[0];
+                $("#filename").html(file.name)
                 var reader = new FileReader();
 
                 reader.onloadend = function () {

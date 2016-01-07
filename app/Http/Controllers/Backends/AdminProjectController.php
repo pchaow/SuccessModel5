@@ -51,11 +51,12 @@ class AdminProjectController extends BaseController
 
     }
 
-    public function editForm(Request $request, $id)
+    public function editForm(Request $request, $id, $step = "first")
     {
         $project = Project::find($id);
         return view("backends.admins.project-editform")
-            ->with('project', $project);
+            ->with('project', $project)
+            ->with('step', $step);
     }
 
     public function doEdit(Request $request, $id)
@@ -79,6 +80,11 @@ class AdminProjectController extends BaseController
     {
         Project::find($id)->delete();
         return redirect('/backend/admin/project');
+    }
+
+    public function doSaveCover(Request $request, $id)
+    {
+        dd($request->files->get("project")["cover_upload"]);
     }
 
 }
