@@ -7,6 +7,9 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,14 +22,13 @@ class BackendController extends BaseController
         return view('backends.index');
     }
 
-    public function login()
+    public function login(Request $request)
     {
         return view('backends.login');
     }
 
     public function doLogin(Request $request)
     {
-
         Auth::logout();
 
         $user = $request->get('user');
@@ -38,11 +40,17 @@ class BackendController extends BaseController
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
                 $user = Auth::user();
                 $user->roles;
-                return $user;
+                //return $user;
+                return redirect("/backend/");
             } else {
-                return \Response::json([
-                    "error" => "E-mail or Password is invalid"
-                ], 500);
+//                return \Response::json([
+//                    "error" => "E-mail or Password is invalid"
+//                ], 500);
+
+                $errors = new MessageBag(['LOGIN_ERROR' => ['E-mail or Password is invalid.']]);
+
+                return Redirect::back()->withErrors($errors);
+
             }
         } else {
             $username = $email;

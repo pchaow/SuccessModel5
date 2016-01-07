@@ -7,6 +7,23 @@
                 <h4>เข้าใช้งานระบบ / Sign in</h4>
             </div>
 
+            @if(Session::has('errors'))
+                <?php
+                $errors = Session::get('errors');
+                print_r($errors)
+                ?>
+
+                <div class="ui attached segment">
+                    <div class="ui negative message">
+                        <div class="header">We had some issues</div>
+                        <ul class="list">
+                            @foreach($errors as $e)
+                                <li>{{$e}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
             <div class="ui attached segment">
                 <form class="ui form" action="/backend/doLogin" method="post">
                     <div class="ui field">
@@ -41,7 +58,9 @@
                 </form>
             </div>
         </div>
-
     </div>
 
+    <?php
+            print_r($errors);
+    ?>
 @endsection
