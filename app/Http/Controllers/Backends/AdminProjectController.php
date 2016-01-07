@@ -22,6 +22,7 @@ class AdminProjectController extends BaseController
         $project->name_th = "ทดสอบ";
         $project->name_en = "test";
         $project->faculty = Faculty::find(1);
+        $project->project_status = ProjectStatus::find(1);
 
         $projects = [
             $project

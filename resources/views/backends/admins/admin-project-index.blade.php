@@ -7,7 +7,7 @@
     <table class="ui celled table">
         <thead>
         <tr>
-            <th colspan="4">
+            <th colspan="5">
                 <a href="/backend/admin/project/addForm" class="ui labeled icon button">
                     <i class="plus icon"></i>
                     เพิ่มรายการโครงการ
@@ -27,15 +27,20 @@
             <th>ลำดับ</th>
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
+            <th>สถานะโครงการ</th>
             <th>การจัดการ</th>
         </tr>
         </thead>
         <tbody>
         @foreach($projects as $project)
             <tr>
-                <td>{{$project->id}}</td>
-                <td>{{$project->name_th}}</td>
-                <td>{{$project->name_en}}</td>
+                <td class="center aligned collapsing">{{$project->id}}</td>
+                <td>
+                    {{$project->name_th}}
+                    {{$project->name_en}}
+                </td>
+                <td class="collapsing">{{$project->faculty->name_th}}</td>
+                <td class="center aligned collapsing">{{$project->project_status->name}}</td>
                 <td class="center aligned collapsing">
 
 
@@ -57,7 +62,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <th colspan="4">
+            <th colspan="5">
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>
