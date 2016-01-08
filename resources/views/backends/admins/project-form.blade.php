@@ -2,7 +2,7 @@
     <a class="item active" data-tab="first">ข้อมูลเบื้องต้น</a>
     @if($type=="EDIT")
         <a class="item" data-tab="second">ภาพปก</a>
-        <a class="item" data-tab="third">Third</a>
+        <a class="item" data-tab="third">รูปภาพ</a>
     @endif
 </div>
 
@@ -153,5 +153,5 @@
 </div>
 
 <div class="ui bottom attached tab " data-tab="third">
-    Third
+    <h2>รูปภาพ</h2>
 </div>
