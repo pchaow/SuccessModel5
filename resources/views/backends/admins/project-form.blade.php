@@ -3,6 +3,7 @@
     @if($type=="EDIT")
         <a class="item" data-tab="second">ภาพปก</a>
         <a class="item" data-tab="third">รูปภาพ</a>
+        <a class="item" data-tab="forth">Youtube</a>
     @endif
 </div>
 
@@ -325,4 +326,8 @@
 
 
     </script>
+</div>
+
+<div class="ui bottom attached tab" data-tab="forth">
+    <h2>Youtube</h2>
 </div>
