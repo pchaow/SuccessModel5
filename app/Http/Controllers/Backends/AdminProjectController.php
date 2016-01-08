@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backends;
 use App\Models\Faculty;
 use App\Models\Project;
 use App\Models\ProjectStatus;
+use Faker\Provider\Uuid;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -84,7 +85,22 @@ class AdminProjectController extends BaseController
 
     public function doSaveCover(Request $request, $id)
     {
-        dd($request->files->get("project")["cover_upload"]);
+        $file = $request->files->get("project")["cover_upload"];
+        if ($file->isValid()) {
+
+            $originalExt = $file->getClientOriginalExtension();
+            $newfilename = Uuid::uuid() . "." . $originalExt;
+            $destinationPath = storage_path("app/project/$id/cover");
+            $file->move($destinationPath, $newfilename);
+
+
+            $project = Project::find($id);
+            $project->cover_file = $newfilename;
+            $project->save();
+        }
+
+        return redirect("/backend/admin/project/$id/edit/second");
+
     }
 
 }
