@@ -158,4 +158,17 @@ class AdminProjectController extends BaseController
 
     }
 
+    public function doEditPhoto(Request $request, $projectId, $photoId)
+    {
+        $photo_input = $request->get("photo");
+
+        /* @var Photo $photo */
+        $photo = Photo::find($photoId);
+        $photo->description = $photo_input['description'];
+        $photo->save();
+
+        return redirect("/backend/admin/project/$projectId/edit/third");
+
+    }
+
 }

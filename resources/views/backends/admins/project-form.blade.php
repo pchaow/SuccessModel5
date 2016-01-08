@@ -207,16 +207,41 @@
         @foreach($project->photos as $photo)
             <tr>
                 <td class="center aligned collapsing">{{$photo->id}}</td>
-                <td>
+                <td class="collapsing">
                     <img id="previewImage" height="200"
                          src="/backend/admin/project/{{$project->id}}/photos/{{$photo->filename}}?h=200"
                          alt="Image preview...">
                 </td>
-                <td class="collapsing">{{$photo->description or "" }}</td>
+                <td class="">
+
+                    <div id="description_{{$photo->id}}">
+                        {{$photo->description or "" }}
+                    </div>
+
+                    <form id="descriptionFrm_{{$photo->id}}" class="ui form" style="display:none;" method="post"
+                          action="/backend/admin/project/{{$project->id}}/photo/{{$photo->id}}/doEditPhoto">
+                        {{csrf_field()}}
+                        <div class="field">
+                            <textarea name="photo[description]">{{$photo->description}}</textarea>
+                        </div>
+                        <div class="field">
+                            <button type="submit" class="ui button">บันทึก</button>
+                            <button type="button" class="ui red button" onclick="showEditForm({{$photo->id}},false)">
+                                ยกเลิก
+                            </button>
+
+                        </div>
+                    </form>
+
+                </td>
                 <td class="center aligned collapsing">
                     <form class="inline" id="frmDeletePhoto_{{$photo->id}}" method="post"
                           action="/backend/admin/project/{{$project->id}}/photo/{{$photo->id}}/delete">
                         {{csrf_field()}}
+
+                        <button type="button" class="ui blue icon button" onclick="showEditForm({{$photo->id}},true)">
+                            <i class="edit icon"></i>
+                        </button>
 
                         <button type="button" class="ui icon red  button" onclick="askDeletePhoto({{$photo->id}});">
                             <i class="trash icon"></i>
@@ -285,5 +310,19 @@
                 $(frmid).submit();
             }
         }
+
+        function showEditForm(id, display) {
+            if (display == true) {
+                $("#description_" + id).hide();
+                $("#descriptionFrm_" + id).show();
+            } else {
+                $("#description_" + id).show();
+                $("#descriptionFrm_" + id).hide();
+
+            }
+
+        }
+
+
     </script>
 </div>

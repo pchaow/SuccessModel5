@@ -69,5 +69,6 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     Route::get('admin/project/{id}/photos/{file}', "Backends\\AdminProjectController@getPhoto");
     Route::post('admin/project/{id}/doUploadPhoto', "Backends\\AdminProjectController@doUploadPhoto");
     Route::post('admin/project/{projectId}/photo/{photoId}/delete', "Backends\\AdminProjectController@doDeletePhoto");
+    Route::post('admin/project/{projectId}/photo/{photoId}/doEditPhoto', "Backends\\AdminProjectController@doEditPhoto");
 
 });
