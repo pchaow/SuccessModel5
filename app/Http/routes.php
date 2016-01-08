@@ -43,13 +43,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     //faculty
     Route::get('/faculty/', 'Backends\\FacultyController@index');
-
     Route::get('/faculty/addForm', 'Backends\\FacultyController@addForm');
     Route::post('/faculty/doAdd', 'Backends\\FacultyController@doAdd');
-
     Route::get('/faculty/{id}/edit', 'Backends\\FacultyController@editForm');
     Route::post('/faculty/{id}/doEdit', 'Backends\\FacultyController@doEdit');
-
     Route::post('/faculty/{id}/delete', 'Backends\\FacultyController@doDelete');
 
     //role
@@ -60,16 +57,16 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     //admin project
     Route::get('admin/project', "Backends\\AdminProjectController@index");
-
     Route::get('admin/project/addForm', 'Backends\\AdminProjectController@addForm');
     Route::post('admin/project/doAdd', 'Backends\\AdminProjectController@doAdd');
-
     Route::get('admin/project/{id}/edit/{step?}', 'Backends\\AdminProjectController@editForm');
     Route::post('admin/project/{id}/doEdit', 'Backends\\AdminProjectController@doEdit');
-
     Route::post('admin/project/{id}/delete', 'Backends\\AdminProjectController@doDelete');
-
+    //admin project cover
     Route::get('admin/project/{id}/getCover/{filename?}', 'Backends\\AdminProjectController@getCover');
     Route::post('admin/project/{id}/doSaveCover', 'Backends\\AdminProjectController@doSaveCover');
+    //admin project photo
+    //Route::get('admin/project/{id}/photo/{pid}/editForm',"Backends\\AdminProjectController@photoEditForm");
+    //Route::post('admin/project/{id}/photo',"Backends\\AdminProjectController@doUploadPhoto");
 
 });
