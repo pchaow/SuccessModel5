@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Soaps\LoginSoap;
+use App\Http\Soaps\UserInfoSoap;
+use App\Models\Faculty;
+use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -26,6 +30,61 @@ class BackendController extends BaseController
     {
         return view('backends.login');
     }
+
+    private function getUserInfoFromSoap($username, $password)
+    {
+        $data = [
+            'Login' => [
+                'username' => base64_encode($username),
+                'password' => base64_encode($password),
+                'ProductName' => 'decaffair_student',
+            ]
+        ];
+
+        $loginSoap = new LoginSoap();
+        $result = $loginSoap->call('Login', $data);
+        $sid = $result->LoginResult;
+
+        $data2 = [
+            'GetStaffInfo' => [
+                'sessionID' => $sid
+            ]
+        ];
+
+
+        $userInfo = new UserInfoSoap();
+        $infoResult = $userInfo->call('GetStaffInfo', $data2)->GetStaffInfoResult;
+
+        return $infoResult;
+    }
+
+    private function createUserFromSoap($username, $password)
+    {
+
+        $infoResult = $this->getUserInfoFromSoap($username, $password);
+
+        $user = new User();
+        $user->username = $username;
+        $user->title = $infoResult->Title;
+        $user->firstname = $infoResult->FirstName_TH;
+        $user->lastname = $infoResult->LastName_TH;
+        $user->email = $username . "@up.ac.th";
+        $user->save();
+
+        $faculty = Faculty::where('name_th', '=', $infoResult->Faculty)->first();
+        if ($faculty) {
+            $user->faculty()->save($faculty);
+        }
+
+        $role = Role::where('key', '=', 'researcher')->first();
+        if ($role) {
+            $user->roles()->sync([$role->id]);
+        }
+        $user->roles;
+        $user->faculty;
+        return $user;
+    }
+
 
     public function doLogin(Request $request)
     {
@@ -83,7 +142,7 @@ class BackendController extends BaseController
                     if ($user) {
                         Auth::login($user);
                     } else {
-                        $user = $this->userService->createUserFromSoap($username, $password);
+                        $user = $this->createUserFromSoap($username, $password);
                         Auth::login($user);
                     }
                     return redirect('/backend');
