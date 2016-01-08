@@ -17,12 +17,17 @@ class Project extends Model
 
     public function faculty()
     {
-        return $this->belongsTo("App\\Models\\Faculty", "faculty_id");
+        return $this->belongsTo(Faculty::class, "faculty_id");
     }
 
     public function status()
     {
-        return $this->belongsTo("App\\Models\\ProjectStatus", "status_id");
+        return $this->belongsTo(ProjectStatus::class, "status_id");
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, "project_id");
     }
 
 }

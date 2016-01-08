@@ -108,7 +108,8 @@
 
         <div class="field">
             @if($project->cover_file)
-                <img id="previewImage" height="200" src="/backend/admin/project/{{$project->id}}/getCover/{{$project->cover_file}}?h=200"
+                <img id="previewImage" height="200"
+                     src="/backend/admin/project/{{$project->id}}/getCover/{{$project->cover_file}}?h=200"
                      alt="Image preview...">
             @else
                 <img id="previewImage" src="" alt="Image preview...">
@@ -154,4 +155,135 @@
 
 <div class="ui bottom attached tab " data-tab="third">
     <h2>รูปภาพ</h2>
+
+    <table class="ui celled table">
+        <thead>
+        <tr>
+            <th colspan="4">
+                <form class="ui form" method="post" enctype="multipart/form-data"
+                      action="/backend/admin/project/{{$project->id}}/doUploadPhoto">
+                    {{csrf_field()}}
+                    <div class="field">
+                        <button id="photoUploadBtn" type="button" class="ui labeled icon button">
+                            <i class="plus icon"></i>
+                            อัพโหลดรูป
+                        </button>
+
+                        <span id="photoUploadFilename"></span>
+                    </div>
+
+                    <div class="two fields photoUploadPreview" style="display:none">
+                        <div class="field">
+                            <label>ตัวอย่างรูป</label>
+                            <img id="previewUploadPhoto" src="" alt="Image preview...">
+                        </div>
+                        <div class="field">
+                            <label>คำอธิบายรูป</label>
+                            <textarea name="photo[description]" style="height: 200px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field photoUploadPreview" style="display:none">
+                        <button disabled="disabled" id="confirmPhotoUpload" class="ui button" tabindex="0">ยืนยัน
+                        </button>
+                        <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>
+
+                    </div>
+
+                    <div style="width:0px;height: 0px;overflow: hidden;">
+                        <input id="photoInput" type="file" name="photo[file]">
+                    </div>
+                </form>
+            </th>
+        </tr>
+        <tr>
+            <th>ลำดับ</th>
+            <th class="collapsing">รูปภาพ</th>
+            <th>คำอธิบายภาพ</th>
+            <th>การจัดการ</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($project->photos as $photo)
+            <tr>
+                <td class="center aligned collapsing">{{$photo->id}}</td>
+                <td>
+                    <img id="previewImage" height="200"
+                         src="/backend/admin/project/{{$project->id}}/photos/{{$photo->filename}}?h=200"
+                         alt="Image preview...">
+                </td>
+                <td class="collapsing">{{$photo->description or "" }}</td>
+                <td class="center aligned collapsing">
+                    <form class="inline" id="frmDeletePhoto_{{$photo->id}}" method="post"
+                          action="/backend/admin/project/{{$project->id}}/photo/{{$photo->id}}/delete">
+                        {{csrf_field()}}
+
+                        <button type="button" class="ui icon red  button" onclick="askDeletePhoto({{$photo->id}});">
+                            <i class="trash icon"></i>
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="4">
+                <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                        <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                        <i class="right chevron icon"></i>
+                    </a>
+                </div>
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+
+
+    <script>
+        $("#photoUploadBtn").on("click", function () {
+            $("#photoInput").click();
+        })
+
+        function previewUploadPhoto(evt) {
+            var preview = $("#previewUploadPhoto");
+            var files = evt.target.files;
+            var file = files[0];
+            $("#photoUploadFilename").html(file.name)
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.attr("src", reader.result);
+                preview.attr("height", 200);
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+
+            $("#confirmPhotoUpload").removeAttr('disabled');
+
+            $(".photoUploadPreview").show();
+
+        }
+
+        $("#photoInput").on("change", previewUploadPhoto);
+
+        function askDeletePhoto(id) {
+            if (confirm('คุณต้องการลบภาพนี้ ใช่หรือไม่')) {
+                var frmid = "#frmDeletePhoto_" + id;
+                $(frmid).submit();
+            }
+        }
+    </script>
 </div>

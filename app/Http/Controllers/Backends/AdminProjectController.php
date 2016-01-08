@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backends;
 
 use App\Models\Faculty;
+use App\Models\Photo;
 use App\Models\Project;
 use App\Models\ProjectStatus;
 use Faker\Provider\Uuid;
@@ -84,37 +85,77 @@ class AdminProjectController extends BaseController
         return redirect('/backend/admin/project');
     }
 
-    public function doSaveCover(Server $server, Request $request, $id)
+    public function doSaveCover(Request $request, $id)
     {
         $file = $request->files->get("project")["cover_upload"];
         if ($file->isValid()) {
 
             $originalExt = $file->getClientOriginalExtension();
-            $newfilename = Uuid::uuid() . "." . $originalExt;
+            $newFileName = Uuid::uuid() . "." . $originalExt;
             $destinationPath = storage_path("app/project/$id/cover");
-            $file->move($destinationPath, $newfilename);
-
+            $file->move($destinationPath, $newFileName);
 
             $project = Project::find($id);
 
-            $project->cover_file = $newfilename;
+            $project->cover_file = $newFileName;
             $project->save();
-
 
         }
 
         return redirect("/backend/admin/project/$id/edit/second");
-
     }
 
-    public function getCover(Server $server, Request $request, $id)
+    public function getCover(Server $server, Request $request, $id, $file)
     {
-        $project = Project::find($id);
-        $cover_file = $project->cover_file;
+        //$project = Project::find($id);
+        $cover_file = $file;
 
         $path = "project/$id/cover/$cover_file";
 
         return $server->outputImage($path, $_GET);
+    }
+
+    public function doUploadPhoto(Request $request, $id)
+    {
+        $file = $request->files->get("photo")["file"];
+        $photoInput = $request->get('photo');
+        if ($file->isValid()) {
+
+            $originalExt = $file->getClientOriginalExtension();
+            $newFileName = Uuid::uuid() . "." . $originalExt;
+            $destinationPath = storage_path("app/project/$id/photo");
+            $file->move($destinationPath, $newFileName);
+
+            $photo = new Photo();
+            $photo->description = $photoInput['description'];
+            $photo->filename = $newFileName;
+
+            /* @var Project $project */
+            $project = Project::find($id);
+            $project->photos()->save($photo);
+
+        }
+
+        return redirect("/backend/admin/project/$id/edit/third");
+    }
+
+    public function getPhoto(Server $server, Request $request, $id, $file)
+    {
+        $photo_file = $file;
+
+        $path = "project/$id/photo/$photo_file";
+
+        return $server->outputImage($path, $_GET);
+    }
+
+    public function doDeletePhoto(Request $request, $projectId, $photoId)
+    {
+        /* @var Photo $photo */
+        $photo = Photo::find($photoId);
+        $photo->delete();
+
+        return redirect("/backend/admin/project/$projectId/edit/third");
+
     }
 
 }
