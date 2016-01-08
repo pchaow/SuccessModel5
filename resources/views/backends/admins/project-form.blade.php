@@ -107,11 +107,18 @@
         </div>
 
         <div class="field">
-            <img id="previewImage" src="" alt="Image preview...">
+            @if($project->cover_file)
+                <img id="previewImage" height="200" src="/backend/admin/project/{{$project->id}}/getCover/{{$project->cover_file}}?h=200"
+                     alt="Image preview...">
+            @else
+                <img id="previewImage" src="" alt="Image preview...">
+            @endif
+
         </div>
 
-        <button class="ui button" tabindex="0">ยืนยัน</button>
+        <button disabled="disabled" id="confirmUpload" class="ui button" tabindex="0">ยืนยัน</button>
         <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>
+
         <script>
             $("#coverUploadBtn").on("click", function () {
                 $("#coverInput").click();
@@ -134,6 +141,9 @@
                 } else {
                     preview.src = "";
                 }
+
+                $("#confirmUpload").removeAttr('disabled');
+
             }
 
             $("#coverInput").on("change", previewFile);

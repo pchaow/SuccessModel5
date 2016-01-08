@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use League\Glide\Server;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminProjectController extends BaseController
@@ -83,7 +84,7 @@ class AdminProjectController extends BaseController
         return redirect('/backend/admin/project');
     }
 
-    public function doSaveCover(Request $request, $id)
+    public function doSaveCover(Server $server, Request $request, $id)
     {
         $file = $request->files->get("project")["cover_upload"];
         if ($file->isValid()) {
@@ -95,12 +96,25 @@ class AdminProjectController extends BaseController
 
 
             $project = Project::find($id);
+
             $project->cover_file = $newfilename;
             $project->save();
+
+
         }
 
         return redirect("/backend/admin/project/$id/edit/second");
 
+    }
+
+    public function getCover(Server $server, Request $request, $id)
+    {
+        $project = Project::find($id);
+        $cover_file = $project->cover_file;
+
+        $path = "project/$id/cover/$cover_file";
+
+        return $server->outputImage($path, $_GET);
     }
 
 }

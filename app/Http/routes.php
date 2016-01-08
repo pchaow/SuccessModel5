@@ -26,6 +26,11 @@ Route::get('/', function () {
 |
 */
 
+Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
+
+
+});
+
 
 Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
@@ -64,6 +69,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     Route::post('admin/project/{id}/delete', 'Backends\\AdminProjectController@doDelete');
 
+    Route::get('admin/project/{id}/getCover/{filename?}', 'Backends\\AdminProjectController@getCover');
     Route::post('admin/project/{id}/doSaveCover', 'Backends\\AdminProjectController@doSaveCover');
 
 });
