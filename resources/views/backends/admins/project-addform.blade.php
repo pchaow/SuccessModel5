@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2>เพิ่มรายการโครงการ</h2>
+    <h2>เพิ่มโครงการ</h2>
 
 
     @include('backends.admins.project-form', [

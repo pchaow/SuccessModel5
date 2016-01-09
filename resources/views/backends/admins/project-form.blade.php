@@ -155,7 +155,6 @@
 </div>
 
 <div class="ui bottom attached tab " data-tab="third">
-    <h2>รูปภาพ</h2>
 
     <table class="ui celled table">
         <thead>

@@ -4,9 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "07d11ecb0c1acf4e8763fd612a9e2327",
-    "content-hash": "c8cea5901c088a9094b24dbcb61e201a",
+    "hash": "eaef55b495b206a326c86e50920378c8",
+    "content-hash": "b3f62d49eb16976898b36d7a016dc4c4",
     "packages": [
+        {
+            "name": "alaouy/youtube",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alaouy/Youtube.git",
+                "reference": "96acf8ae9033b5cbace9765bc72aff66f0ba2bd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alaouy/Youtube/zipball/96acf8ae9033b5cbace9765bc72aff66f0ba2bd2",
+                "reference": "96acf8ae9033b5cbace9765bc72aff66f0ba2bd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Alaouy\\Youtube\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mustapha Alaouy",
+                    "email": "alaouym@gmail.com"
+                }
+            ],
+            "description": "Laravel PHP Facade/Wrapper for the Youtube Data API v3",
+            "keywords": [
+                "alaouy",
+                "api",
+                "laravel",
+                "video",
+                "youtube"
+            ],
+            "time": "2015-12-28 20:46:30"
+        },
         {
             "name": "artisaninweb/laravel-soap",
             "version": "0.2.5.10",
@@ -3360,7 +3406,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "alaouy/youtube": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
