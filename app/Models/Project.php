@@ -30,4 +30,9 @@ class Project extends Model
         return $this->hasMany(Photo::class, "project_id");
     }
 
+    public function youtubes()
+    {
+        return $this->hasMany(Youtube::class, "project_id");
+    }
+
 }
