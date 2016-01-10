@@ -62,6 +62,8 @@ class UserController extends BaseController
 
         $user = User::find($id);
         $user->fill($user_form);
+        
+        $user->faculty_id = $user_form["faculty_id"];
 
         if ($user->password != $user_form["password"]) {
             $user->password = Hash::make($user_form['password']);

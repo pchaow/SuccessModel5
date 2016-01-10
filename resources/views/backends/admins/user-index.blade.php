@@ -35,7 +35,10 @@
         @foreach($users as $user)
             <tr>
                 <td>{{$user->id}}</td>
-                <td>{{$user->title}}{{$user->firstname}} {{$user->lastname}}</td>
+                <td>
+                    {{$user->title}}{{$user->firstname}} {{$user->lastname}}<br/>
+                    {{$user->email}}
+                </td>
                 <td>{{$user->faculty->name_th or ""}}</td>
                 <td>
                     @foreach($user->roles as $role)
