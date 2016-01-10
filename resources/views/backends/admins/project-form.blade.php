@@ -46,6 +46,12 @@
         </div>
 
         <div class="field">
+            <label>สถานที่ดำเนินโครงการ</label>
+            <input type="text" name="project[location]" placeholder="สถานที่ดำเนินโครงการ"
+                   value="{{$project->location}}">
+        </div>
+
+        <div class="field">
             <label>รายละเอียดโครงการ ภาษาไทย</label>
             <textarea name="project[description_th]" rows="10">{{$project->description_th}}</textarea>
         </div>

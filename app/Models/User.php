@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'title', 'firstname', 'lastname', 'email', 'username', 'password',
     ];
 
     /**
@@ -25,12 +25,14 @@ class User extends Authenticatable
     ];
 
 
-    public function roles(){
-        return $this->belongsToMany(Role::class,"role_user","role_id","user_id");
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, "role_user", "role_id", "user_id");
     }
 
-    public function faculty(){
-        return $this->belongsTo(Faculty::class,"faculty_id");
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class, "faculty_id");
     }
 
 }

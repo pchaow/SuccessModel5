@@ -58,6 +58,10 @@
                 <div class="item">
                     <div class="header">ผู้ดูแลระบบ</div>
                     <div class="fluid menu">
+                        <a href="/backend/user"
+                           class="{{ Request::is('backend/user') || Request::is('backend/user/*') ? 'active' : ''   }} teal item">
+                            รายการผู้ใช้
+                        </a>
                         <a href="/backend/admin/project"
                            class="{{ Request::is('backend/admin/project') || Request::is('backend/admin/project/*') ? 'active' : ''   }} teal item">
                             รายการโครงการ

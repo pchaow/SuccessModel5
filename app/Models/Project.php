@@ -13,7 +13,7 @@ class Project extends Model
     protected $table = 'projects';
 
 
-    protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en'];
+    protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en', 'location', 'lat', 'long'];
 
     public function faculty()
     {
@@ -35,4 +35,8 @@ class Project extends Model
         return $this->hasMany(Youtube::class, "project_id");
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, "project_user", "user_id", "project_id");
+    }
 }
