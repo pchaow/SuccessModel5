@@ -48,17 +48,28 @@ class UserController extends BaseController
 
     public function editForm($id)
     {
+        /* @var User $user */
         $user = User::find($id);
 
-        return view('backends.admins.user-addform')
+        return view('backends.admins.user-editform')
             ->with('user', $user);
     }
 
     public function doEdit(Request $request, $id)
     {
 
+        $user_form = $request->get('user');
+
         $user = User::find($id);
-        $user->fill($request->get('user'));
+        $user->fill($user_form);
+
+        if ($user->password != $user_form["password"]) {
+            $user->password = Hash::make($user_form['password']);
+        }
+        $user->save();
+
+        $user->roles()->sync($user_form["role_ids"]);
+
 
         return redirect('/backend/user');
     }

@@ -42,10 +42,35 @@
                         {{$role->name}} <br/>
                     @endforeach
                 </td>
-                <td></td>
+                <td>
+                    <form class="inline" id="frmdelete_{{$user->id}}" method="post"
+                          action="/backend/user/{{$user->id}}/delete">
+                        {{csrf_field()}}
+                        <a href="/backend/user/{{$user->id}}/edit" class="ui icon blue button">
+                            <i class="edit icon"></i>
+                        </a>
+
+                        <button type="button" class="ui icon red  button" onclick="askDeleteUser({{$user->id}});">
+                            <i class="trash icon"></i>
+                        </button>
+                    </form>
+
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
+    <script type="text/javascript">
+
+        function askDeleteUser(id) {
+            if (confirm('คุณต้องการลบผู้ใช้นี้ ใช่หรือไม่')) {
+                var frmid = "#frmdelete_" + id;
+                $(frmid).submit();
+            }
+        }
+
+
+    </script>
 @endsection
 

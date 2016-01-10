@@ -128,10 +128,7 @@ class BackendController extends BaseController
 
                 $b = @ldap_bind($ad, $userlocal, $password);
                 if (!$b) {
-                    return \Response::json([
-                        "error" => "ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบอีกครั้ง"
-                    ], 500);
-
+                    
                     $errors = new MessageBag(['LOGIN_ERROR' => ['ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบอีกครั้ง']]);
                     return Redirect::back()->withErrors($errors);
 

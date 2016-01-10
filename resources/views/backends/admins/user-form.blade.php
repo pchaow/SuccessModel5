@@ -67,7 +67,8 @@
             @foreach($roles as $role)
                 <div class="item">
                     <div class="ui child checkbox">
-                        <input type="checkbox" name="user[role_ids][]" value="{{$role->id}}">
+                        <input type="checkbox" name="user[role_ids][]" value="{{$role->id}}"
+                                {{ in_array($role->id, $user->roles()->lists("role_id")->toArray()) ? "checked" : "" }}>
                         <label>{{$role->name}}</label>
 
                     </div>
