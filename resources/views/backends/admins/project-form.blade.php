@@ -4,6 +4,7 @@
         <a class="item" data-tab="second">ภาพปก</a>
         <a class="item" data-tab="third">รูปภาพ</a>
         <a class="item" data-tab="forth">Youtube</a>
+        <a class="item" data-tab="fifth">นักวิจัยในโครงการ</a>
     @endif
 </div>
 
@@ -417,5 +418,113 @@
                 $(frmid).submit();
             }
         }
+    </script>
+</div>
+
+<div class="ui bottom attached tab" data-tab="fifth">
+    <table class="ui celled table">
+        <thead>
+        <tr>
+            <th colspan="4">
+                <form class="ui project user form" method="post"
+                      action="/backend/admin/project/{{$project->id}}/doAddUser">
+                    {{csrf_field()}}
+                    <div class="fields">
+                        <div class="thirteen wide field">
+                            <label>ค้นหานักวิจัย</label>
+                            <div id="searchAddUser" class="ui fluid search selection dropdown">
+                                <input type="hidden" name="user[id]">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Select Country</div>
+                            </div>
+
+                        </div>
+
+                        <div class="three wide field">
+                            <label>&nbsp;</label>
+                            <button id="userAddBtn" type="submit" class="ui labeled icon button">
+                                <i class="plus icon"></i>
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </th>
+        </tr>
+        <tr>
+            <th>ลำดับ</th>
+            <th>ชื่อ-นามสกุล</th>
+            <th>E-Mail</th>
+            <th>การจัดการ</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($project->users as $user)
+            <tr>
+                <td class="center aligned collapsing">{{$user->id}}</td>
+                <td class="">
+                    {{$user->title}}{{$user->firstname}} {{$user->lastname}}
+                </td>
+                <td class="collapsing">
+                    {{$user->email}}
+                </td>
+                <td class="center aligned collapsing">
+                    <form class="inline" id="frmDeleteUser_{{$user->id}}" method="post"
+                          action="/backend/admin/project/{{$project->id}}/user/{{$user->id}}/delete">
+                        {{csrf_field()}}
+
+                        <button type="button" class="ui icon red  button" onclick="askDeleteUser({{$user->id}});">
+                            <i class="trash icon"></i>
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="4">
+                <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                        <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                        <i class="right chevron icon"></i>
+                    </a>
+                </div>
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            $("#searchAddUser").dropdown({
+                apiSettings: {
+                    url: '/api/researcher/dropdown/{query}',
+                    onResponse : function(response){
+                        //console.log(response);
+                    }
+
+                },
+                fields: {
+                    remoteValues : 'results', // grouping for api results
+                    //values       : 'values', // grouping for all dropdown values
+                    name         : 'fullname',   // displayed dropdown text
+                    value        : 'id'   // actual dropdown value
+                },
+                onChange : function(value, text, $choice){
+                    console.log(value);
+                }
+
+            })
+        })
+
     </script>
 </div>

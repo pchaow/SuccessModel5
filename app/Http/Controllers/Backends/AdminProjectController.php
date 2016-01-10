@@ -231,4 +231,20 @@ class AdminProjectController extends BaseController
         return redirect("/backend/admin/project/$projectId/edit/forth");
     }
 
+    public function doAddUser(Request $request, $projectId)
+    {
+        $user_add_form = $request->get('user');
+
+
+        /* @var Project $project */
+        $project = Project::find($projectId);
+
+        if ($project->users()->find($user_add_form["id"]) == null) {
+            $project->users()->attach($user_add_form["id"]);
+        }
+
+
+        return redirect("/backend/admin/project/$projectId/edit/fifth");
+    }
+
 }

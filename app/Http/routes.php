@@ -31,6 +31,12 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
 });
 
+Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
+
+    Route::get('/researcher/dropdown/{keyword?}', "Backends\\UserController@apiGetResearcherForDropdown");
+
+});
+
 
 Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
@@ -75,9 +81,12 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     Route::post("admin/project/{projectId}/doAddYoutube", "Backends\\AdminProjectController@doAddYoutube");
     Route::post('admin/project/{projectId}/youtube/{youtubeId}/delete', "Backends\\AdminProjectController@doDeleteYoutube");
 
+    //admin project user
+    Route::post("admin/project/{projectId}/doAddUser", "Backends\\AdminProjectController@doAddUser");
+
     //user
 
-    Route::get("user","Backends\\UserController@index");
+    Route::get("user", "Backends\\UserController@index");
     Route::get('user/addForm', 'Backends\\UserController@addForm');
     Route::post('user/doAdd', 'Backends\\UserController@doAdd');
     Route::get('user/{id}/edit', 'Backends\\UserController@editForm');

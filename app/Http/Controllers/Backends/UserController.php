@@ -62,7 +62,7 @@ class UserController extends BaseController
 
         $user = User::find($id);
         $user->fill($user_form);
-        
+
         $user->faculty_id = $user_form["faculty_id"];
 
         if ($user->password != $user_form["password"]) {
@@ -80,6 +80,37 @@ class UserController extends BaseController
     {
         User::find($id)->delete();
         return redirect('/backend/user');
+    }
+
+    public function apiGetResearcher(Request $request, $keyword = null)
+    {
+        /* @var Role $researchers */
+        $researchers = Role::where("key", "=", "researcher")->first();
+        if ($keyword == null) {
+            $users = $researchers->users()->get();
+        } else {
+            $users = User::whereHas("roles", function ($query) {
+                $query->where('key', '=', 'researcher');
+            })
+                ->where("firstname", "LIKE", "%$keyword%")
+                ->orWhere("lastname", "LIKE", "%$keyword%")
+                ->get();
+        }
+
+
+        return $users;
+    }
+
+    public function apiGetResearcherForDropdown(Request $request, $keyword = null)
+    {
+        $users = $this->apiGetResearcher($request, $keyword);
+        foreach ($users as $user) {
+            $user->fullname = "$user->title$user->firstname $user->lastname";
+        }
+        return [
+            "success" => true,
+            "results" => $users
+        ];
     }
 
 
