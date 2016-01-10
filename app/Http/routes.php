@@ -71,4 +71,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     Route::post('admin/project/{projectId}/photo/{photoId}/delete', "Backends\\AdminProjectController@doDeletePhoto");
     Route::post('admin/project/{projectId}/photo/{photoId}/doEditPhoto', "Backends\\AdminProjectController@doEditPhoto");
 
+    //admin project youtube
+    Route::post("admin/project/{projectId}/doAddYoutube", "Backends\\AdminProjectController@doAddYoutube");
+    Route::post('admin/project/{projectId}/youtube/{youtubeId}/delete', "Backends\\AdminProjectController@doDeleteYoutube");
+
 });

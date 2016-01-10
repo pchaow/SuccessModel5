@@ -328,5 +328,88 @@
 </div>
 
 <div class="ui bottom attached tab" data-tab="forth">
-    <h2>Youtube</h2>
+    <table class="ui celled table">
+        <thead>
+        <tr>
+            <th colspan="4">
+                <form class="ui form" method="post"
+                      action="/backend/admin/project/{{$project->id}}/doAddYoutube">
+                    {{csrf_field()}}
+                    <div class="fields">
+                        <div class="thirteen wide field">
+                            <label>Youtube URL</label>
+                            <input type="text" name="youtube[url]"/>
+                        </div>
+                        <div class="three wide field">
+                            <label>&nbsp;</label>
+                            <button id="youtubeAddBtn" type="submit" class="ui labeled icon button">
+                                <i class="plus icon"></i>
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </th>
+        </tr>
+        <tr>
+            <th>ลำดับ</th>
+            <th class="collapsing">Youtube</th>
+            <th>รายละเอียด</th>
+            <th>การจัดการ</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($project->youtubes as $youtube)
+            <tr>
+                <td class="center aligned collapsing">{{$youtube->id}}</td>
+                <td class="collapsing">
+                    {!! $youtube->embedHtml !!}
+                </td>
+                <td class="">
+                    <b>{{$youtube->title}}</b><br/>
+                    {{str_limit($youtube->description, $limit = 150, $end = '...') }}
+                </td>
+                <td class="center aligned collapsing">
+                    <form class="inline" id="frmDeleteYoutube_{{$youtube->id}}" method="post"
+                          action="/backend/admin/project/{{$project->id}}/youtube/{{$youtube->id}}/delete">
+                        {{csrf_field()}}
+
+                        <button type="button" class="ui icon red  button" onclick="askDeleteYoutube({{$youtube->id}});">
+                            <i class="trash icon"></i>
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="4">
+                <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                        <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                        <i class="right chevron icon"></i>
+                    </a>
+                </div>
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        function askDeleteYoutube(id) {
+            if (confirm('คุณต้องการลบวิดิโอนี้ ใช่หรือไม่')) {
+                var frmid = "#frmDeleteYoutube_" + id;
+                $(frmid).submit();
+            }
+        }
+    </script>
 </div>

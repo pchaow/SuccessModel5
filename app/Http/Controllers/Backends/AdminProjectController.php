@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Backends;
 
+use Alaouy\Youtube\YoutubeServiceProvider;
 use App\Models\Faculty;
 use App\Models\Photo;
 use App\Models\Project;
 use App\Models\ProjectStatus;
+use App\Models\Youtube;
 use Faker\Provider\Uuid;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -169,6 +171,64 @@ class AdminProjectController extends BaseController
 
         return redirect("/backend/admin/project/$projectId/edit/third");
 
+    }
+
+    private function youtube_id_from_url($url)
+    {
+        $pattern =
+            '%^# Match any youtube URL
+        (?:https?://)?  # Optional scheme. Either http or https
+        (?:www\.)?      # Optional www subdomain
+        (?:             # Group host alternatives
+          youtu\.be/    # Either youtu.be,
+        | youtube\.com  # or youtube.com
+          (?:           # Group path alternatives
+            /embed/     # Either /embed/
+          | /v/         # or /v/
+          | /watch\?v=  # or /watch\?v=
+          )             # End path alternatives.
+        )               # End host alternatives.
+        ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
+        $%x';
+        $result = preg_match($pattern, $url, $matches);
+        if (false !== $result) {
+            return $matches[1];
+        }
+        return false;
+    }
+
+
+    public function doAddYoutube(Request $request, \Alaouy\Youtube\Facades\Youtube $youtubeApi, $projectId)
+    {
+        $youtube_input = $request->get("youtube");
+
+        $youtube = new Youtube();
+        $youtube->url = $youtube_input["url"];
+        $youtube->project_id = $projectId;
+
+        $youtubeId = $youtubeApi::parseVidFromURL($youtube->url);
+
+
+        $youtube->youtube_id = $youtubeId;
+
+        $videoInfo = $youtubeApi::getVideoInfo($youtubeId);
+        //dd($videoInfo);
+
+        $youtube->title = $videoInfo->snippet->title;
+        $youtube->description = $videoInfo->snippet->description;
+        $youtube->embedHtml = "<iframe width=\"320\" height=\"240\" src=\"//www.youtube.com/embed/$youtubeId\" frameborder=\"0\" allowfullscreen></iframe>";
+        $youtube->save();
+
+        return redirect("/backend/admin/project/$projectId/edit/forth");
+
+    }
+
+    public function doDeleteYoutube(Request $request, $projectId, $youtubeId)
+    {
+        $youtube = Youtube::find($youtubeId);
+        $youtube->delete();
+
+        return redirect("/backend/admin/project/$projectId/edit/forth");
     }
 
 }
