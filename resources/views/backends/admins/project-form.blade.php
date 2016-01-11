@@ -1,10 +1,10 @@
 <div class="ui pointing secondary menu">
     <a class="item active" data-tab="first">ข้อมูลเบื้องต้น</a>
     @if($type=="EDIT")
-        <a class="item" data-tab="second">ภาพปก</a>
-        <a class="item" data-tab="third">รูปภาพ</a>
-        <a class="item" data-tab="forth">Youtube</a>
-        <a class="item" data-tab="fifth">นักวิจัยในโครงการ</a>
+        <a class="item" href="/backend/admin/project/{{$project->id}}/edit/second" data-tab="second">ภาพปก</a>
+        <a class="item" href="/backend/admin/project/{{$project->id}}/edit/third" data-tab="third">รูปภาพ</a>
+        <a class="item" href="/backend/admin/project/{{$project->id}}/edit/forth" data-tab="forth">Youtube</a>
+        <a class="item" href="/backend/admin/project/{{$project->id}}/edit/fifth" data-tab="fifth">นักวิจัยในโครงการ</a>
     @endif
 </div>
 

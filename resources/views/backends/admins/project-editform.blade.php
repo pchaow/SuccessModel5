@@ -13,7 +13,12 @@
         ])
 
     <script>
-        $('.menu .item').tab({});
+        $('.menu .item').tab({
+            {{--history : true,--}}
+            {{--historyType: 'state',--}}
+            {{--path: '/backend/admin/project/{{$project->id}}/edit/'--}}
+
+        });
 
         $('.menu .item').tab('change tab', "{{$step}}")
 
