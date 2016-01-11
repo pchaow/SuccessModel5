@@ -425,7 +425,7 @@
     <table class="ui celled table">
         <thead>
         <tr>
-            <th colspan="4">
+            <th colspan="5">
                 <form class="ui project user form" method="post"
                       action="/backend/admin/project/{{$project->id}}/doAddUser">
                     {{csrf_field()}}
@@ -489,7 +489,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <th colspan="4">
+            <th colspan="5">
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>
