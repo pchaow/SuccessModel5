@@ -455,6 +455,7 @@
         <tr>
             <th>ลำดับ</th>
             <th>ชื่อ-นามสกุล</th>
+            <th>คณะ</th>
             <th>E-Mail</th>
             <th>การจัดการ</th>
         </tr>
@@ -465,6 +466,9 @@
                 <td class="center aligned collapsing">{{$user->id}}</td>
                 <td class="">
                     {{$user->title}}{{$user->firstname}} {{$user->lastname}}
+                </td>
+                <td class="collapsing">
+                    {{$user->faculty->name_th}}
                 </td>
                 <td class="collapsing">
                     {{$user->email}}
@@ -508,23 +512,30 @@
             $("#searchAddUser").dropdown({
                 apiSettings: {
                     url: '/api/researcher/dropdown/{query}',
-                    onResponse : function(response){
+                    onResponse: function (response) {
                         //console.log(response);
                     }
 
                 },
                 fields: {
-                    remoteValues : 'results', // grouping for api results
+                    remoteValues: 'results', // grouping for api results
                     //values       : 'values', // grouping for all dropdown values
-                    name         : 'fullname',   // displayed dropdown text
-                    value        : 'id'   // actual dropdown value
+                    name: 'fullname',   // displayed dropdown text
+                    value: 'id'   // actual dropdown value
                 },
-                onChange : function(value, text, $choice){
+                onChange: function (value, text, $choice) {
                     console.log(value);
                 }
 
             })
         })
+
+        function askDeleteUser(id) {
+            if (confirm('คุณต้องการนำนักวิจัยนี้ออกจากโครงการนี้ ใช่หรือไม่')) {
+                var frmid = "#frmDeleteUser_" + id;
+                $(frmid).submit();
+            }
+        }
 
     </script>
 </div>

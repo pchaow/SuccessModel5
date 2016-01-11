@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\ProjectStatus;
 use App\Models\Youtube;
 use Faker\Provider\Uuid;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -244,6 +245,14 @@ class AdminProjectController extends BaseController
         }
 
 
+        return redirect("/backend/admin/project/$projectId/edit/fifth");
+    }
+
+    public function doDeleteUser(Request $request, $projectId, $userId)
+    {
+        /* @var Project $project */
+        $project = Project::find($projectId);
+        $project->users()->detach($userId);
         return redirect("/backend/admin/project/$projectId/edit/fifth");
     }
 

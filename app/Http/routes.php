@@ -83,6 +83,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     //admin project user
     Route::post("admin/project/{projectId}/doAddUser", "Backends\\AdminProjectController@doAddUser");
+    Route::post("admin/project/{projectId}/user/{userId}/delete", "Backends\\AdminProjectController@doDeleteUser");
 
     //user
 
