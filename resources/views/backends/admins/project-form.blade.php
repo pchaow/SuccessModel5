@@ -595,6 +595,11 @@
             var districtDropdown = $("#map_dropdown_district");
             var provinceId = 0;
             var amphurId = 0;
+
+            amphurDropdown.addClass("disabled");
+            districtDropdown.addClass("disabled");
+
+
             provinceDropdown.on('change', function (el) {
                 provinceId = provinceDropdown.dropdown('get value')
 
@@ -607,6 +612,10 @@
                     }
                     amphurDropdown.dropdown('clear');
                     districtDropdown.dropdown('clear');
+
+                    amphurDropdown.removeClass('disabled');
+                    districtDropdown.addClass("disabled");
+
 
                 });
             })
@@ -622,6 +631,8 @@
                             $("#map_dropdown_district > .menu").append('<div class="item" data-value="' + response[i].DISTRICT_ID + '">' + response[i].DISTRICT_NAME + '</div>');
                         }
                         districtDropdown.dropdown('clear');
+                        districtDropdown.removeClass('disabled');
+
 
                     });
                 }
