@@ -11,8 +11,6 @@
         'type' => "ADD"
         ])
 
-
-
     <script>
         $('.menu .item')
                 .tab()

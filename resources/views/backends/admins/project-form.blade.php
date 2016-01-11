@@ -436,7 +436,7 @@
                             <div id="searchAddUser" class="ui fluid search selection dropdown">
                                 <input type="hidden" name="user[id]">
                                 <i class="dropdown icon"></i>
-                                <div class="default text">Select Country</div>
+                                <div class="default text">ค้นหานักวิจัย</div>
                             </div>
 
                         </div>
@@ -543,7 +543,92 @@
 
 <div class="ui bottom attached tab" data-tab="sixth">
 
-    <div id="map" class="map"></div>
+    <form class="ui form">
+        <div class="three fields">
+            <div class="field">
+                <label>จังหวัด</label>
+                <div id="map_dropdown_province" class="ui fluid selection dropdown">
+                    <input type="hidden" name="province_id">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">เลือกจังหวัด</div>
+
+                    <div class="menu">
+                        <?php
+                        $provinces = \App\Models\Thailand\Province::all();
+                        ?>
+                        @foreach($provinces as $province)
+                            <div class="item" data-value="{{$province->PROVINCE_ID}}">
+                                {{$province->PROVINCE_NAME}}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>อำเภอ</label>
+                <div id="map_dropdown_amphur" class="ui fluid selection dropdown">
+                    <input type="hidden" name="amphur_id">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">เลือกอำเภอ</div>
+                    <div class="menu"></div>
+                </div>
+            </div>
+            <div class="field">
+                <label>ตำบล</label>
+                <div id="map_dropdown_district" class="ui fluid selection dropdown">
+                    <input type="hidden" name="district_id">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">เลือกตำบล</div>
+                    <div class="menu"></div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div id="map" class="map"></div>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            var provinceDropdown = $("#map_dropdown_province");
+            var amphurDropdown = $("#map_dropdown_amphur");
+            var districtDropdown = $("#map_dropdown_district");
+            var provinceId = 0;
+            var amphurId = 0;
+            provinceDropdown.on('change', function (el) {
+                provinceId = provinceDropdown.dropdown('get value')
+
+                $.getJSON("/api/province/" + provinceId + "/amphur", function (response) {
+                    console.log(response);
+                    $("#map_dropdown_amphur > .menu").html("");
+                    numAmphur = response.length;
+                    for (i = 0; i < numAmphur; i++) {
+                        $("#map_dropdown_amphur > .menu").append('<div class="item" data-value="' + response[i].AMPHUR_ID + '">' + response[i].AMPHUR_NAME + '</div>');
+                    }
+                    amphurDropdown.dropdown('clear');
+                    districtDropdown.dropdown('clear');
+
+                });
+            })
+
+            amphurDropdown.on('change', function (el) {
+                amphurId = amphurDropdown.dropdown('get value');
+                if (amphurId) {
+                    $.getJSON("/api/province/" + provinceId + "/amphur/" + amphurId + "/district", function (response) {
+                        console.log(response);
+                        $("#map_dropdown_district > .menu").html("");
+                        numAmphur = response.length;
+                        for (i = 0; i < numAmphur; i++) {
+                            $("#map_dropdown_district > .menu").append('<div class="item" data-value="' + response[i].DISTRICT_ID + '">' + response[i].DISTRICT_NAME + '</div>');
+                        }
+                        districtDropdown.dropdown('clear');
+
+                    });
+                }
+
+            })
+        })
+    </script>
 
 </div>
 
@@ -556,7 +641,6 @@
     $('form .dropdown')
             .dropdown({})
     ;
-
 
 
     var map = new ol.Map({
