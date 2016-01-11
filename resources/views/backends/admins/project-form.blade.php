@@ -5,6 +5,7 @@
         <a class="item" data-tab="third">รูปภาพ</a>
         <a class="item" data-tab="forth">Youtube</a>
         <a class="item" data-tab="fifth">นักวิจัยในโครงการ</a>
+        <a class="item" data-tab="sixth">แผนที่แสดงตำแหน่งที่ดำเนินโครงการ </a>
     @endif
 </div>
 
@@ -539,3 +540,44 @@
 
     </script>
 </div>
+
+<div class="ui bottom attached tab" data-tab="sixth">
+
+    <div id="map" class="map"></div>
+
+</div>
+
+<script>
+    $('.menu .item').tab({});
+
+    $('.menu .item').tab('change tab', "{{$step}}")
+
+
+    $('form .dropdown')
+            .dropdown({})
+    ;
+
+
+
+    var map = new ol.Map({
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+        ],
+
+        target: 'map',
+
+    });
+
+    view = new ol.View({
+        center: ol.proj.fromLonLat([100.1997543, 19.2173531], map.getView().getProjection()),
+        maxZoom: 18,
+        minZoom: 9,
+        zoom: 9
+    })
+
+    map.setView(view);
+
+
+</script>

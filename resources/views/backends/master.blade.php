@@ -7,10 +7,8 @@
     <script src="/bower/jquery/dist/jquery.min.js"></script>
     <script src="/bower/semantic/dist/semantic.min.js" type="text/javascript"></script>
     <script src="/bower/semantic/dist/components/dropdown.min.js" type="text/javascript"></script>
-    <style>
 
-    </style>
-
+    @yield('javascript')
 
 </head>
 

@@ -1,5 +1,11 @@
 @extends('backends.layout')
 
+@section('javascript')
+    <link rel="stylesheet" href="{{asset("openlayers/ol.css")}}" type="text/css">
+    <script src="{{ asset("openlayers/ol-debug.js") }}"></script>
+
+@endsection
+
 @section('content')
 
     <h2>แก้ไขโครงการ</h2>
@@ -11,17 +17,6 @@
         'type' => "EDIT",
         'step' => $step
         ])
-
-    <script>
-        $('.menu .item').tab({});
-
-        $('.menu .item').tab('change tab', "{{$step}}")
-
-
-        $('form .dropdown')
-                .dropdown({})
-        ;
-    </script>
 
 
 
