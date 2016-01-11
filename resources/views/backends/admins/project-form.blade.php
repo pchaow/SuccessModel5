@@ -584,7 +584,7 @@
             </div>
         </div>
         <div class="field">
-            <div id="map" class="map"></div>
+            <div id="gmap" style="with:300px;height:300px;"></div>
         </div>
     </form>
 
@@ -603,6 +603,13 @@
             provinceDropdown.on('change', function (el) {
                 provinceId = provinceDropdown.dropdown('get value')
 
+                amphurDropdown.addClass("disabled");
+                districtDropdown.addClass("disabled");
+
+                amphurDropdown.dropdown('clear');
+                districtDropdown.dropdown('clear');
+
+
                 $.getJSON("/api/province/" + provinceId + "/amphur", function (response) {
                     console.log(response);
                     $("#map_dropdown_amphur > .menu").html("");
@@ -610,9 +617,6 @@
                     for (i = 0; i < numAmphur; i++) {
                         $("#map_dropdown_amphur > .menu").append('<div class="item" data-value="' + response[i].AMPHUR_ID + '">' + response[i].AMPHUR_NAME + '</div>');
                     }
-                    amphurDropdown.dropdown('clear');
-                    districtDropdown.dropdown('clear');
-
                     amphurDropdown.removeClass('disabled');
                     districtDropdown.addClass("disabled");
 
@@ -621,6 +625,11 @@
             })
 
             amphurDropdown.on('change', function (el) {
+
+                districtDropdown.addClass("disabled");
+                districtDropdown.dropdown('clear');
+
+
                 amphurId = amphurDropdown.dropdown('get value');
                 if (amphurId) {
                     $.getJSON("/api/province/" + provinceId + "/amphur/" + amphurId + "/district", function (response) {
@@ -652,27 +661,9 @@
     $('form .dropdown')
             .dropdown({})
     ;
+    var maplace = new Maplace();
+    maplace.Load();
 
-
-    var map = new ol.Map({
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
-            }),
-        ],
-
-        target: 'map',
-
-    });
-
-    view = new ol.View({
-        center: ol.proj.fromLonLat([100.1997543, 19.2173531], map.getView().getProjection()),
-        maxZoom: 18,
-        minZoom: 9,
-        zoom: 9
-    })
-
-    map.setView(view);
 
 
 </script>

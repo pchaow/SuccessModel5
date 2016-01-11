@@ -1,14 +1,15 @@
 @extends('backends.layout')
 
 @section('javascript')
-    <link rel="stylesheet" href="{{asset("openlayers/ol.css")}}" type="text/css">
-    <script src="{{ asset("openlayers/ol-debug.js") }}"></script>
+
+    <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.22&key=AIzaSyCyb1w6ezK3C0k64_1AiB0vK-qjmQkCrcI"></script>
+    <script src="{{ asset("/bower/maplace-js/dist/maplace.min.js") }}"></script>
 
 @endsection
 
 @section('content')
 
-    <h2>แก้ไขโครงการ</h2>
+    <h2> แก้ไขโครงการ </h2>
 
 
     @include('backends.admins.project-form', [
