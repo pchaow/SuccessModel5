@@ -653,20 +653,29 @@
 <div class="ui bottom attached tab" data-tab="sixth">
 
     <form class="ui form">
+
+
         <div class="field">
             <div id="color-palette"></div>
-            <div>
-                <button type="button" id="delete-button">Delete Selected Shape</button>
-            </div>
+            <button class="ui button" type="button" id="delete-button">Delete Selected Shape</button>
         </div>
+
         <div class="field">
             <div id="gmap" style="with:300px;height:600px;"></div>
+        </div>
+
+        <div class="field">
+            <button class="ui button" type="button" id="save-mapdata-button">บันทึกข้อมูล</button>
         </div>
     </form>
 
 </div>
 
 <script>
+
+    $("#save-mapdata-button").on('click', function (ev) {
+
+    })
 
     var drawingManager;
     var selectedShape;
@@ -756,7 +765,7 @@
     function initialize() {
         var map = new google.maps.Map(document.getElementById('gmap'), {
             zoom: 10,
-            center: new google.maps.LatLng(22.344, 114.048),
+            center: new google.maps.LatLng(19.2178981, 100.1890168),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true,
             zoomControl: true

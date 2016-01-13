@@ -3,7 +3,6 @@
 @section('javascript')
 
     <script src="https://maps.google.com/maps/api/js?sensor=false&libraries=drawing&v=3.22&key=AIzaSyCyb1w6ezK3C0k64_1AiB0vK-qjmQkCrcI"></script>
-    <script src="{{ asset("/bower/maplace-js/dist/maplace.min.js") }}"></script>
 
     <style>
         #color-palette {
