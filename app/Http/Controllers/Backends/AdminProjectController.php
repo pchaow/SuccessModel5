@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\MessageBag;
 use League\Glide\Server;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -242,10 +243,15 @@ class AdminProjectController extends BaseController
 
         if ($project->users()->find($user_add_form["id"]) == null) {
             $project->users()->attach($user_add_form["id"]);
+            return redirect("/backend/admin/project/$projectId/edit/fifth");
+        } else {
+            $error = new MessageBag([
+                "ADD_USER_ERROR" => "คุณได้เพิ่มนักวิจัยคนนี้ไปแล้ว"
+            ]);
+            return redirect("/backend/admin/project/$projectId/edit/fifth");
         }
 
 
-        return redirect("/backend/admin/project/$projectId/edit/fifth");
     }
 
     public function doDeleteUser(Request $request, $projectId, $userId)

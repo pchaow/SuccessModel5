@@ -35,6 +35,19 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
     Route::get('/researcher/dropdown/{keyword?}', "Backends\\UserController@apiGetResearcherForDropdown");
 
+    Route::get("/province", function () {
+        return \App\Models\Thailand\Province::all();
+    });
+
+    Route::get("/province/{provinceId}/amphur", function ($provinceId) {
+        return \App\Models\Thailand\Amphur::where("PROVINCE_ID", "=", $provinceId)->get();
+    });
+
+    Route::get("/province/{provinceId}/amphur/{amphurId}/district", function ($provinceId, $amphurId) {
+        return \App\Models\Thailand\District::where("PROVINCE_ID", "=", $provinceId)
+            ->where("AMPHUR_ID", "=", "$amphurId")->get();
+    });
+
 });
 
 
