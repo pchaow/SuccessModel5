@@ -22,7 +22,7 @@
 
 @section('content')
 
-    <h2> แก้ไขโครงการ </h2>
+    <h2>แก้ไขโครงการ</h2>
 
 
     @include('backends.admins.project-form', [
