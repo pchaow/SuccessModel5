@@ -148,4 +148,10 @@ class BackendController extends BaseController
         }
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
 }

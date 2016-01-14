@@ -55,10 +55,16 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     //login
     Route::get('login', "BackendController@login");
+    Route::get('logout', "BackendController@logout");
     Route::post('doLogin', "BackendController@doLogin");
 
-    //Dashboard
-    Route::get('/', 'BackendController@index');
+    Route::group(['middleware' => 'auth'], function () {
+        //Dashboard
+        Route::get('/', 'BackendController@index');
+    });
+
+
+
 
     //faculty
     Route::get('/faculty/', 'Backends\\FacultyController@index');

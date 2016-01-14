@@ -35,4 +35,16 @@ class User extends Authenticatable
         return $this->belongsTo(Faculty::class, "faculty_id");
     }
 
+    public function is($roleName)
+    {
+        foreach ($this->roles()->get() as $role)
+        {
+            if ($role->key == $roleName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
