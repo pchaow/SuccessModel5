@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +23,9 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
+Route::group(['middleware' => ['web']], function () {
+
+    Route::get('/', "FrontendController@index");
 
 
 });
@@ -50,6 +49,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
 });
 
+Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
+
+    //project
+    Route::get('{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
+});
+
 
 Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
@@ -62,8 +67,6 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         //Dashboard
         Route::get('/', 'BackendController@index');
     });
-
-
 
 
     //faculty

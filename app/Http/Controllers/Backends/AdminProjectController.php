@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backends;
 
 use Alaouy\Youtube\YoutubeServiceProvider;
+use App\Http\Services\ProjectService;
 use App\Models\Faculty;
 use App\Models\Photo;
 use App\Models\Project;
@@ -111,12 +112,13 @@ class AdminProjectController extends BaseController
 
     public function getCover(Server $server, Request $request, $id, $file)
     {
-        //$project = Project::find($id);
-        $cover_file = $file;
-
-        $path = "project/$id/cover/$cover_file";
-
-        return $server->outputImage($path, $_GET);
+//        //$project = Project::find($id);
+//        $cover_file = $file;
+//
+//        $path = "project/$id/cover/$cover_file";
+//
+//        return $server->outputImage($path, $_GET);
+        return ProjectService::getCover($server, $request, $id, $file);
     }
 
     public function doUploadPhoto(Request $request, $id)

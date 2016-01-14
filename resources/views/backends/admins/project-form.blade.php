@@ -91,14 +91,14 @@
                         <div class="default text">เลือกอำเภอ</div>
                     @endif
                     <div class="menu">
-
-                        @foreach($project->province->amphurs as $amphur)
-                            <div class="item {{ $amphur->AMPHUR_ID == $project->amphur_id ? "active" : ""  }}"
-                                 data-value="{{$amphur->AMPHUR_ID}}">
-                                {{$amphur->AMPHUR_NAME}}
-                            </div>
-                        @endforeach
-
+                        @if($project->province != null  )
+                            @foreach($project->province->amphurs as $amphur)
+                                <div class="item {{ $amphur->AMPHUR_ID == $project->amphur_id ? "active" : ""  }}"
+                                     data-value="{{$amphur->AMPHUR_ID}}">
+                                    {{$amphur->AMPHUR_NAME}}
+                                </div>
+                            @endforeach
+                        @endif
 
                     </div>
                 </div>
@@ -114,12 +114,15 @@
                         <div class="default text">เลือกตำบล</div>
                     @endif
                     <div class="menu">
-                        @foreach($project->amphur->districts as $district)
-                            <div class="item {{ $district->DISTRICT_ID == $project->district_id ? "active" : ""  }}"
-                                 data-value="{{$district->DISTRICT_ID}}">
-                                {{$district->DISTRICT_NAME}}
-                            </div>
-                        @endforeach
+                        @if($project->amphur != null  )
+
+                            @foreach($project->amphur->districts as $district)
+                                <div class="item {{ $district->DISTRICT_ID == $project->district_id ? "active" : ""  }}"
+                                     data-value="{{$district->DISTRICT_ID}}">
+                                    {{$district->DISTRICT_NAME}}
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -850,7 +853,7 @@
         }
     });
 
-    $('.menu .item').tab('change tab', "{{$step}}")
+    $('.menu .item').tab('change tab', "{{$step or "first"}}")
 
 
     $('form .dropdown')
