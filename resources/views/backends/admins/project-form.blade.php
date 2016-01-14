@@ -60,16 +60,20 @@
             <div class="field">
                 <label>จังหวัด</label>
                 <div id="map_dropdown_province" class="ui fluid selection dropdown">
-                    <input type="hidden" name="project[province_id]">
+                    <input type="hidden" name="project[province_id]" value="{{$project->province_id}}">
                     <i class="dropdown icon"></i>
-                    <div class="default text">เลือกจังหวัด</div>
-
+                    @if($project->province_id)
+                        <div class="text">{{$project->province->province_name}}</div>
+                    @else
+                        <div class="default text">เลือกจังหวัด</div>
+                    @endif
                     <div class="menu">
                         <?php
                         $provinces = \App\Models\Thailand\Province::all();
                         ?>
                         @foreach($provinces as $province)
-                            <div class="item" data-value="{{$province->PROVINCE_ID}}">
+                            <div class="item {{ $project->province_id == $province->id ? "active" : ""  }}"
+                                 data-value="{{$province->PROVINCE_ID}}">
                                 {{$province->PROVINCE_NAME}}
                             </div>
                         @endforeach
@@ -79,19 +83,44 @@
             <div class="field">
                 <label>อำเภอ</label>
                 <div id="map_dropdown_amphur" class="ui fluid selection dropdown">
-                    <input type="hidden" name="project[amphur_id]">
+                    <input type="hidden" name="project[amphur_id]" value="{{$project->amphur_id}}">
                     <i class="dropdown icon"></i>
-                    <div class="default text">เลือกอำเภอ</div>
-                    <div class="menu"></div>
+                    @if($project->amphur_id)
+                        <div class="text">{{$project->amphur->amphur_name}}</div>
+                    @else
+                        <div class="default text">เลือกอำเภอ</div>
+                    @endif
+                    <div class="menu">
+
+                        @foreach($project->province->amphurs as $amphur)
+                            <div class="item {{ $amphur->AMPHUR_ID == $project->amphur_id ? "active" : ""  }}"
+                                 data-value="{{$amphur->AMPHUR_ID}}">
+                                {{$amphur->AMPHUR_NAME}}
+                            </div>
+                        @endforeach
+
+
+                    </div>
                 </div>
             </div>
             <div class="field">
                 <label>ตำบล</label>
                 <div id="map_dropdown_district" class="ui fluid selection dropdown">
-                    <input type="hidden" name="project[district_id]">
+                    <input type="hidden" name="project[district_id]" value="{{$project->district_id}}">
                     <i class="dropdown icon"></i>
-                    <div class="default text">เลือกตำบล</div>
-                    <div class="menu"></div>
+                    @if($project->district_id)
+                        <div class="text">{{$project->district->district_name}}</div>
+                    @else
+                        <div class="default text">เลือกตำบล</div>
+                    @endif
+                    <div class="menu">
+                        @foreach($project->amphur->districts as $district)
+                            <div class="item {{ $district->DISTRICT_ID == $project->district_id ? "active" : ""  }}"
+                                 data-value="{{$district->DISTRICT_ID}}">
+                                {{$district->DISTRICT_NAME}}
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
@@ -136,9 +165,9 @@
         </div>
 
         @if($type == "ADD")
-            <button class="ui button" tabindex="0">เพิ่มโครงการ</button>
+            <button class="ui button" tabindex="0">บันทึกข้อมูลโครงการใหม่</button>
         @else
-            <button class="ui button" tabindex="0">แก้ไขโครงการ</button>
+            <button class="ui button" tabindex="0">บันทึกข้อมูลโครงการ</button>
         @endif
 
         <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>
@@ -150,11 +179,33 @@
             var provinceDropdown = $("#map_dropdown_province");
             var amphurDropdown = $("#map_dropdown_amphur");
             var districtDropdown = $("#map_dropdown_district");
-            var provinceId = 0;
-            var amphurId = 0;
 
-            amphurDropdown.addClass("disabled");
-            districtDropdown.addClass("disabled");
+            var provinceId = $(provinceDropdown).children("input").val();
+            var amphurId = $(amphurDropdown).children("input").val();
+            var districtId = $(districtDropdown).children("input").val();
+
+
+            function init() {
+
+                if (provinceId) {
+                    if (amphurId) {
+                        if (districtId) {
+
+                        } else {
+
+                        }
+                    } else {
+                        districtDropdown.addClass("disabled");
+                    }
+                } else {
+                    amphurDropdown.addClass("disabled");
+                    districtDropdown.addClass("disabled");
+
+                }
+
+            }
+
+            init();
 
 
             provinceDropdown.on('change', function (el) {
@@ -655,7 +706,7 @@
         {{csrf_field()}}
         <div class="field">
             <div id="color-palette"></div>
-            <button class="ui button" type="button" id="delete-button">Delete Selected Shape</button>
+            <button class="ui button" type="button" id="delete-button">ลบรูปร่างที่เลือก</button>
         </div>
 
         <div class="field">
@@ -664,7 +715,7 @@
 
         <div class="field">
             <input type="hidden" name="project[geojson]" id="geojson-input" value="{{$project->geojson}}"/>
-            <button class="ui button" type="submit" id="save-mapdata-button">บันทึกข้อมูล</button>
+            <button class="ui button" type="submit" id="save-mapdata-button">บันทึกข้อมูลแผนที่</button>
         </div>
     </form>
 

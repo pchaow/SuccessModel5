@@ -1,5 +1,8 @@
 <?php namespace App\Models;
 
+use App\Models\Thailand\Amphur;
+use App\Models\Thailand\District;
+use App\Models\Thailand\Province;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
@@ -13,7 +16,7 @@ class Project extends Model
     protected $table = 'projects';
 
 
-    protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en', 'location', 'lat', 'long'];
+    protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en', 'location', 'amphur_id', 'province_id', 'district_id'];
 
     public function faculty()
     {
@@ -39,4 +42,20 @@ class Project extends Model
     {
         return $this->belongsToMany(User::class, "project_user");
     }
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class, "province_id");
+    }
+
+    public function amphur()
+    {
+        return $this->belongsTo(Amphur::class, "amphur_id");
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, "district_id");
+    }
+
 }
