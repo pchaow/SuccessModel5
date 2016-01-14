@@ -673,15 +673,20 @@
 
 <script>
 
-    $("#save-mapdata-button").on('click', function (ev) {
 
-    })
-
+    var map;
     var drawingManager;
     var selectedShape;
     var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
     var selectedColor;
     var colorButtons = {};
+
+    $("#save-mapdata-button").on('click', function (ev) {
+        map.data.toGeoJson(function (geoJson) {
+            value = JSON.stringify(geoJson, null, 2);
+            console.log(value);
+        });
+    })
 
     function clearSelection() {
         if (selectedShape) {
@@ -763,7 +768,7 @@
     }
 
     function initialize() {
-        var map = new google.maps.Map(document.getElementById('gmap'), {
+        map = new google.maps.Map(document.getElementById('gmap'), {
             zoom: 10,
             center: new google.maps.LatLng(19.2178981, 100.1890168),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
