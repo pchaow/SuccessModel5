@@ -262,4 +262,15 @@ class AdminProjectController extends BaseController
         return redirect("/backend/admin/project/$projectId/edit/fifth");
     }
 
+    public function doSaveMap(Request $request, $projectId)
+    {
+        $project_form = $request->get('project');
+
+        $project = Project::find($projectId);
+        $project->geojson = $project_form['geojson'];
+        $project->save();
+
+        return redirect("/backend/admin/project/$projectId/edit/sixth");
+
+    }
 }

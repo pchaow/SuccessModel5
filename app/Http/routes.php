@@ -94,6 +94,9 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     Route::post("admin/project/{projectId}/doAddYoutube", "Backends\\AdminProjectController@doAddYoutube");
     Route::post('admin/project/{projectId}/youtube/{youtubeId}/delete', "Backends\\AdminProjectController@doDeleteYoutube");
 
+    //admin project google map
+    Route::post("admin/project/{projectId}/doSaveMap", "Backends\\AdminProjectController@doSaveMap");
+
     //admin project user
     Route::post("admin/project/{projectId}/doAddUser", "Backends\\AdminProjectController@doAddUser");
     Route::post("admin/project/{projectId}/user/{userId}/delete", "Backends\\AdminProjectController@doDeleteUser");

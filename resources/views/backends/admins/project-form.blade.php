@@ -651,9 +651,8 @@
 
 <div class="ui bottom attached tab" data-tab="sixth">
 
-    <form class="ui form">
-
-
+    <form class="ui form" action="/backend/admin/project/{{$project->id}}/doSaveMap" method="post">
+        {{csrf_field()}}
         <div class="field">
             <div id="color-palette"></div>
             <button class="ui button" type="button" id="delete-button">Delete Selected Shape</button>
@@ -664,8 +663,8 @@
         </div>
 
         <div class="field">
-            <input type="hidden" id="geojson-input"/>
-            <button class="ui button" type="button" id="save-mapdata-button">บันทึกข้อมูล</button>
+            <input type="hidden" name="project[geojson]" id="geojson-input" value="{{$project->geojson}}"/>
+            <button class="ui button" type="submit" id="save-mapdata-button">บันทึกข้อมูล</button>
         </div>
     </form>
 
@@ -673,13 +672,14 @@
 
 <script>
 
-    $("#save-mapdata-button").on('click', function (ev) {
-        console.log(map.data);
-    })
-
     var map;
     var geoJsonInput = document.getElementById('geojson-input');
     var selectedShape;
+
+    $("#save-mapdata-button").on('click', function (ev) {
+        console.log(geoJsonInput.value);
+    })
+
 
     function refreshGeoJsonFromData() {
         map.data.toGeoJson(function (geoJson) {
@@ -695,7 +695,6 @@
                 editable: false
             })
         }
-
 
         selectedShape = feature;
         map.data.overrideStyle(selectedShape.feature, {
@@ -721,7 +720,7 @@
         dataLayer.addListener('addfeature', refreshGeoJsonFromData);
         dataLayer.addListener('removefeature', refreshGeoJsonFromData);
         dataLayer.addListener('setgeometry', refreshGeoJsonFromData);
-        dataLayer.addListener("click", selectedFeature);
+        dataLayer.addListener("mouseover", selectedFeature);
 
 
         selectedShape = dataLayer;
@@ -734,6 +733,37 @@
         }
 
     })
+
+    function loadJsonFromString() {
+        var geojson = JSON.parse(geoJsonInput.value);
+        map.data.addGeoJson(geojson);
+        zoom(map);
+    }
+
+    function processPoints(geometry, callback, thisArg) {
+        if (geometry instanceof google.maps.LatLng) {
+            callback.call(thisArg, geometry);
+        } else if (geometry instanceof google.maps.Data.Point) {
+            callback.call(thisArg, geometry.get());
+        } else {
+            geometry.getArray().forEach(function (g) {
+                processPoints(g, callback, thisArg);
+            });
+        }
+    }
+
+    function zoom(map) {
+        var bounds = new google.maps.LatLngBounds();
+        var count = 0;
+        map.data.forEach(function (feature) {
+            count++;
+            processPoints(feature.getGeometry(), bounds.extend, bounds);
+        });
+        if (count > 0) {
+            map.fitBounds(bounds);
+        }
+
+    }
 
 
     function initialize() {
@@ -753,6 +783,8 @@
 
 
         google.maps.event.addListener(map, 'click', clearSelection);
+
+        loadJsonFromString();
 
         bindDataLayerListeners(map.data);
     }
