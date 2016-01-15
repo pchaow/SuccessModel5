@@ -46,8 +46,8 @@
                     <div class="item">
                         <div class="header">นักวิจัย</div>
                         <div class="menu">
-                            <a href="/backend/project"
-                               class="{{ Request::is('backend/project') || Request::is('backend/project/*') ? 'active' : ''   }} teal item">
+                            <a href="/backend/projects"
+                               class="{{ Request::is('backend/projects') || Request::is('backend/projects/*') ? 'active' : ''   }} teal item">
                                 รายการโครงการ
                             </a>
                             <a class="item">Consumer</a>

@@ -16,7 +16,7 @@
 
 <div class="ui grid">
     <div class="row" style="background-color: #4c1d6e">
-        <div class="ui middle aligned grid container">
+        <div class="ui stackable  middle aligned grid container">
             <div class="three wide column">
                 <h2 class="ui header inverted" style="padding: 20px;">
                     <div class="ui small image">

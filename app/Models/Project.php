@@ -58,4 +58,9 @@ class Project extends Model
         return $this->belongsTo(District::class, "district_id");
     }
 
+    public function createBy()
+    {
+        return $this->belongsTo(User::class, "create_by");
+    }
+
 }

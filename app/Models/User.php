@@ -37,14 +37,17 @@ class User extends Authenticatable
 
     public function is($roleName)
     {
-        foreach ($this->roles()->get() as $role)
-        {
-            if ($role->key == $roleName)
-            {
+        foreach ($this->roles()->get() as $role) {
+            if ($role->key == $roleName) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'create_by');
     }
 }

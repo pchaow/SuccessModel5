@@ -55,6 +55,11 @@ class AdminProjectController extends BaseController
 
         $project->save();
 
+        if ($user = Auth::user()) {
+            $project->createBy()->associate($user);
+        }
+
+
         return redirect('/backend/admin/project');
 
     }

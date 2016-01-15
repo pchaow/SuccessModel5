@@ -68,6 +68,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         Route::get('/', 'BackendController@index');
     });
 
+    Route::group(['middleware' => ['auth', 'researcher']], function () {
+        Route::get('projects', "Backends\\ProjectController@index");
+    });
+
 
     //faculty
     Route::get('/faculty/', 'Backends\\FacultyController@index');
