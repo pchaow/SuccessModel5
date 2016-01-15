@@ -8,7 +8,7 @@
         <thead>
         <tr>
             <th colspan="5">
-                <a href="/backend/admin/project/addForm" class="ui labeled icon button">
+                <a href="/backend/projects/addForm" class="ui labeled icon button">
                     <i class="plus icon"></i>
                     เพิ่มรายการโครงการ
                 </a>
@@ -27,7 +27,7 @@
             <th>ลำดับ</th>
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
-            <th>สถานะโครงการ</th>
+            <th style="width:10em;">สถานะโครงการ</th>
             <th>การจัดการ</th>
         </tr>
         </thead>
@@ -52,20 +52,21 @@
                     elseif ($project->status->key == 'published')
                         $dataPercent = 4;
                     ?>
-                    <div class="ui progress" data-value="{{$dataPercent}}" data-total="4">
+                        <div class="ui progress" data-value="{{$dataPercent}}" data-total="4">
                         <div class="bar">
                         </div>
                         <div class="label">{{$project->status->name}}</div>
                     </div>
 
-                </td>                <td class="center aligned collapsing">
+                </td>
+                <td class="center aligned collapsing">
 
 
                     <form class="inline" id="frmdelete_{{$project->id}}" method="post"
-                          action="/backend/admin/project/{{$project->id}}/delete">
+                          action="/backend/projects/{{$project->id}}/delete">
                         {{csrf_field()}}
 
-                        <a href="/backend/admin/project/{{$project->id}}/edit" class="ui icon blue button">
+                        <a href="/backend/projects/{{$project->id}}/edit" class="ui icon blue button">
                             <i class="edit icon"></i>
                         </a>
 
@@ -108,9 +109,8 @@
             }
         }
 
-        $('.ui.progress').progress({
-            total: 4
-        })
+        $('.ui.progress').progress('increment');
+
 
     </script>
 @endsection

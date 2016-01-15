@@ -34,7 +34,26 @@ class ProjectController extends BaseController
 
     public function doAdd(Request $request)
     {
+        $project_input = $request->get('project');
 
+        $project = new Project();
+        $project->fill($project_input);
+        $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
+
+        if ($project_input['status']['id'] != "") {
+            $project->status()->associate(ProjectStatus::find($project_input['status']['id']));
+        } else {
+            $project->status()->associate(ProjectStatus::where('key', '=', 'draft')->first());
+        }
+
+        $project->save();
+
+        if ($user = Auth::user()) {
+            $project->createBy()->associate($user)->save();
+        }
+
+
+        return redirect('/backend/projects');
     }
 
     public function editForm(Request $request)
