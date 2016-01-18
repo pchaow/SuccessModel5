@@ -82,6 +82,11 @@ class AdminProjectController extends BaseController
         $project_input = $request->get('project');
 
         $project = Project::find($id);
+
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
+
         $project->fill($project_input);
         $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
         if ($project_input['status']['id'] != "") {
@@ -97,7 +102,9 @@ class AdminProjectController extends BaseController
     public function doDelete(Request $request, $id)
     {
         $project = Project::find($id);
-        if ($project) {
+        if (!$project) {
+            return redirect('backend/admin/project');
+        } else {
             $project->delete();
         }
 
@@ -106,6 +113,7 @@ class AdminProjectController extends BaseController
 
     public function doSaveCover(Request $request, $id)
     {
+
         $file = $request->files->get("project")["cover_upload"];
         if ($file->isValid()) {
 
@@ -115,6 +123,10 @@ class AdminProjectController extends BaseController
             $file->move($destinationPath, $newFileName);
 
             $project = Project::find($id);
+
+            if (!$project) {
+                return redirect('backend/admin/project');
+            }
 
             $project->cover_file = $newFileName;
             $project->save();
@@ -126,17 +138,17 @@ class AdminProjectController extends BaseController
 
     public function getCover(Server $server, Request $request, $id, $file)
     {
-//        //$project = Project::find($id);
-//        $cover_file = $file;
-//
-//        $path = "project/$id/cover/$cover_file";
-//
-//        return $server->outputImage($path, $_GET);
         return ProjectService::getCover($server, $request, $id, $file);
     }
 
     public function doUploadPhoto(Request $request, $id)
     {
+        /* @var Project $project */
+        $project = Project::find($id);
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
+
         $file = $request->files->get("photo")["file"];
         $photoInput = $request->get('photo');
         if ($file->isValid()) {
@@ -150,8 +162,7 @@ class AdminProjectController extends BaseController
             $photo->description = $photoInput['description'];
             $photo->filename = $newFileName;
 
-            /* @var Project $project */
-            $project = Project::find($id);
+
             $project->photos()->save($photo);
 
         }
@@ -256,6 +267,9 @@ class AdminProjectController extends BaseController
 
         /* @var Project $project */
         $project = Project::find($projectId);
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
 
         if ($project->users()->find($user_add_form["id"]) == null) {
             $project->users()->attach($user_add_form["id"]);
@@ -274,6 +288,9 @@ class AdminProjectController extends BaseController
     {
         /* @var Project $project */
         $project = Project::find($projectId);
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
         $project->users()->detach($userId);
         return redirect("/backend/admin/project/$projectId/edit/fifth");
     }
@@ -283,6 +300,9 @@ class AdminProjectController extends BaseController
         $project_form = $request->get('project');
 
         $project = Project::find($projectId);
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
         $project->geojson = $project_form['geojson'];
         $project->save();
 
