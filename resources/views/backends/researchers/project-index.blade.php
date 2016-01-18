@@ -8,7 +8,7 @@
         <thead>
         <tr>
             <th colspan="7">
-                <a href="/backend/projects/addForm" class="ui labeled icon button">
+                <a href="/backend/project/addForm" class="ui labeled icon button">
                     <i class="plus icon"></i>
                     เพิ่มรายการโครงการ
                 </a>
@@ -62,7 +62,7 @@
                 </td>
                 <td class="center aligned collapsing">
                     <form class="inline" id="frmSubmit_{{$project->id}}" method="post"
-                          action="/backend/projects/{{$project->id}}/submit">
+                          action="/backend/project/{{$project->id}}/submit">
                         {{csrf_field()}}
 
                         <button type="button" class="ui green icon   button" onclick="askSubmitProject({{$project->id}});">
@@ -71,7 +71,7 @@
                     </form>
                 </td>
                 <td class="center aligned collapsing">
-                    <a href="/backend/projects/{{$project->id}}/edit" class="ui icon blue button">
+                    <a href="/backend/project/{{$project->id}}/edit" class="ui icon blue button">
                         <i class="edit icon"></i>
                     </a>
                 </td>

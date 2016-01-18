@@ -53,13 +53,17 @@ class ProjectController extends BaseController
         }
 
 
-        return redirect('/backend/projects');
+        return redirect('/backend/project');
     }
 
-    public function editForm(Request $request)
+    public function editForm(Request $request, $id, $step = "first")
     {
-
+        $project = Project::find($id);
+        return view("backends.researchers.project-editform")
+            ->with('project', $project)
+            ->with('step', $step);
     }
+
 
     public function doEdit(Request $request)
     {
