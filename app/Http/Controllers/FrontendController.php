@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Soaps\LoginSoap;
 use App\Http\Soaps\UserInfoSoap;
 use App\Models\Faculty;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -26,5 +27,14 @@ class FrontendController extends BaseController
         return view('frontends.index');
     }
 
+    public function project(Request $request, $projectId)
+    {
+
+        $project = Project::find($projectId);
+
+        return view('frontends.project')
+            ->with('project', $project);
+
+    }
 
 }

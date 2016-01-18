@@ -24,7 +24,7 @@
                             @endif
                         </div>
                         <div class="content">
-                            <a class="header">{{$project->name_th}}</a>
+                            <a href="/project/{{$project->id}}" class="header">{{$project->name_th}}</a>
                             <div class="meta">
                                 <span class="faculty">{{$project->faculty->name_th}}</span>
                             </div>
