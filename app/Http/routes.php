@@ -70,11 +70,12 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
     Route::group(['middleware' => ['auth', 'researcher']], function () {
         Route::get('project', "Backends\\ProjectController@index");
-
         Route::get('project/addForm', 'Backends\\ProjectController@addForm');
         Route::get('project/{projectId}/edit','Backends\\ProjectController@editForm');
-
         Route::post('project/doAdd', 'Backends\\ProjectController@doAdd');
+        Route::post('project/{id}/doEdit', 'Backends\\ProjectController@doEdit');
+        Route::post('project/{id}/delete', 'Backends\\ProjectController@doDelete');
+
     });
 
 

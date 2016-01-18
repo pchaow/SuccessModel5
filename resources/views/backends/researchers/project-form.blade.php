@@ -140,11 +140,15 @@
             <textarea name="project[description_en]" rows="10">{{$project->description_en}}</textarea>
         </div>
 
-        <?php
-            $draftStatus = \App\Models\ProjectStatus::where('key','=','draft')->first();
-        ?>
-        <input type="hidden" name="project[status][id]" value="{{$draftStatus->id}}">
 
+        @if($type == "EDIT")
+            <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
+        @else
+            <?php
+            $draftStatus = \App\Models\ProjectStatus::where('key','=','draft')->first();
+            ?>
+            <input type="hidden" name="project[status][id]" value="{{$draftStatus->id}}">
+        @endif
 
         @if($type == "ADD")
             <button class="ui button" tabindex="0">บันทึกข้อมูลโครงการใหม่</button>

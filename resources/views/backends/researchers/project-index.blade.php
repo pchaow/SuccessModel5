@@ -79,7 +79,7 @@
 
 
                     <form class="inline" id="frmdelete_{{$project->id}}" method="post"
-                          action="/backend/projects/{{$project->id}}/delete">
+                          action="/backend/project/{{$project->id}}/delete">
                         {{csrf_field()}}
 
                         <button type="button" class="ui icon red  button" onclick="askDeleteProject({{$project->id}});">

@@ -26,8 +26,8 @@
 
 
     @include('backends.researchers.project-form', [
-        'action' => "/backend/admin/project/$project->id/doEdit",
-        'cancel' => '/backend/admin/project',
+        'action' => "/backend/project/$project->id/doEdit",
+        'cancel' => '/backend/project',
         'type' => "EDIT",
         'step' => $step
         ])
