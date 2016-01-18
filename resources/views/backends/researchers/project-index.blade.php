@@ -53,7 +53,7 @@
                     elseif ($project->status->key == 'published')
                         $dataPercent = 4;
                     ?>
-                        <div class="ui progress" data-value="{{$dataPercent}}" data-total="4">
+                    <div class="ui progress" data-value="{{$dataPercent}}" data-total="4">
                         <div class="bar">
                         </div>
                         <div class="label">{{$project->status->name}}</div>
@@ -61,32 +61,37 @@
 
                 </td>
                 <td class="center aligned collapsing">
-                    <form class="inline" id="frmSubmit_{{$project->id}}" method="post"
-                          action="/backend/project/{{$project->id}}/submit">
-                        {{csrf_field()}}
+                    @if($project->status->key=="draft")
+                        <form class="inline" id="frmSubmit_{{$project->id}}" method="post"
+                              action="/backend/project/{{$project->id}}/submit">
+                            {{csrf_field()}}
 
-                        <button type="button" class="ui green icon   button" onclick="askSubmitProject({{$project->id}});">
-                            <i class="forward mail icon icon"></i>
-                        </button>
-                    </form>
+                            <button type="button" class="ui green icon   button"
+                                    onclick="askSubmitProject({{$project->id}});">
+                                <i class="forward mail icon icon"></i>
+                            </button>
+                        </form>
+                    @endif
                 </td>
                 <td class="center aligned collapsing">
-                    <a href="/backend/project/{{$project->id}}/edit" class="ui icon blue button">
-                        <i class="edit icon"></i>
-                    </a>
+                    @if($project->status->key=="draft")
+                        <a href="/backend/project/{{$project->id}}/edit" class="ui icon blue button">
+                            <i class="edit icon"></i>
+                        </a>
+                    @endif
                 </td>
                 <td class="center aligned collapsing">
+                    @if($project->status->key=="draft")
+                        <form class="inline" id="frmdelete_{{$project->id}}" method="post"
+                              action="/backend/project/{{$project->id}}/delete">
+                            {{csrf_field()}}
 
-
-                    <form class="inline" id="frmdelete_{{$project->id}}" method="post"
-                          action="/backend/project/{{$project->id}}/delete">
-                        {{csrf_field()}}
-
-                        <button type="button" class="ui icon red  button" onclick="askDeleteProject({{$project->id}});">
-                            <i class="trash icon"></i>
-                        </button>
-                    </form>
-
+                            <button type="button" class="ui icon red  button"
+                                    onclick="askDeleteProject({{$project->id}});">
+                                <i class="trash icon"></i>
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
         @endforeach
@@ -117,6 +122,13 @@
         function askDeleteProject(id) {
             if (confirm('คุณต้องการลบโครงการนี้ ใช่หรือไม่')) {
                 var frmid = "#frmdelete_" + id;
+                $(frmid).submit();
+            }
+        }
+
+        function askSubmitProject(id) {
+            if (confirm('คุณต้องการส่งแบบโครงการนี้ ใช่หรือไม่')) {
+                var frmid = "#frmSubmit_" + id;
                 $(frmid).submit();
             }
         }

@@ -38,7 +38,10 @@ class ProjectController extends BaseController
 
         $project = new Project();
         $project->fill($project_input);
-        $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
+
+        if ($project_input['faculty']['id'] != "") {
+            $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
+        }
 
         if ($project_input['status']['id'] != "") {
             $project->status()->associate(ProjectStatus::find($project_input['status']['id']));
@@ -87,5 +90,17 @@ class ProjectController extends BaseController
         Project::find($id)->delete();
         return redirect('/backend/project');
     }
+
+    public function doSubmit(Request $request, $id)
+    {
+        /* @var Project $project */
+        $project = Project::find($id);
+        $status = ProjectStatus::where('key','=','faculty')->first();
+        $project->status()->associate($status)->save();
+
+        return redirect('/backend/project');
+    }
+
+
 
 }

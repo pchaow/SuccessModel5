@@ -75,6 +75,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         Route::post('project/doAdd', 'Backends\\ProjectController@doAdd');
         Route::post('project/{id}/doEdit', 'Backends\\ProjectController@doEdit');
         Route::post('project/{id}/delete', 'Backends\\ProjectController@doDelete');
+        Route::post('project/{id}/submit', 'Backends\\ProjectController@doSubmit');
 
     });
 

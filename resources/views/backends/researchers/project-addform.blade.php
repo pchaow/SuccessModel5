@@ -6,8 +6,8 @@
 
 
     @include('backends.researchers.project-form', [
-        'action' => '/backend/projects/doAdd',
-        'cancel' => '/backend/projects',
+        'action' => '/backend/project/doAdd',
+        'cancel' => '/backend/project',
         'type' => "ADD"
         ])
 
