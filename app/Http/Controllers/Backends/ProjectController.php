@@ -62,9 +62,13 @@ class ProjectController extends BaseController
     public function editForm(Request $request, $id, $step = "first")
     {
         $project = Project::find($id);
-        return view("backends.researchers.project-editform")
-            ->with('project', $project)
-            ->with('step', $step);
+        if ($project) {
+            return view("backends.researchers.project-editform")
+                ->with('project', $project)
+                ->with('step', $step);
+        } else {
+            return redirect('backend/project');
+        }
     }
 
 
@@ -95,12 +99,14 @@ class ProjectController extends BaseController
     {
         /* @var Project $project */
         $project = Project::find($id);
-        $status = ProjectStatus::where('key','=','faculty')->first();
-        $project->status()->associate($status)->save();
+        if ($project) {
+            $status = ProjectStatus::where('key', '=', 'faculty')->first();
+            $project->status()->associate($status)->save();
+        }
+
 
         return redirect('/backend/project');
     }
-
 
 
 }

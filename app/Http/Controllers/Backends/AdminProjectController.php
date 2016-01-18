@@ -67,9 +67,14 @@ class AdminProjectController extends BaseController
     public function editForm(Request $request, $id, $step = "first")
     {
         $project = Project::find($id);
-        return view("backends.admins.project-editform")
-            ->with('project', $project)
-            ->with('step', $step);
+        if ($project) {
+            return view("backends.admins.project-editform")
+                ->with('project', $project)
+                ->with('step', $step);
+        } else {
+            return redirect('backend/admin/project');
+        }
+
     }
 
     public function doEdit(Request $request, $id)
@@ -91,7 +96,11 @@ class AdminProjectController extends BaseController
 
     public function doDelete(Request $request, $id)
     {
-        Project::find($id)->delete();
+        $project = Project::find($id);
+        if ($project) {
+            $project->delete();
+        }
+
         return redirect('/backend/admin/project');
     }
 
