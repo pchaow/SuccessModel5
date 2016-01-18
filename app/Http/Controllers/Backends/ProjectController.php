@@ -77,6 +77,9 @@ class ProjectController extends BaseController
         $project_input = $request->get('project');
 
         $project = Project::find($id);
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
         $project->fill($project_input);
         $project->faculty()->associate(Faculty::find($project_input['faculty']['id']));
         if ($project_input['status']['id'] != "") {
@@ -91,7 +94,13 @@ class ProjectController extends BaseController
 
     public function doDelete(Request $request, $id)
     {
-        Project::find($id)->delete();
+        $project = Project::find($id);
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
+
+        $project->delete();
+
         return redirect('/backend/project');
     }
 
@@ -99,6 +108,11 @@ class ProjectController extends BaseController
     {
         /* @var Project $project */
         $project = Project::find($id);
+
+        if (!$project) {
+            return redirect('backend/admin/project');
+        }
+
         if ($project) {
             $status = ProjectStatus::where('key', '=', 'faculty')->first();
             $project->status()->associate($status)->save();
