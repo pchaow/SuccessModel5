@@ -7,7 +7,7 @@
     <table class="ui celled table">
         <thead>
         <tr>
-            <th colspan="5">
+            <th colspan="7">
                 <a href="/backend/projects/addForm" class="ui labeled icon button">
                     <i class="plus icon"></i>
                     เพิ่มรายการโครงการ
@@ -28,7 +28,9 @@
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
             <th style="width:10em;">สถานะโครงการ</th>
-            <th>การจัดการ</th>
+            <th>ส่งแบบ</th>
+            <th>แก้ไข</th>
+            <th>ลบ</th>
         </tr>
         </thead>
         <tbody>
@@ -43,8 +45,7 @@
                 <td class="center aligned">
                     <?php
                     $dataPercent = 0;
-                    if ($project->status->key == 'draft')
-                        $dataPercent = 1;
+                    if ($project->status->key == 'draft') $dataPercent = 1;
                     elseif ($project->status->key == 'faculty')
                         $dataPercent = 2;
                     elseif ($project->status->key == 'university')
@@ -60,15 +61,26 @@
 
                 </td>
                 <td class="center aligned collapsing">
+                    <form class="inline" id="frmSubmit_{{$project->id}}" method="post"
+                          action="/backend/projects/{{$project->id}}/submit">
+                        {{csrf_field()}}
+
+                        <button type="button" class="ui green icon   button" onclick="askSubmitProject({{$project->id}});">
+                            <i class="forward mail icon icon"></i>
+                        </button>
+                    </form>
+                </td>
+                <td class="center aligned collapsing">
+                    <a href="/backend/projects/{{$project->id}}/edit" class="ui icon blue button">
+                        <i class="edit icon"></i>
+                    </a>
+                </td>
+                <td class="center aligned collapsing">
 
 
                     <form class="inline" id="frmdelete_{{$project->id}}" method="post"
                           action="/backend/projects/{{$project->id}}/delete">
                         {{csrf_field()}}
-
-                        <a href="/backend/projects/{{$project->id}}/edit" class="ui icon blue button">
-                            <i class="edit icon"></i>
-                        </a>
 
                         <button type="button" class="ui icon red  button" onclick="askDeleteProject({{$project->id}});">
                             <i class="trash icon"></i>
@@ -81,7 +93,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <th colspan="5">
+            <th colspan="7">
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>
@@ -109,7 +121,9 @@
             }
         }
 
-        $('.ui.progress').progress('increment');
+        $('.ui.progress').progress({
+            total: 4
+        });
 
 
     </script>

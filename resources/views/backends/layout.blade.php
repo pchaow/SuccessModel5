@@ -33,7 +33,10 @@
                     <?php
                     $user = Auth::user();
                     ?>
-                    <div class="header">{{$user->title}}{{$user->firstname}}{{$user->lastname}}</div>
+                    <div class="header">
+                        {{$user->title}}{{$user->firstname}} {{$user->lastname}}
+                    </div>
+
                     <div class="menu">
                         <a href="/backend/change-profile"
                            class="{{ Request::is('backend/change-profile') || Request::is('backend/change-profile/*') ? 'active' : ''   }} teal item">
