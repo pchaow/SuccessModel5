@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Services;
+namespace App\Services;
 
 use League\Glide\Server;
 use Symfony\Component\HttpFoundation\Request;

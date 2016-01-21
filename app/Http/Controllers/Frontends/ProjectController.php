@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontends;
 
-use App\Http\Services\ProjectService;
+use App\Services\ProjectService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;

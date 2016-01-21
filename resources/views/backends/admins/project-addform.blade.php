@@ -24,3 +24,7 @@
 
 
 @endsection
+
+@section('javascript')
+    <script src="/bower/ckeditor/ckeditor.js"></script>
+@endsection

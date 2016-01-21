@@ -18,6 +18,9 @@
             cursor: pointer;
         }
     </style>
+
+    <script src="/bower/ckeditor/ckeditor.js"></script>
+
 @endsection
 
 @section('content')
@@ -34,4 +37,4 @@
 
 
 
-@endsection
+@endsection\\

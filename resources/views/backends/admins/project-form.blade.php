@@ -132,12 +132,14 @@
 
         <div class="field">
             <label>รายละเอียดโครงการ ภาษาไทย</label>
-            <textarea name="project[description_th]" rows="10">{{$project->description_th}}</textarea>
+            <textarea id="project_description_th" name="project[description_th]"
+                      rows="10">{{$project->description_th}}</textarea>
         </div>
 
         <div class="field">
             <label>รายละเอียดโครงการ ภาษาอังกฤษ(ถ้ามี)</label>
-            <textarea name="project[description_en]" rows="10">{{$project->description_en}}</textarea>
+            <textarea id="project_description_en" name="project[description_en]"
+                      rows="10">{{$project->description_en}}</textarea>
         </div>
 
         <h4 class="ui dividing header">ข้อมูลอื่นๆ สำหรับผู้ดูแลระบบ</h4>
@@ -179,6 +181,25 @@
 
     <script>
         $(document).ready(function () {
+
+            var config = {};
+
+            config.toolbar = [
+                {name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']},
+                {name: 'styles', items: ['Format']},
+                {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+                {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+                {
+                    name: 'paragraph',
+                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']
+                },
+                {name: 'document', items: ['Source']},
+                {name: 'about', items: ['About']}
+            ];
+
+            CKEDITOR.replace('project_description_th',config);
+            CKEDITOR.replace('project_description_en',config);
+
             var provinceDropdown = $("#map_dropdown_province");
             var amphurDropdown = $("#map_dropdown_amphur");
             var districtDropdown = $("#map_dropdown_district");

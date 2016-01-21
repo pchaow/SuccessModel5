@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Backends;
 
-use Alaouy\Youtube\YoutubeServiceProvider;
-use App\Http\Services\ProjectService;
+use App\Services\ProjectService;
 use App\Models\Faculty;
 use App\Models\Photo;
 use App\Models\Project;
