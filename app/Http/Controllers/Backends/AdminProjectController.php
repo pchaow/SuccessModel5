@@ -171,11 +171,7 @@ class AdminProjectController extends BaseController
 
     public function getPhoto(Server $server, Request $request, $id, $file)
     {
-        $photo_file = $file;
-
-        $path = "project/$id/photo/$photo_file";
-
-        return $server->outputImage($path, $_GET);
+        return ProjectService::getPhoto($server, $request, $id, $file);
     }
 
     public function doDeletePhoto(Request $request, $projectId, $photoId)

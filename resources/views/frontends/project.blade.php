@@ -24,13 +24,26 @@
                 </div>
             </div>
             <div class="ui vertical segment">
-                {!! $project->description_th !!}
-                <div class="ui divider"></div>
-                {!! $project->description_en !!}
-
+                <p>
+                    {!! $project->description_th !!}
+                </p>
+                <p>
+                    {!! $project->description_en !!}
+                </p>
             </div>
             <div class="ui vertical segment">
-                
+                <div class="ui four column grid">
+                    @foreach($project->photos as $photo)
+                        <div class="column">
+                            <div class="ui segment">
+                                <img class="ui image"
+                                     src="/project/{{$project->id}}/photos/{{$photo->filename}}?w=300&h=300&fit=crop">
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+
             </div>
 
 

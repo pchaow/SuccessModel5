@@ -61,9 +61,8 @@
                     <div class="item">
                         <div class="header">ผู้ประสานงานระดับคณะ</div>
                         <div class="menu">
-                            <a class="item">Rails</a>
-                            <a class="item">Python</a>
-                            <a class="item">PHP</a>
+                            <a class="item">พิจารณาโครงการ</a>
+
                         </div>
                     </div>
                 @endif
@@ -71,8 +70,7 @@
                     <div class="item">
                         <div class="header">ผู้ประสานงานศูนย์ ABC</div>
                         <div class="menu">
-                            <a class="item">Shared</a>
-                            <a class="item">Dedicated</a>
+                            <a class="item">พิจารณาโครงการ</a>
                         </div>
                     </div>
                 @endif
