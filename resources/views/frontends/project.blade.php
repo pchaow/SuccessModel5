@@ -30,7 +30,7 @@
                         </div>
                         <h3 class="ui header">
                             สถานที่ดำเนินโครงการ
-                            <div class="sub header"> {{$project->location}} {{$project->district->DISTRICT_NAME}} {{$project->amphur->AMPHUR_NAME}} {{$project->province->PROVINCE_NAME}}</div>
+                            <div class="sub header"> {{$project->location or ""}} {{$project->district->DISTRICT_NAME or ""}} {{$project->amphur->AMPHUR_NAME or ""}} {{$project->province->PROVINCE_NAME or ""}}</div>
 
                         </h3>
                     </div>
