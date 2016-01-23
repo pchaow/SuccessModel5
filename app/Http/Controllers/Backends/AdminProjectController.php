@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\MessageBag;
 use League\Glide\Server;
 use Symfony\Component\HttpFoundation\Request;
+use \Auth;
 
 class AdminProjectController extends BaseController
 {

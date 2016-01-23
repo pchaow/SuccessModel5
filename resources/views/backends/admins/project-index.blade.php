@@ -44,19 +44,21 @@
                 <td style="width:15em;" class="center aligned">
                     <?php
                     $dataPercent = 0;
-                    if ($project->status->key == 'draft')
-                        $dataPercent = 1;
-                    elseif ($project->status->key == 'faculty')
-                        $dataPercent = 2;
-                    elseif ($project->status->key == 'university')
-                        $dataPercent = 3;
-                    elseif ($project->status->key == 'published')
-                        $dataPercent = 4;
+                    if ($project->status) {
+                        if ($project->status->key == 'draft')
+                            $dataPercent = 1;
+                        elseif ($project->status->key == 'faculty')
+                            $dataPercent = 2;
+                        elseif ($project->status->key == 'university')
+                            $dataPercent = 3;
+                        elseif ($project->status->key == 'published')
+                            $dataPercent = 4;
+                    }
                     ?>
                     <div class="ui progress" data-value="{{$dataPercent}}" data-total="4">
                         <div class="bar">
                         </div>
-                        <div class="label">{{$project->status->name}}</div>
+                        <div class="label">{{$project->status->name or ""}}</div>
                     </div>
 
                 </td>
