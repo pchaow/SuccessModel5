@@ -1,14 +1,19 @@
 @extends('backends.layout')
 
+@section('javascript')
+    <script src="/bower/ckeditor/ckeditor.js"></script>
+@endsection
+
 @section('content')
 
     <h2>เพิ่มโครงการ</h2>
 
 
-    @include('backends.researchers.project-form', [
+    @include('backends.project.form', [
         'action' => '/backend/project/doAdd',
         'cancel' => '/backend/project',
-        'type' => "ADD"
+        'type' => "ADD",
+        'role' => 'RESEARCHER'
         ])
 
     <script>

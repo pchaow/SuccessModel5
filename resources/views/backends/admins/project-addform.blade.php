@@ -5,10 +5,11 @@
     <h2>เพิ่มโครงการ</h2>
 
 
-    @include('backends.admins.project-form', [
+    @include('backends.project.form', [
         'action' => '/backend/admin/project/doAdd',
         'cancel' => '/backend/admin/project',
-        'type' => "ADD"
+        'type' => "ADD",
+        'role' => "ADMIN"
         ])
 
     <script>

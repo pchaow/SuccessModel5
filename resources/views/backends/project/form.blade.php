@@ -132,20 +132,26 @@
 
         <div class="field">
             <label>รายละเอียดโครงการ ภาษาไทย</label>
-            <textarea id="project_description_th" name="project[description_th]"
-                      rows="10">{{$project->description_th}}</textarea>
+            <textarea id="project_description_th" name="project[description_th]" rows="10">{{$project->description_th}}</textarea>
         </div>
 
         <div class="field">
             <label>รายละเอียดโครงการ ภาษาอังกฤษ(ถ้ามี)</label>
-            <textarea id="project_description_en" name="project[description_en]"
-                      rows="10">{{$project->description_en}}</textarea>
+            <textarea id="project_description_en" name="project[description_en]" rows="10">{{$project->description_en}}</textarea>
         </div>
 
-        <h4 class="ui dividing header">ข้อมูลอื่นๆ สำหรับผู้ดูแลระบบ</h4>
+        @if($role == "RESEARCHER")
 
-        <div class="field">
-            <label>สถานะโครงการ</label>
+            @if($type == "EDIT")
+                <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
+            @else
+                <?php
+                $draftStatus = \App\Models\ProjectStatus::where('key', '=', 'draft')->first();
+                ?>
+                <input type="hidden" name="project[status][id]" value="{{$draftStatus->id}}">
+            @endif
+
+        @elseif($role =="ADMIN")
             <div class="ui selection dropdown" tabindex="0">
                 <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
                 @if($project->status_id)
@@ -167,7 +173,7 @@
 
                 </div>
             </div>
-        </div>
+        @endif
 
         @if($type == "ADD")
             <button class="ui button" tabindex="0">บันทึกข้อมูลโครงการใหม่</button>
@@ -226,6 +232,7 @@
                     districtDropdown.addClass("disabled");
 
                 }
+
             }
 
             init();
@@ -398,8 +405,9 @@
             <tr>
                 <td class="center aligned collapsing">{{$photo->id}}</td>
                 <td class="collapsing">
-                    <img height="200"
-                         src="/backend/admin/project/{{$project->id}}/photos/{{$photo->filename}}?h=200">
+                    <img id="previewImage" height="200"
+                         src="/backend/admin/project/{{$project->id}}/photos/{{$photo->filename}}?h=200"
+                         alt="Image preview...">
                 </td>
                 <td class="">
 
@@ -808,12 +816,9 @@
     })
 
     function loadJsonFromString() {
-        if (geoJsonInput.value) {
-            var geojson = JSON.parse(geoJsonInput.value);
-            map.data.addGeoJson(geojson);
-            zoom(map);
-        }
-
+        var geojson = JSON.parse(geoJsonInput.value);
+        map.data.addGeoJson(geojson);
+        zoom(map);
     }
 
     function processPoints(geometry, callback, thisArg) {
@@ -878,7 +883,9 @@
     $('.menu .item').tab('change tab', "{{$step or "first"}}")
 
 
-    $('form .dropdown').dropdown({});
+    $('form .dropdown')
+            .dropdown({})
+    ;
 
 
 </script>

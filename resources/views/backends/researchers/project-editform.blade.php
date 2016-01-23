@@ -18,6 +18,8 @@
             cursor: pointer;
         }
     </style>
+    <script src="/bower/ckeditor/ckeditor.js"></script>
+
 @endsection
 
 @section('content')
@@ -25,11 +27,12 @@
     <h2>แก้ไขโครงการ</h2>
 
 
-    @include('backends.researchers.project-form', [
+    @include('backends.project.form', [
         'action' => "/backend/project/$project->id/doEdit",
         'cancel' => '/backend/project',
         'type' => "EDIT",
-        'step' => $step
+        'step' => $step,
+        "role" => "RESEARCHER"
         ])
 
 
