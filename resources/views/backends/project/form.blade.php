@@ -132,12 +132,14 @@
 
         <div class="field">
             <label>รายละเอียดโครงการ ภาษาไทย</label>
-            <textarea id="project_description_th" name="project[description_th]" rows="10">{{$project->description_th}}</textarea>
+            <textarea id="project_description_th" name="project[description_th]"
+                      rows="10">{{$project->description_th}}</textarea>
         </div>
 
         <div class="field">
             <label>รายละเอียดโครงการ ภาษาอังกฤษ(ถ้ามี)</label>
-            <textarea id="project_description_en" name="project[description_en]" rows="10">{{$project->description_en}}</textarea>
+            <textarea id="project_description_en" name="project[description_en]"
+                      rows="10">{{$project->description_en}}</textarea>
         </div>
 
         @if($role == "RESEARCHER")
@@ -152,25 +154,28 @@
             @endif
 
         @elseif($role =="ADMIN")
-            <div class="ui selection dropdown" tabindex="0">
-                <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
-                @if($project->status_id)
-                    <div class="text">{{$project->status->name}}</div>
-                @else
-                    <div class="default text">กรุณาเลือก</div>
-                @endif
-                <i class="dropdown icon"></i>
-                <div class="menu transition hidden" tabindex="-1">
-                    <?php
-                    $statuses = \App\Models\ProjectStatus::all();
-                    ?>
-                    @foreach($statuses as $status)
-                        <div class="item {{ $project->status_id == $status->id ? "active" : ""  }}"
-                             data-value="{{$status->id}}">
-                            {{$status->name}}
-                        </div>
-                    @endforeach
+            <div class="field">
+                <label>สถานะโครงการ</label>
+                <div class="ui selection dropdown" tabindex="0">
+                    <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
+                    @if($project->status_id)
+                        <div class="text">{{$project->status->name}}</div>
+                    @else
+                        <div class="default text">กรุณาเลือก</div>
+                    @endif
+                    <i class="dropdown icon"></i>
+                    <div class="menu transition hidden" tabindex="-1">
+                        <?php
+                        $statuses = \App\Models\ProjectStatus::all();
+                        ?>
+                        @foreach($statuses as $status)
+                            <div class="item {{ $project->status_id == $status->id ? "active" : ""  }}"
+                                 data-value="{{$status->id}}">
+                                {{$status->name}}
+                            </div>
+                        @endforeach
 
+                    </div>
                 </div>
             </div>
         @endif
