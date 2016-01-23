@@ -6,11 +6,13 @@
 <link rel="stylesheet" href="/bower/fancybox/source/jquery.fancybox.css" type="text/css" media="screen"/>
 <script src="/bower/fancybox/source/jquery.fancybox.pack.js"></script>
 
-<link rel="stylesheet" href="/bower/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+<link rel="stylesheet" href="/bower/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css"
+      media="screen"/>
 <script type="text/javascript" src="/bower/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
 <script type="text/javascript" src="/bower/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
 
-<link rel="stylesheet" href="/bower/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+<link rel="stylesheet" href="/bower/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css"
+      media="screen"/>
 <script type="text/javascript" src="/bower/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
 
 @endsection
@@ -37,8 +39,24 @@
                         <h3 class="ui header">
                             สถานที่ดำเนินโครงการ
                             <div class="sub header"> {{$project->location or ""}} {{$project->district->DISTRICT_NAME or ""}} {{$project->amphur->AMPHUR_NAME or ""}} {{$project->province->PROVINCE_NAME or ""}}</div>
-
                         </h3>
+
+                        <h3 class="ui header">
+                            คณะผู้วิจัย
+                            <div class="sub header">
+                                <div class="ui horizontal divided list">
+                                    @foreach($project->users as $user)
+                                        <div class="item">
+                                            <div class="content">
+                                                <div class="header">{{$user->title . $user->firstname . " " . $user->lastname}}</div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </h3>
+
+
                     </div>
                 </div>
             </div>
@@ -56,7 +74,7 @@
                     </div>
                     <div class="ui secondary segment">
                         <div class="ui images">
-                            @foreach($project->photos()->limit(9)->get() as $photo)
+                            @foreach($project->photos()->get() as $photo)
                                 <a class="fancybox" rel="group"
                                    href="/project/{{$project->id}}/photos/{{$photo->filename}}">
                                     <img style="width: 95px;height:95px;" class="ui image"
