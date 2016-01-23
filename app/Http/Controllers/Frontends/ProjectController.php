@@ -18,4 +18,10 @@ class ProjectController extends BaseController
         return ProjectService::getCover($server, $request, $projectId, $file);
     }
 
+    public function getPhoto(Server $server, Request $request, $id, $file)
+    {
+        return ProjectService::getPhoto($server, $request, $id, $file);
+    }
+
+
 }

@@ -1,5 +1,14 @@
 @extends('frontends.layout')
 
+@section('javascript')
+
+        <!-- Core JS file -->
+<link rel="stylesheet" href="/bower/fancybox/source/jquery.fancybox.css" type="text/css" media="screen"/>
+<script src="/bower/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+@endsection
+
 @section('content')
 
     <div class="ui grid">
@@ -24,13 +33,29 @@
                 </div>
             </div>
             <div class="ui vertical segment">
-                {!! $project->description_th !!}
-                <div class="ui divider"></div>
-                {!! $project->description_en !!}
-
+                <p>
+                    {!! $project->description_th !!}
+                </p>
+                <p>
+                    {!! $project->description_en !!}
+                </p>
             </div>
             <div class="ui vertical segment">
-                
+                <div class="ui four column grid">
+                    @foreach($project->photos as $photo)
+                        <div class="column">
+                            <div class="ui segment">
+                                <a class="fancybox" rel="group"
+                                   href="/project/{{$project->id}}/photos/{{$photo->filename}}">
+                                    <img class="ui image"
+                                         src="/project/{{$project->id}}/photos/{{$photo->filename}}?w=300&h=300&fit=crop">
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+
             </div>
 
 
@@ -38,6 +63,10 @@
 
     </div>
 
-
+    <script>
+        $(document).ready(function() {
+            $(".fancybox").fancybox();
+        });
+    </script>
 
 @endsection

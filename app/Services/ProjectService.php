@@ -23,4 +23,11 @@ class ProjectService
         return $server->outputImage($path, $_GET);
     }
 
+    public static function getPhoto(Server $server, Request $request, $id, $file)
+    {
+        $photo_file = $file;
+        $path = "project/$id/photo/$photo_file";
+        return $server->outputImage($path, $_GET);
+    }
+
 }

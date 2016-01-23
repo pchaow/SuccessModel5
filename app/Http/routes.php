@@ -27,9 +27,6 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', "FrontendController@index");
 
-    Route::get('project/{id}', "FrontendController@project");
-
-
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
@@ -54,7 +51,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
     //project
+    Route::get('{id}', "FrontendController@project");
     Route::get('{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
+    Route::get('{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
+
 });
 
 

@@ -34,7 +34,5 @@
         'type' => "EDIT",
         'step' => $step
         ])
-
-
-
-@endsection\\
+    
+@endsection

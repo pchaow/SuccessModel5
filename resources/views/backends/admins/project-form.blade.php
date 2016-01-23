@@ -197,8 +197,8 @@
                 {name: 'about', items: ['About']}
             ];
 
-            CKEDITOR.replace('project_description_th',config);
-            CKEDITOR.replace('project_description_en',config);
+            CKEDITOR.replace('project_description_th', config);
+            CKEDITOR.replace('project_description_en', config);
 
             var provinceDropdown = $("#map_dropdown_province");
             var amphurDropdown = $("#map_dropdown_amphur");
@@ -226,7 +226,6 @@
                     districtDropdown.addClass("disabled");
 
                 }
-
             }
 
             init();
@@ -399,9 +398,8 @@
             <tr>
                 <td class="center aligned collapsing">{{$photo->id}}</td>
                 <td class="collapsing">
-                    <img id="previewImage" height="200"
-                         src="/backend/admin/project/{{$project->id}}/photos/{{$photo->filename}}?h=200"
-                         alt="Image preview...">
+                    <img height="200"
+                         src="/backend/admin/project/{{$project->id}}/photos/{{$photo->filename}}?h=200">
                 </td>
                 <td class="">
 
@@ -810,9 +808,12 @@
     })
 
     function loadJsonFromString() {
-        var geojson = JSON.parse(geoJsonInput.value);
-        map.data.addGeoJson(geojson);
-        zoom(map);
+        if (geoJsonInput.value) {
+            var geojson = JSON.parse(geoJsonInput.value);
+            map.data.addGeoJson(geojson);
+            zoom(map);
+        }
+
     }
 
     function processPoints(geometry, callback, thisArg) {
@@ -877,9 +878,7 @@
     $('.menu .item').tab('change tab', "{{$step or "first"}}")
 
 
-    $('form .dropdown')
-            .dropdown({})
-    ;
+    $('form .dropdown').dropdown({});
 
 
 </script>
