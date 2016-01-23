@@ -20,7 +20,7 @@
                             @if($project->cover_file == "")
                                 <img src="/images/uplogo_big.png">
                             @else
-                                <img src="/project/{{$project->id}}/cover/{{$project->cover_file}}">
+                                <img src="/project/{{$project->id}}/cover/{{$project->cover_file}}?w=357&fit=crop">
                             @endif
                         </div>
                         <div class="content">

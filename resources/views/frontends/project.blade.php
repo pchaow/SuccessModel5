@@ -11,13 +11,17 @@
 
 @section('content')
 
-    <div class="ui grid">
-        <div class="sixteen wide column">
-            <div class="ui vertical segment">
+    <div class="ui vertically divided grid">
+        <div class="row">
+
+            <div class="sixteen wide column">
                 <div class="ui grid">
                     <div class="eight wide column">
-                        <img class="ui fluid image"
-                             src="/project/{{$project->id}}/cover/{{$project->cover_file}}?h=300&crop=fit">
+                        <a class="fancybox" rel="group"
+                           href="/project/{{$project->id}}/cover/{{$project->cover_file}}">
+                            <img class="ui image"
+                                 src="/project/{{$project->id}}/cover/{{$project->cover_file}}?w=577&h=300&fit=crop"/>
+                        </a>
                     </div>
                     <div class="eight wide column">
                         <div class="ui huge header" style="margin: 0px;">{{$project->name_th}}
@@ -32,39 +36,41 @@
                     </div>
                 </div>
             </div>
-            <div class="ui vertical segment">
-                <p>
-                    {!! $project->description_th !!}
-                </p>
-                <p>
-                    {!! $project->description_en !!}
-                </p>
+        </div>
+        <div class="row">
+            <div class="eleven wide column">
+                {!! $project->description_th !!}
+
+                {!! $project->description_en !!}
             </div>
-            <div class="ui vertical segment">
-                <div class="ui four column grid">
-                    @foreach($project->photos as $photo)
-                        <div class="column">
-                            <div class="ui segment">
+            <div class="five wide column">
+                <div class="ui segments">
+                    <div class="ui segment">
+                        <h3>รูปภาพ</h3>
+                    </div>
+                    <div class="ui secondary center aligned segment">
+                        <div class="ui tiny images">
+                            @foreach($project->photos as $photo)
                                 <a class="fancybox" rel="group"
                                    href="/project/{{$project->id}}/photos/{{$photo->filename}}">
                                     <img class="ui image"
                                          src="/project/{{$project->id}}/photos/{{$photo->filename}}?w=300&h=300&fit=crop">
                                 </a>
-                            </div>
+                            @endforeach
                         </div>
-                    @endforeach
-
+                    </div>
                 </div>
-
             </div>
-
-
         </div>
-
+        <div class="row">
+            <div class="sixteen wide column">
+                Youtube
+            </div>
+        </div>
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".fancybox").fancybox();
         });
     </script>
