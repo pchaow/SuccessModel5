@@ -76,10 +76,9 @@ class BackendController extends BaseController
         if ($faculty) {
             $user->faculty()->save($faculty);
         }
-
+        dd($faculty);
         $role = Role::where('key', '=', 'researcher')->first();
         $user->roles()->attach($role->id);
-        $user->faculty;
         return $user;
     }
 
