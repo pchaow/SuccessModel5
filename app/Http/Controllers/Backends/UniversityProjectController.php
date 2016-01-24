@@ -13,16 +13,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProjectController extends BaseController
+class UniversityProjectController extends BaseController
 {
     //use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function index()
     {
-        $user = Auth::user();
-        $projects = $user->projects;
-        return view("backends.researchers.project-index")
-            ->with("projects", $projects);
+        /* @var Faculty $faculty */
+        $projects = \App\Models\Project::whereHas('status', function ($q) {
+            $q->where('key', '=', 'university');
+        })->get();
+        return view("backends.university.project-index")
+            ->with('projects', $projects);
     }
 
     public function addForm(Request $request)
@@ -122,16 +124,27 @@ class ProjectController extends BaseController
         return redirect('/backend/project');
     }
 
-
-    public function previewProject(Request $request, $id, $role)
+    public function doAccept(Request $request, $id)
     {
-        $project = Project::find($id);
+        /* @var Project $project */
+        $project = Project::with(['status'])->find($id);
 
-        return view('backends.project.preview')
-            ->with('project', $project)
-            ->with('previewRole', $role);
+        $nextStatus = ProjectStatus::where("key", '=', "published")->first();
 
+        $project->status()->associate($nextStatus)->save();
+
+        return $project;
     }
 
+    public function doReject(Request $request, $id)
+    {
+        /* @var Project $project */
+        $project = Project::with(['status'])->find($id);
 
+        $previousStatus = ProjectStatus::where("key", '=', "faculty")->first();
+
+        $project->status()->associate($previousStatus)->save();
+
+        return $project;
+    }
 }

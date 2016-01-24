@@ -82,7 +82,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         //Dashboard
         Route::get('/', 'BackendController@index');
 
-        Route::get('preview/project/{id}', "Backends\\ProjectController@previewProject");
+        Route::get('preview/project/{id}/{role}', "Backends\\ProjectController@previewProject");
 
         Route::group(['middleware' => ['researcher']], function () {
             Route::get('project', "Backends\\ProjectController@index");
@@ -91,7 +91,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             Route::post('project/doAdd', 'Backends\\ProjectController@doAdd');
             Route::post('project/{id}/doEdit', 'Backends\\ProjectController@doEdit');
             Route::post('project/{id}/delete', 'Backends\\ProjectController@doDelete');
-            Route::post('project/{id}/submit', 'Backends\\ProjectController@doSubmit');
+
+            Route::post('researcher-project/{id}/doAccept', 'Backends\\ProjectController@doSubmit');
 
         });
 
@@ -99,7 +100,18 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             Route::get('faculty-project', "Backends\\FacultyProjectController@index");
 
             //ajax
-            Route::post('faculty-project/{id}/doAccept', "Backends\\FacultyProjectController@facultyDoAccept");
+            Route::post('faculty-project/{id}/doAccept', "Backends\\FacultyProjectController@doAccept");
+            Route::post('faculty-project/{id}/doReject', "Backends\\FacultyProjectController@doReject");
+
+        });
+
+        Route::group(['middleware' => ['university']], function () {
+            Route::get('university-project', "Backends\\UniversityProjectController@index");
+
+            //ajax
+            Route::post('university-project/{id}/doAccept', "Backends\\UniversityProjectController@doAccept");
+            Route::post('university-project/{id}/doReject', "Backends\\UniversityProjectController@doReject");
+
         });
 
 

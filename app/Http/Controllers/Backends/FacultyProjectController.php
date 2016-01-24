@@ -124,7 +124,7 @@ class FacultyProjectController extends BaseController
         return redirect('/backend/project');
     }
 
-    public function facultyDoAccept(Request $request, $id)
+    public function doAccept(Request $request, $id)
     {
         /* @var Project $project */
         $project = Project::with(['status'])->find($id);
@@ -132,6 +132,18 @@ class FacultyProjectController extends BaseController
         $unviersityStatus = ProjectStatus::where("key", '=', "university")->first();
 
         $project->status()->associate($unviersityStatus)->save();
+
+        return $project;
+    }
+
+    public function doReject(Request $request, $id)
+    {
+        /* @var Project $project */
+        $project = Project::with(['status'])->find($id);
+
+        $draftStatus = ProjectStatus::where("key", '=', "draft")->first();
+
+        $project->status()->associate($draftStatus)->save();
 
         return $project;
     }

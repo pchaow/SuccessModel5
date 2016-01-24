@@ -70,7 +70,8 @@
                     <div class="item">
                         <div class="header">ผู้ประสานงานศูนย์ ABC</div>
                         <div class="menu">
-                            <a class="item">พิจารณาโครงการ</a>
+                            <a class="{{ Request::is('backend/university-project') || Request::is('backend/university-project/*') ? 'active' : ''   }} teal item"
+                               href="/backend/university-project">พิจารณาโครงการ</a>
                         </div>
                     </div>
                 @endif

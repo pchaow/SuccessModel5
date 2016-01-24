@@ -20,21 +20,33 @@
 @section('content')
 
     <div class="ui  menu">
-        <a class="item" onclick="window.close()">
+        <a class="item" id="closeWindowBtn">
             ปิดหน้าต่างนี้
         </a>
-        <div class="item">
-            <button id="acceptProjectBtn" type="button" class="ui blue button" data-id="{{$project->id}}">
-                ยอมรับโครงการ
-            </button>
-        </div>
-        <div class="item">
+        @if($previewRole == 'previewOnly')
 
-            <button id="rejectProjectBtn" type="button" class="ui red button" data-id="{{$project->id}}">
-                ปฏิเสธโครงการ
-            </button>
-        </div>
+        @elseif($previewRole != 'researcher')
+            <div class="item">
+                <button id="acceptProjectBtn" type="button" class="ui blue button" data-id="{{$project->id}}"
+                        data-role="{{$previewRole}}">
+                    ยอมรับโครงการ
+                </button>
+            </div>
 
+            <div class="item">
+                <button id="rejectProjectBtn" type="button" class="ui red button" data-id="{{$project->id}}"
+                        data-role="{{$previewRole}}">
+                    ปฏิเสธโครงการ
+                </button>
+            </div>
+        @else
+            <div class="item">
+                <button id="acceptProjectBtn" type="button" class="ui blue button" data-id="{{$project->id}}"
+                        data-role="{{$previewRole}}">
+                    ส่งโครงการ
+                </button>
+            </div>
+        @endif
     </div>
 
     <div class="sixteen wide column">
@@ -140,16 +152,32 @@
             });
 
             $('.ui.embed').embed();
+            $('#closeWindowBtn').on('click', function () {
+                var win = window.opener;
+                win.reload();
+                window.close();
+            });
 
             $('#acceptProjectBtn').on('click', function () {
                 var projectId = $(this).attr('data-id');
+                var previewRole = $(this).attr('data-role');
+                $.post("/backend/" + previewRole + "-project/" + projectId + "/doAccept", function (response) {
+                    var win = window.opener;
+                    win.reload();
+                    window.close();
+                })
+            });
 
-                $.post("/backend/faculty-project/" + projectId + "/doAccept", function (response) {
-                    if(response.status.key == "university"){
-                        var win = window.opener;
+            $('#rejectProjectBtn').on('click', function () {
+                var projectId = $(this).attr('data-id');
+                var previewRole = $(this).attr('data-role');
+                $.post("/backend/" + previewRole + "-project/" + projectId + "/doReject", function (response) {
+                    var win = window.opener;
+                    if (win) {
                         win.reload();
-                        window.close();
                     }
+
+                    window.close();
                 })
             });
 
