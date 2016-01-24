@@ -191,7 +191,7 @@
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     zoomControl: true
                 });
-                
+
                 loadJsonFromString();
 
                 bindDataLayerListeners(map.data);

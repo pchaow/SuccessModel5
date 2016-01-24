@@ -78,10 +78,7 @@ class BackendController extends BaseController
         }
 
         $role = Role::where('key', '=', 'researcher')->first();
-        if ($role) {
-            $user->roles()->sync([$role->id]);
-        }
-        $user->roles;
+        $user->roles()->attach($role->id);
         $user->faculty;
         return $user;
     }
@@ -141,8 +138,6 @@ class BackendController extends BaseController
                         Auth::login($user);
                     } else {
                         $user = $this->createUserFromSoap($username, $password);
-                        $researcherRole = Role::where('key', '=', 'researcher')->first();
-                        $user->roles()->save($researcherRole);
                         Auth::login($user);
                     }
                     return redirect('/backend');
