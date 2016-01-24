@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectStatus extends Model {
+class ProjectStatus extends Model
+{
 
     /**
      * The database table used by the model.
@@ -12,6 +13,11 @@ class ProjectStatus extends Model {
     protected $table = 'project_status';
 
 
-    protected $fillable = ['key','name', 'description'];
+    protected $fillable = ['key', 'name', 'description'];
 
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class,'status_id');
+    }
 }

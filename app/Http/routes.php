@@ -31,6 +31,19 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
+    Route::get('project', function () {
+        $projects = \App\Models\Project::whereHas('status', function ($q) {
+            $q->where('key', '=', 'published');
+        })->get();
+        return $projects;
+    });
+
+    Route::get('project/{id}', function ($id) {
+        $project = \App\Models\Project::with(['photos','youtubes','users'])->find($id);
+
+        return $project;
+    });
+
     Route::get('/researcher/dropdown/{keyword?}', "Backends\\UserController@apiGetResearcherForDropdown");
 
     Route::get("/province", function () {

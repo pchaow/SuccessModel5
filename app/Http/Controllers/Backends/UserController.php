@@ -36,7 +36,7 @@ class UserController extends BaseController
         $user_form = $request->get('user');
         $user = new User();
         $user->fill($user_form);
-        $user->password = Hash::make($user->password);
+        $user->password = Hash::make($user_form['password']);
 
         $user->faculty_id = $user_form["faculty_id"];
         $user->save();
