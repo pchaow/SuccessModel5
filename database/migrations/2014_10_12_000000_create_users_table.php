@@ -20,7 +20,9 @@ class CreateUsersTable extends Migration
             $table->string('logo_path');
             $table->string('email')->unique();
             $table->string('username')->unique();
-            $table->string('password', 60);
+            $table->string('password');
+            $table->integer('faculty_id');
+
             $table->rememberToken();
             $table->timestamps();
         });

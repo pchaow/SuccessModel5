@@ -18,6 +18,9 @@ class CreateYoutubesTable extends Migration
             $table->string('url');
             $table->string('youtube_id');
             $table->string('cover_url');
+            $table->string("title");
+            $table->text("description");
+            $table->string("embedHtml");
 
             $table->integer('project_id');
 
