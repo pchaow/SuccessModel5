@@ -3,7 +3,7 @@
 @section('content')
 
     <?php
-    $projects = \App\Models\Project::all();
+    $projects = \App\Models\Project::where('status_id','=','4')->get();
     $colProject1 = $projects->every(3, 0);
     $colProject2 = $projects->every(3, 1);
     $colProject3 = $projects->every(3, 2);
@@ -20,7 +20,7 @@
                             @if($project->cover_file == "")
                                 <img src="/images/uplogo_big.png">
                             @else
-                                <img src="/project/{{$project->id}}/cover/{{$project->cover_file}}?w=357&fit=crop">
+                                <img src="/project/{{$project->id}}/cover/{{$project->cover_file}}?w=357&fit=max">
                             @endif
                         </div>
                         <div class="content">
@@ -28,15 +28,12 @@
                             <div class="meta">
                                 <span class="faculty">{{$project->faculty->name_th or ""}}</span>
                             </div>
-                            <div class="description">
-                                {{\Illuminate\Support\Str::limit($project->description_th, 255)}}
+                            <div class="description" style="text-align: justify;">
+                                {{\Illuminate\Support\Str::limit(strip_tags($project->description_th),255)}}
                             </div>
                         </div>
                         <div class="extra content">
-                            <a>
-                                <i class="user icon"></i>
-                                22 Friends
-                            </a>
+                            <a href="/project/{{$project->id}}">อ่านต่อ</a>
                         </div>
                     </div>
                 @endforeach

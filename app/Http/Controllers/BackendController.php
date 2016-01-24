@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Soaps\LoginSoap;
 use App\Http\Soaps\UserInfoSoap;
 use App\Models\Faculty;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -140,6 +141,8 @@ class BackendController extends BaseController
                         Auth::login($user);
                     } else {
                         $user = $this->createUserFromSoap($username, $password);
+                        $researcherRole = Role::where('key', '=', 'researcher')->first();
+                        $user->roles()->save($researcherRole);
                         Auth::login($user);
                     }
                     return redirect('/backend');

@@ -53,7 +53,6 @@
                                class="{{ Request::is('backend/project') || Request::is('backend/project/*') ? 'active' : ''   }} teal item">
                                 รายการโครงการ
                             </a>
-                            <a class="item">Consumer</a>
                         </div>
                     </div>
                 @endif
@@ -98,7 +97,6 @@
                                class="{{ Request::is('backend/project-status') || Request::is('backend/project-status/*') ? 'active' : ''   }} teal item">
                                 รายการสถานะโครงการ
                             </a>
-                            <a class="item">FAQs</a>
                         </div>
                     </div>
                 @endif
