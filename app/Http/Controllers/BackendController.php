@@ -70,13 +70,15 @@ class BackendController extends BaseController
         $user->firstname = $infoResult->FirstName_TH;
         $user->lastname = $infoResult->LastName_TH;
         $user->email = $username . "@up.ac.th";
-        $user->save();
+//        $user->save();
 
         $faculty = Faculty::where('name_th', '=', $infoResult->Faculty)->first();
+		
         if ($faculty) {
-            $user->faculty()->save($faculty);
+            $user->faculty_id = $faculty->id;
         }
-
+		$user->save();
+		
         $role = Role::where('key', '=', 'researcher')->first();
         $user->roles()->attach($role->id);
         $user->faculty;
