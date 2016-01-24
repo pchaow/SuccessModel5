@@ -117,7 +117,7 @@
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
             <th style="width:15em;">สถานะโครงการ</th>
-            <th>ดูตัวอย่าง</th>
+            <th>ตัวอย่าง</th>
             <th>พิจารณา</th>
         </tr>
         </thead>
@@ -149,7 +149,9 @@
 
                 </td>
                 <td class="center aligned collapsing">
-
+                    <button type="button" class="ui icon blue  button">
+                        <i class="external icon"></i>
+                    </button>
                 </td>
                 <td class="center aligned collapsing">
 

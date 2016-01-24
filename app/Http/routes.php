@@ -39,7 +39,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
     });
 
     Route::get('project/{id}', function ($id) {
-        $project = \App\Models\Project::with(['photos','youtubes','users'])->find($id);
+        $project = \App\Models\Project::with(['photos', 'youtubes', 'users'])->find($id);
 
         return $project;
     });
@@ -82,6 +82,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         //Dashboard
         Route::get('/', 'BackendController@index');
 
+        Route::get('preview-project/{id}',"FrontendController@project");
+
         Route::group(['middleware' => ['researcher']], function () {
             Route::get('project', "Backends\\ProjectController@index");
             Route::get('project/addForm', 'Backends\\ProjectController@addForm');
@@ -91,6 +93,10 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             Route::post('project/{id}/delete', 'Backends\\ProjectController@doDelete');
             Route::post('project/{id}/submit', 'Backends\\ProjectController@doSubmit');
 
+        });
+
+        Route::group(['middleware' => ['faculty']], function () {
+            Route::get('faculty-project', "Backends\\FacultyProjectController@index");
         });
 
 

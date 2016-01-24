@@ -663,7 +663,7 @@
                     {{$user->title}}{{$user->firstname}} {{$user->lastname}}
                 </td>
                 <td class="collapsing">
-                    {{$user->faculty->name_th}}
+                    {{$user->faculty->name_th or ""}}
                 </td>
                 <td class="collapsing">
                     {{$user->email}}
@@ -821,9 +821,16 @@
     })
 
     function loadJsonFromString() {
-        var geojson = JSON.parse(geoJsonInput.value);
-        map.data.addGeoJson(geojson);
-        zoom(map);
+        if (geoJsonInput.value) {
+            var geojson = JSON.parse(geoJsonInput.value);
+            map.data.addGeoJson(geojson);
+            zoom(map);
+
+            setTimeout(function () {
+                map.setZoom(10);
+            }, 300)
+        }
+
     }
 
     function processPoints(geometry, callback, thisArg) {
@@ -847,6 +854,8 @@
         });
         if (count > 0) {
             map.fitBounds(bounds);
+
+
         }
 
     }
@@ -873,6 +882,8 @@
         loadJsonFromString();
 
         bindDataLayerListeners(map.data);
+
+
     }
 
 

@@ -104,9 +104,7 @@
 
         </div>
         <div class="twelve wide column">
-
             @yield('content')
-
         </div>
     </div>
 @endsection

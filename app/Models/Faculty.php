@@ -16,7 +16,12 @@ class Faculty extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['name_en','name_th'];
+    protected $fillable = ['name_en', 'name_th'];
 
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 
 }
