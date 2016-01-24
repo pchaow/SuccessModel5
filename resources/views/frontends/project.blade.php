@@ -15,6 +15,8 @@
       media="screen"/>
 <script type="text/javascript" src="/bower/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
 
+<script src="https://maps.google.com/maps/api/js?sensor=false&libraries=drawing&v=3.22&key=AIzaSyCyb1w6ezK3C0k64_1AiB0vK-qjmQkCrcI"></script>
+
 @endsection
 
 @section('content')
@@ -101,6 +103,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="ui segments">
+                    <input type="hidden" name="project[geojson]" id="geojson-input" value="{{$project->geojson}}"/>
+
+                    <div class="ui segment">
+                        <h3>พื้นที่ที่ดำเนินโครงการ</h3>
+                    </div>
+                    <div class="ui secondary segment" id="gmap" style="height: 330px;">
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -120,6 +132,73 @@
 
             $('.ui.embed').embed();
 
+            var map;
+            var geoJsonInput = document.getElementById('geojson-input');
+
+            function refreshGeoJsonFromData() {
+                map.data.toGeoJson(function (geoJson) {
+                    geoJsonInput.value = JSON.stringify(geoJson, null, 2);
+                });
+            }
+
+            function bindDataLayerListeners(dataLayer) {
+                dataLayer.addListener('addfeature', refreshGeoJsonFromData);
+                dataLayer.addListener('removefeature', refreshGeoJsonFromData);
+                dataLayer.addListener('setgeometry', refreshGeoJsonFromData);
+            }
+
+            function loadJsonFromString() {
+                if (geoJsonInput.value) {
+                    var geojson = JSON.parse(geoJsonInput.value);
+                    map.data.addGeoJson(geojson);
+                    zoom(map);
+
+                    setTimeout(function () {
+                        map.setZoom(10);
+                    }, 300)
+                }
+            }
+
+            function processPoints(geometry, callback, thisArg) {
+                if (geometry instanceof google.maps.LatLng) {
+                    callback.call(thisArg, geometry);
+                } else if (geometry instanceof google.maps.Data.Point) {
+                    callback.call(thisArg, geometry.get());
+                } else {
+                    geometry.getArray().forEach(function (g) {
+                        processPoints(g, callback, thisArg);
+                    });
+                }
+            }
+
+            function zoom(map) {
+                var bounds = new google.maps.LatLngBounds();
+                var count = 0;
+                map.data.forEach(function (feature) {
+                    count++;
+                    processPoints(feature.getGeometry(), bounds.extend, bounds);
+                });
+                if (count > 0) {
+                    map.fitBounds(bounds);
+                }
+            }
+
+            function initialize() {
+
+                map = new google.maps.Map(document.getElementById('gmap'), {
+                    center: new google.maps.LatLng(19.2178981, 100.1890168),
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    zoomControl: true
+                });
+                
+                loadJsonFromString();
+
+                bindDataLayerListeners(map.data);
+
+            }
+
+            initialize();
         });
     </script>
 
