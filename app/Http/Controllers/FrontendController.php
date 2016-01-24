@@ -24,7 +24,11 @@ class FrontendController extends BaseController
 
     public function index()
     {
-        return view('frontends.index');
+        $projects = \App\Models\Project::whereHas('status', function ($q) {
+            $q->where('key', '=', 'published');
+        })->get();
+        return view('frontends.index')
+            ->with('projects', $projects);
     }
 
     public function project(Request $request, $projectId)

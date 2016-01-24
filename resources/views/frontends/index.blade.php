@@ -3,7 +3,7 @@
 @section('content')
 
     <?php
-    $projects = \App\Models\Project::where('status_id','=','4')->get();
+
     $colProject1 = $projects->every(3, 0);
     $colProject2 = $projects->every(3, 1);
     $colProject3 = $projects->every(3, 2);

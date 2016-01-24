@@ -82,7 +82,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         //Dashboard
         Route::get('/', 'BackendController@index');
 
-        Route::get('preview-project/{id}',"FrontendController@project");
+        Route::get('preview/project/{id}', "FrontendController@project");
 
         Route::group(['middleware' => ['researcher']], function () {
             Route::get('project', "Backends\\ProjectController@index");

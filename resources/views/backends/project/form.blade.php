@@ -830,7 +830,6 @@
                 map.setZoom(10);
             }, 300)
         }
-
     }
 
     function processPoints(geometry, callback, thisArg) {

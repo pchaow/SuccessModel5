@@ -60,7 +60,8 @@
                     <div class="item">
                         <div class="header">ผู้ประสานงานระดับคณะ</div>
                         <div class="menu">
-                            <a class="item">พิจารณาโครงการ</a>
+                            <a class="{{ Request::is('backend/faculty-project') || Request::is('backend/faculty-project/*') ? 'active' : ''   }} teal item"
+                               href="/backend/faculty-project">พิจารณาโครงการ</a>
 
                         </div>
                     </div>

@@ -149,9 +149,10 @@
 
                 </td>
                 <td class="center aligned collapsing">
-                    <button type="button" class="ui icon blue  button">
+                    <a href="/backend/preview/project/{{$project->id}}" target="_blank" type="button"
+                       class="ui icon blue  button">
                         <i class="external icon"></i>
-                    </button>
+                    </a>
                 </td>
                 <td class="center aligned collapsing">
 
