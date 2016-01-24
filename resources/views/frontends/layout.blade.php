@@ -22,7 +22,7 @@
 
     </div>
 
-    <div class="twelve wide column">
+    <div class="sixteen wide column">
 
         @yield('content')
 

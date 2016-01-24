@@ -82,7 +82,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
         //Dashboard
         Route::get('/', 'BackendController@index');
 
-        Route::get('preview/project/{id}', "FrontendController@project");
+        Route::get('preview/project/{id}', "Backends\\ProjectController@previewProject");
 
         Route::group(['middleware' => ['researcher']], function () {
             Route::get('project', "Backends\\ProjectController@index");
@@ -97,6 +97,9 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
         Route::group(['middleware' => ['faculty']], function () {
             Route::get('faculty-project', "Backends\\FacultyProjectController@index");
+
+            //ajax
+            Route::post('faculty-project/{id}/doAccept', "Backends\\FacultyProjectController@facultyDoAccept");
         });
 
 

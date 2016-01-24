@@ -8,6 +8,13 @@
     <script src="/bower/semantic/dist/semantic.min.js" type="text/javascript"></script>
     <script src="/bower/semantic/dist/components/dropdown.min.js" type="text/javascript"></script>
 
+    <script>
+        $(function () {
+            $.ajaxSetup({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('value')}
+            });
+        });
+    </script>
     @yield('javascript')
 
 </head>

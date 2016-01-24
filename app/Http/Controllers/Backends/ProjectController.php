@@ -123,4 +123,14 @@ class ProjectController extends BaseController
     }
 
 
+    public function previewProject(Request $request, $id)
+    {
+        $project = Project::find($id);
+
+        return view('backends.project.preview')
+            ->with('project', $project);
+
+    }
+
+
 }

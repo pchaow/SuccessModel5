@@ -118,7 +118,6 @@
             <th>กอง/คณะ/วิทยาลัย</th>
             <th style="width:15em;">สถานะโครงการ</th>
             <th>ตัวอย่าง</th>
-            <th>พิจารณา</th>
         </tr>
         </thead>
         <tbody>
@@ -149,20 +148,19 @@
 
                 </td>
                 <td class="center aligned collapsing">
-                    <a href="/backend/preview/project/{{$project->id}}" target="_blank" type="button"
-                       class="ui icon blue  button">
-                        <i class="external icon"></i>
-                    </a>
-                </td>
-                <td class="center aligned collapsing">
-
+                    @if($project->status->key == 'faculty')
+                        <button data-id="{{$project->id}}" type="button"
+                                class="ui icon blue  button projectSubmitBtn">
+                            <i class="external icon"></i>
+                        </button>
+                    @endif
                 </td>
             </tr>
         @endforeach
         </tbody>
         <tfoot>
         <tr>
-            <th colspan="7">
+            <th colspan="5">
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>
@@ -179,7 +177,16 @@
         </tr>
         </tfoot>
     </table>
+    <script>
+        $(".projectSubmitBtn").on('click', function () {
+            var projectId = $(this).attr('data-id');
+            var win = window.open('/backend/preview/project/' + projectId, "_blank");
+        })
 
+        function reload() {
+            location.reload();
+        }
+    </script>
 @elseif($role=="ADMIN")
     <table class="ui celled table">
         <thead>
