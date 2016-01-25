@@ -39,6 +39,14 @@ Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
         return \App\Models\Project::with(['faculty'])->get();
     });
 
+    Route::get('project/{id}', function ($id) {
+        $project = \App\Models\Project::with(['faculty','photos','youtubes','users'])->where('id','=',$id)->first();
+        return $project;
+    });
+
+    Route::get('project/{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
+
+
     Route::get('project/{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
 
 });
