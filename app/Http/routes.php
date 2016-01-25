@@ -23,6 +23,26 @@
 |
 */
 
+Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
+    Route::get('faculty', function () {
+        return \App\Models\Faculty::all();
+    });
+
+    Route::get('faculty/{id}/project', function ($id) {
+        $projects = \App\Models\Project::whereHas('faculty', function ($q) use ($id) {
+            $q->where('id','=',$id);
+        })->get();
+        return $projects;
+    });
+
+    Route::get('project', function () {
+        return \App\Models\Project::with(['faculty'])->get();
+    });
+
+    Route::get('project/{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
+
+});
+
 Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', "FrontendController@index");
