@@ -30,7 +30,7 @@ Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
 
     Route::get('faculty/{id}/project', function ($id) {
         $projects = \App\Models\Project::whereHas('faculty', function ($q) use ($id) {
-            $q->where('id','=',$id);
+            $q->where('id', '=', $id);
         })->get();
         return $projects;
     });
@@ -40,7 +40,7 @@ Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
     });
 
     Route::get('project/{id}', function ($id) {
-        $project = \App\Models\Project::with(['faculty','photos','youtubes','users'])->where('id','=',$id)->first();
+        $project = \App\Models\Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
         return $project;
     });
 
