@@ -34,7 +34,7 @@ class CreatPostsTable extends Migration
             $table->increments('id');
             $table->string('filename');
             $table->text('description')->nullable();;
-            $table->integer('project_id');
+            $table->integer('post_id');
             $table->timestamps();
         });
     }
@@ -46,7 +46,7 @@ class CreatPostsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('post_photoes');
+        Schema::drop('post_photos');
         Schema::drop('posts');
         Schema::drop('post_status');
     }

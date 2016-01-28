@@ -12,8 +12,14 @@ class Post extends Model
      */
     protected $table = 'post_photos';
 
-    public function photos(){
+    public function photos()
+    {
+        return $this->hasMany(Photo::class, 'post_id');
+    }
 
+    public function status()
+    {
+        return $this->belongsTo(PostStatus::class, 'status_id');
     }
 
 
