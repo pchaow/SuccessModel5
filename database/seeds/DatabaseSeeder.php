@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call("FacultySeeder");
         $this->call("ProjectStatusSeeder");
         $this->call("AdminSeeder");
+        $this->call("PostStatusSeeder");
         Model::reguard();
     }
 }
