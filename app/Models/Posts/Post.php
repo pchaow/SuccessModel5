@@ -10,7 +10,7 @@ class Post extends Model
      *
      * @var string
      */
-    protected $table = 'post_photos';
+    protected $table = 'posts';
 
     public function photos()
     {

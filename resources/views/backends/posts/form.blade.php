@@ -10,16 +10,14 @@
     <form class="ui form" action="{{$action}}" method="post">
         {{csrf_field()}}
 
-        <h4 class="ui dividing header">ข้อมูลพื้นฐาน</h4>
-
         <div class="field">
-            <label>ชื่อโครงการภาษาไทย</label>
-            <input type="text" name="post[title]" placeholder="หัวเรื่อง" value="{{$post->title}}">
+            <label>หัวเรื่อง</label>
+            <input type="text" name="postForm[title]" placeholder="หัวเรื่อง" value="{{$post->title}}">
         </div>
 
         <div class="field">
             <label>เนื้อเรื่อง</label>
-            <textarea id="project_description_th" name="post[content]"
+            <textarea id="post_content" name="postForm[content]"
                       rows="10">{{$post->title}}</textarea>
         </div>
 
@@ -28,7 +26,7 @@
             <div class="field">
                 <label>สถานะข่าวประกาศ</label>
                 <div class="ui selection dropdown" tabindex="0">
-                    <input type="hidden" name="post[status][id]" value="{{$post->status_id}}">
+                    <input type="hidden" name="postForm[status][id]" value="{{$post->status_id}}">
                     @if($post->status_id)
                         <div class="text">{{$post->status->key}}</div>
                     @else
@@ -84,8 +82,7 @@
                 {name: 'about', items: ['About']}
             ];
 
-            CKEDITOR.replace('project_description_th', config);
-            CKEDITOR.replace('project_description_en', config);
+            CKEDITOR.replace('post_content', config);
 
         });
     </script>

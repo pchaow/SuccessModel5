@@ -106,20 +106,22 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     Route::get('logout', "BackendController@logout");
     Route::post('doLogin', "BackendController@doLogin");
 
-
-    Route::group(['prefix' => 'post'], function () {
-
-        Route::get('/', "Backends\\PostController@index");
-        Route::get('addForm', "Backends\\PostController@addForm");
-    });
-
     Route::group(['middleware' => 'auth'], function () {
+
+        Route::group(['prefix' => 'post'], function () {
+
+            Route::get('/', "Backends\\PostController@index");
+            Route::get('addForm', "Backends\\PostController@addForm");
+            Route::post('doAdd', "Backends\\PostController@doAdd");
+        });
+
         //Dashboard
         Route::get('/', 'BackendController@index');
-
         Route::get('preview/project/{id}/{role}', "Backends\\ProjectController@previewProject");
 
+
         Route::group(['middleware' => ['researcher']], function () {
+
             Route::get('project', "Backends\\ProjectController@index");
             Route::get('project/addForm', 'Backends\\ProjectController@addForm');
             Route::get('project/{projectId}/edit', 'Backends\\ProjectController@editForm');

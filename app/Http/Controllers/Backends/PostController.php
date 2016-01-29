@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backends;
 
 use App\Models\Posts\Post;
+use App\Models\Posts\PostStatus;
 use Illuminate\Routing\Controller as BaseController;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,22 @@ class PostController extends BaseController
 
     public function doAdd(Request $request)
     {
+        $postForm = $request->get('postForm');
 
+        $post = new Post();
+        $post->title = $postForm['title'];
+        $post->content = $postForm['content'];
+
+        if ($postForm['status']['id']) {
+            $post->status_id = $postForm['status']['id'];
+        } else {
+            $draftStatus = PostStatus::where('key', '=', 'draft')->first();
+            $post->status_id = $draftStatus->id;
+        }
+
+        $post->save();
+
+        return redirect("/backends/post");
     }
 
     public function editForm(Request $request, $id, $step = "first")
