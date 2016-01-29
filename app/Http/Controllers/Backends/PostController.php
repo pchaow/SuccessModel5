@@ -43,23 +43,42 @@ class PostController extends BaseController
 
         $post->save();
 
-        return redirect("/backends/post");
+        return redirect("/backend/post");
     }
 
     public function editForm(Request $request, $id, $step = "first")
     {
-
+        $post = Post::find($id);
+        return view("backends.posts.editform")
+            ->with("post", $post);
     }
 
 
     public function doEdit(Request $request, $id)
     {
+        $postForm = $request->get('postForm');
+        $post = Post::find($id);
+        $post->title = $postForm['title'];
+        $post->content = $postForm['content'];
+
+        if ($postForm['status']['id']) {
+            $post->status_id = $postForm['status']['id'];
+        } else {
+            $draftStatus = PostStatus::where('key', '=', 'draft')->first();
+            $post->status_id = $draftStatus->id;
+        }
+
+        $post->save();
+
+        return redirect("/backend/post");
 
     }
 
     public function doDelete(Request $request, $id)
     {
-
+        $post = Post::find($id);
+        $post->delete();
+        return redirect("/backend/post");
     }
 
     public function doSubmit(Request $request, $id)

@@ -57,7 +57,7 @@
         @if($type == "ADD")
             <button class="ui button" tabindex="0">บันทักข่าวประกาศใหม่</button>
         @else
-            <button class="ui button" tabindex="0">บบันทักข่าวประกาศ</button>
+            <button class="ui button" tabindex="0">บันทักข่าวประกาศ</button>
         @endif
 
         <a href="{{$cancel}}" class="ui red button" tabindex="0">ยกเลิก</a>

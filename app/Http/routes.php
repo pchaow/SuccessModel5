@@ -113,6 +113,12 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             Route::get('/', "Backends\\PostController@index");
             Route::get('addForm', "Backends\\PostController@addForm");
             Route::post('doAdd', "Backends\\PostController@doAdd");
+
+            Route::get('/{id}/edit', "Backends\\PostController@editForm");
+            Route::post('/{id}/doEdit', "Backends\\PostController@doEdit");
+
+            Route::post('/{id}/delete', "Backends\\PostController@doDelete");
+
         });
 
         //Dashboard
