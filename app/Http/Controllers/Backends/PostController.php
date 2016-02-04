@@ -130,7 +130,7 @@ class PostController extends BaseController
 
     public function doUploadPhoto(Request $request, $id)
     {
-        /* @var Post $post*/
+        /* @var Post $post */
         $post = Post::find($id);
         if (!$post) {
             return redirect('backend/project');
@@ -186,10 +186,13 @@ class PostController extends BaseController
     }
 
 
-    public function preview(Request $request, $id, $role)
+    public function preview(Request $request, $id)
     {
 
+        $post = Post::find($id);
 
+        return view('backends.posts.preview')
+            ->with('post', $post);
     }
 
 

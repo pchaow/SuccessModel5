@@ -2,7 +2,7 @@
     <table class="ui celled table">
         <thead>
         <tr>
-            <th colspan="6">
+            <th colspan="7">
                 <a href="/backend/post/addForm" class="ui labeled icon button">
                     <i class="plus icon"></i>
                     เพิ่มข่าวประกาศ
@@ -22,6 +22,7 @@
             <th classs="center aligned collapsing">ลำดับ</th>
             <th>ชื่อ</th>
             <th>สถานะ</th>
+            <th class="center aligned collapsing">ดูตัวอย่าง</th>
             <th class="center aligned collapsing">ตีพิมพ์</th>
             <th class="center aligned collapsing">แก้ไข</th>
             <th class="center aligned collapsing">ลบ</th>
@@ -52,12 +53,17 @@
                     @endif
                 </td>
                 <td class="center aligned collapsing">
+                    <button class="ui icon green button previewBtn" data-id="{{$post->id}}">
+                        <i class="external icon"></i>
+                    </button>
+                </td>
+                <td class="center aligned collapsing">
                     @if($post->status->key != "published")
                         <form class="inline" method="post"
                               action="/backend/post/{{$post->id}}/submit">
                             {{csrf_field()}}
-                            <button type="button" class="ui icon green  button submitPostBtn">
-                                <i class="external icon"></i>
+                            <button type="button" class="ui icon violet button submitPostBtn">
+                                ตีพิมพ์
                             </button>
                         </form>
                     @endif
@@ -81,7 +87,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <th colspan="6">
+            <th colspan="7">
                 <div class="ui right floated pagination menu">
                     <a class="icon item">
                         <i class="left chevron icon"></i>
@@ -117,5 +123,10 @@
     $('.ui.progress').progress({
         total: 2
     });
+
+    $(".previewBtn").on('click', function () {
+        var postId = $(this).attr('data-id');
+        var win = window.open('/backend/post/' + postId + "/preview", "_blank");
+    })
 
 </script>

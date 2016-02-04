@@ -98,6 +98,16 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
 });
 
+Route::group(['prefix' => 'post', 'middleware' => ['web']], function () {
+
+    Route::get('/{id}/cover/{filename?}', 'Backends\\PostController@getCover');
+    Route::get('/{id}/photos/{file}', "Backends\\PostController@getPhoto");
+    Route::post('/{id}/doUploadPhoto', "Backends\\PostController@doUploadPhoto");
+    Route::post('/{id}/photo/{photoId}/delete', "Backends\\PostController@doDeletePhoto");
+    Route::post('/{id}/photo/{photoId}/doEditPhoto', "Backends\\PostController@doEditPhoto");
+
+});
+
 
 Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
@@ -124,12 +134,12 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
 
             Route::post('/{id}/delete', "Backends\\PostController@doDelete");
 
+            Route::get('/{id}/preview', "Backends\\PostController@preview");
+
             Route::get('/{id}/photos/{file}', "Backends\\PostController@getPhoto");
             Route::post('/{id}/doUploadPhoto', "Backends\\PostController@doUploadPhoto");
             Route::post('/{id}/photo/{photoId}/delete', "Backends\\PostController@doDeletePhoto");
             Route::post('/{id}/photo/{photoId}/doEditPhoto', "Backends\\PostController@doEditPhoto");
-
-
 
         });
 
