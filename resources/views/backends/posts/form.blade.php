@@ -326,20 +326,16 @@
 <script>
 
 
-    $('.menu .item').tab({
-        onVisible: function (tab) {
-            if (tab == "sixth") {
-                initialize();
-            }
-        }
-    });
-
-    $('.menu .item').tab('change tab', "{{$step or "first"}}")
+    $(document).ready(function () {
+        $('.menu .item').tab('change tab', "{{$step or "first"}}")
 
 
-    $('form .dropdown')
-            .dropdown({})
-    ;
+        $('form .dropdown')
+                .dropdown({})
+        ;
+
+        console.log('test');
+    })
 
 
 </script>

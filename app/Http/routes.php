@@ -114,10 +114,22 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             Route::get('addForm', "Backends\\PostController@addForm");
             Route::post('doAdd', "Backends\\PostController@doAdd");
 
-            Route::get('/{id}/edit', "Backends\\PostController@editForm");
+            Route::get('/{id}/edit/{step?}', "Backends\\PostController@editForm");
             Route::post('/{id}/doEdit', "Backends\\PostController@doEdit");
 
+            Route::post('/{id}/submit', "Backends\\PostController@doSubmit");
+
+            Route::get('/{id}/getCover/{filename?}', 'Backends\\PostController@getCover');
+            Route::post('/{id}/doSaveCover', "Backends\\PostController@doSaveCover");
+
             Route::post('/{id}/delete', "Backends\\PostController@doDelete");
+
+            Route::get('/{id}/photos/{file}', "Backends\\PostController@getPhoto");
+            Route::post('/{id}/doUploadPhoto', "Backends\\PostController@doUploadPhoto");
+            Route::post('/{id}/photo/{photoId}/delete', "Backends\\PostController@doDeletePhoto");
+            Route::post('/{id}/photo/{photoId}/doEditPhoto', "Backends\\PostController@doEditPhoto");
+
+
 
         });
 
@@ -184,6 +196,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             //admin project cover
             Route::get('admin/project/{id}/getCover/{filename?}', 'Backends\\AdminProjectController@getCover');
             Route::post('admin/project/{id}/doSaveCover', 'Backends\\AdminProjectController@doSaveCover');
+
             //admin project photo
             Route::get('admin/project/{id}/photos/{file}', "Backends\\AdminProjectController@getPhoto");
             Route::post('admin/project/{id}/doUploadPhoto', "Backends\\AdminProjectController@doUploadPhoto");

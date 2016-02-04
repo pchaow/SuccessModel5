@@ -34,9 +34,21 @@
                 <td>
                     <b>{{$post->title}}</b>
                 </td>
-                <td class="center aligned collapsing">
+                <td class="center aligned">
                     @if($post->status)
-                        {{$post->status->key}}
+                        <?php
+                        $dataPercent = 0;
+                        if ($post->status->key == 'draft')
+                            $dataPercent = 1;
+                        elseif ($post->status->key == 'published')
+                            $dataPercent = 2;
+                        ?>
+
+                        <div class="ui progress" data-value="{{$dataPercent}}" data-total="2">
+                            <div class="bar">
+                            </div>
+                            <div class="label">{{$post->status->key}}</div>
+                        </div>
                     @endif
                 </td>
                 <td class="center aligned collapsing">
@@ -101,5 +113,9 @@
             $(this).parent().submit();
         }
     })
+
+    $('.ui.progress').progress({
+        total: 2
+    });
 
 </script>

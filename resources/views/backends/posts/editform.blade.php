@@ -13,7 +13,8 @@
         'action' => "/backend/post/$post->id/doEdit",
         'cancel' => '/backend/post',
         'type' => "EDIT",
-        'role' => 'ADMIN'
+        'role' => 'ADMIN',
+        'step' => $step
         ])
 
     <script>
