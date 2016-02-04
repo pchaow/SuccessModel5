@@ -29,31 +29,28 @@
     <div class="sixteen wide column">
         <div class="ui vertically divided grid">
             <div class="row">
-
                 <div class="sixteen wide column">
-                    <div class="ui grid">
-                        <div class="eight wide column">
-                            <a class="fancybox" rel="group"
-                               href="/post/{{$post->id}}/cover/{{$post->cover_file}}">
-                                <img class="ui image"
-                                     src="/post/{{$post->id}}/cover/{{$post->cover_file}}?w=577&h=300&fit=crop"/>
-                            </a>
-                        </div>
-                        <div class="eight wide column">
-                            <div class="ui huge header" style="margin: 0px;">{{$post->title}}
-                            </div>
-                        </div>
+                    <div class="ui huge header" style="margin: 0px;">{{$post->title}}
                     </div>
                 </div>
             </div>
             <div class="row">
+
+                <div class="sixteen wide column">
+                    <a class="fancybox" rel="group"
+                       href="/post/{{$post->id}}/cover/{{$post->cover_file}}">
+                        <img class="ui image"
+                             src="/post/{{$post->id}}/cover/{{$post->cover_file}}?w=577&h=300&fit=crop"/>
+                    </a>
+                </div>
+
                 <div class="eleven wide column">
                     {!! $post->content !!}
                 </div>
                 <div class="five wide column">
                     <div class="ui segments">
                         <div class="ui segment">
-                            <h3>รูปภาพ</h3>
+                            <h3>ภาพประกอบข่าว</h3>
                         </div>
                         <div class="ui secondary segment">
                             <div class="ui images">
@@ -67,7 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -94,96 +91,6 @@
                 window.close();
             });
 
-            $('#acceptProjectBtn').on('click', function () {
-                var projectId = $(this).attr('data-id');
-                var previewRole = $(this).attr('data-role');
-                $.post("/backend/" + previewRole + "-project/" + projectId + "/doAccept", function (response) {
-                    var win = window.opener;
-                    win.reload();
-                    window.close();
-                })
-            });
-
-            $('#rejectProjectBtn').on('click', function () {
-                var projectId = $(this).attr('data-id');
-                var previewRole = $(this).attr('data-role');
-                $.post("/backend/" + previewRole + "-project/" + projectId + "/doReject", function (response) {
-                    var win = window.opener;
-                    if (win) {
-                        win.reload();
-                    }
-
-                    window.close();
-                })
-            });
-
-            var map;
-            var geoJsonInput = document.getElementById('geojson-input');
-
-            function refreshGeoJsonFromData() {
-                map.data.toGeoJson(function (geoJson) {
-                    geoJsonInput.value = JSON.stringify(geoJson, null, 2);
-                });
-            }
-
-            function bindDataLayerListeners(dataLayer) {
-                dataLayer.addListener('addfeature', refreshGeoJsonFromData);
-                dataLayer.addListener('removefeature', refreshGeoJsonFromData);
-                dataLayer.addListener('setgeometry', refreshGeoJsonFromData);
-            }
-
-            function loadJsonFromString() {
-                if (geoJsonInput.value) {
-                    var geojson = JSON.parse(geoJsonInput.value);
-                    map.data.addGeoJson(geojson);
-                    zoom(map);
-
-                    setTimeout(function () {
-                        map.setZoom(10);
-                    }, 300)
-                }
-            }
-
-            function processPoints(geometry, callback, thisArg) {
-                if (geometry instanceof google.maps.LatLng) {
-                    callback.call(thisArg, geometry);
-                } else if (geometry instanceof google.maps.Data.Point) {
-                    callback.call(thisArg, geometry.get());
-                } else {
-                    geometry.getArray().forEach(function (g) {
-                        processPoints(g, callback, thisArg);
-                    });
-                }
-            }
-
-            function zoom(map) {
-                var bounds = new google.maps.LatLngBounds();
-                var count = 0;
-                map.data.forEach(function (feature) {
-                    count++;
-                    processPoints(feature.getGeometry(), bounds.extend, bounds);
-                });
-                if (count > 0) {
-                    map.fitBounds(bounds);
-                }
-            }
-
-            function initialize() {
-
-                map = new google.maps.Map(document.getElementById('gmap'), {
-                    center: new google.maps.LatLng(19.2178981, 100.1890168),
-                    zoom: 10,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    zoomControl: true
-                });
-
-                loadJsonFromString();
-
-                bindDataLayerListeners(map.data);
-
-            }
-
-            initialize();
         });
     </script>
 

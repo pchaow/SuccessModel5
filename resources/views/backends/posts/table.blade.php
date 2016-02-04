@@ -129,4 +129,8 @@
         var win = window.open('/backend/post/' + postId + "/preview", "_blank");
     })
 
+    function reload() {
+        location.reload();
+    }
+
 </script>
