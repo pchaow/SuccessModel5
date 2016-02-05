@@ -195,5 +195,17 @@ class PostController extends BaseController
             ->with('post', $post);
     }
 
+    public function listPost()
+    {
+        $posts = Post::all();
+        return $posts;
+    }
+
+    public function getPost($id)
+    {
+        $post = Post::with('photos')->where('id', '=', $id)->first();
+        return $post;
+    }
+
 
 }
