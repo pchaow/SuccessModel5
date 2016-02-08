@@ -148,7 +148,7 @@
                 <input type="hidden" name="project[status][id]" value="{{$project->status_id}}">
             @else
                 <?php
-                $draftStatus = \App\Models\ProjectStatus::where('key', '=', 'draft')->first();
+                $draftStatus = \App\Models\Project\ProjectStatus::where('key', '=', 'draft')->first();
                 ?>
                 <input type="hidden" name="project[status][id]" value="{{$draftStatus->id}}">
             @endif
@@ -166,7 +166,7 @@
                     <i class="dropdown icon"></i>
                     <div class="menu transition hidden" tabindex="-1">
                         <?php
-                        $statuses = \App\Models\ProjectStatus::all();
+                        $statuses = \App\Models\Project\ProjectStatus::all();
                         ?>
                         @foreach($statuses as $status)
                             <div class="item {{ $project->status_id == $status->id ? "active" : ""  }}"

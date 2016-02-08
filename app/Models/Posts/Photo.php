@@ -1,4 +1,5 @@
-<?php namespace App\Models\Posts;
+<?php
+namespace App\Models\Posts;
 
 use Illuminate\Database\Eloquent\Model;
 

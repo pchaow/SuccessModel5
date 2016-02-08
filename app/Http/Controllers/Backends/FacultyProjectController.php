@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backends;
 
 use App\Models\Faculty;
-use App\Models\Project;
-use App\Models\ProjectStatus;
+use App\Models\Project\Project;
+use App\Models\Project\ProjectStatus;
 use App\Models\Role;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

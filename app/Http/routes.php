@@ -23,24 +23,26 @@
 |
 */
 
+use App\Models\Project\Project;
+
 Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
     Route::get('faculty', function () {
         return \App\Models\Faculty::all();
     });
 
     Route::get('faculty/{id}/project', function ($id) {
-        $projects = \App\Models\Project::whereHas('faculty', function ($q) use ($id) {
+        $projects = Project::whereHas('faculty', function ($q) use ($id) {
             $q->where('id', '=', $id);
         })->with(['faculty'])->get();
         return $projects;
     });
 
     Route::get('project', function () {
-        return \App\Models\Project::with(['faculty'])->get();
+        return \App\Models\Project\Project::with(['faculty'])->get();
     });
 
     Route::get('project/{id}', function ($id) {
-        $project = \App\Models\Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
+        $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
         return $project;
     });
 
@@ -75,14 +77,14 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
     Route::get('project', function () {
-        $projects = \App\Models\Project::whereHas('status', function ($q) {
+        $projects = Project::whereHas('status', function ($q) {
             $q->where('key', '=', 'published');
         })->get();
         return $projects;
     });
 
     Route::get('project/{id}', function ($id) {
-        $project = \App\Models\Project::with(['photos', 'youtubes', 'users'])->find($id);
+        $project = Project::with(['photos', 'youtubes', 'users'])->find($id);
 
         return $project;
     });

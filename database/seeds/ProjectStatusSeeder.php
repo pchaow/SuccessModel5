@@ -24,7 +24,7 @@ class ProjectStatusSeeder extends Seeder {
         ];
 
         foreach ($statuses as $s) {
-            $status = new \App\Models\ProjectStatus();
+            $status = new \App\Models\Project\ProjectStatus();
             $status->key = $s[0];
             $status->name = $s[1];
             $status->description = $s[2];

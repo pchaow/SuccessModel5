@@ -1,8 +1,11 @@
-<?php namespace App\Models;
+<?php
+namespace App\Models\Project;
 
+use App\Models\Faculty;
 use App\Models\Thailand\Amphur;
 use App\Models\Thailand\District;
 use App\Models\Thailand\Province;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model

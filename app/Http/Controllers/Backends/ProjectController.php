@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Backends;
 
 use App\Models\Faculty;
-use App\Models\Project;
-use App\Models\ProjectStatus;
-use App\Models\Role;
-use Illuminate\Foundation\Bus\DispatchesJobs;
+use App\Models\Project\Project;
+use App\Models\Project\ProjectStatus;
+
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
