@@ -150,6 +150,50 @@
     </div>
 
 
+    <div id="acceptModal" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            ยอมรับโครงการ
+        </div>
+        <div class="content">
+            <form id="acceptForm" class="ui form">
+                <div class="field">
+                    <label>ความคิดเห็น/รายละเอียด</label>
+                    <textarea name="acceptForm[comment]"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div id="acceptModalOkBtn" class="ui blue button" data-id="{{$project->id}}" data-role="{{$previewRole}}">
+                ตกลง
+            </div>
+            <div id="acceptModalCancelBtn" class="ui button">ยกเลิก</div>
+        </div>
+    </div>
+
+    <div id="rejectModal" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            ปฏิเสธโครงการ
+        </div>
+        <div class="content">
+            <form id="rejectForm" class="ui form">
+                <div class="field">
+                    <label>ความคิดเห็น/รายละเอียด</label>
+                    <textarea name="acceptForm[comment]"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div id="rejectModalOkBtn" class="ui blue button" data-id="{{$project->id}}" data-role="{{$previewRole}}">
+                ตกลง
+            </div>
+            <div id="rejectModalCancelBtn" class="ui button">ยกเลิก</div>
+        </div>
+    </div>
+
+
+
     <script>
         $(document).ready(function () {
             $(".fancybox").fancybox();
@@ -162,6 +206,10 @@
                 }
             });
 
+            $('#acceptModal').modal();
+            $('#rejectModal').modal();
+
+
             $('.ui.embed').embed();
             $('#closeWindowBtn').on('click', function () {
                 var win = window.opener;
@@ -170,26 +218,50 @@
             });
 
             $('#acceptProjectBtn').on('click', function () {
-                var projectId = $(this).attr('data-id');
-                var previewRole = $(this).attr('data-role');
-                $.post("/backend/" + previewRole + "-project/" + projectId + "/doAccept", function (response) {
-                    var win = window.opener;
-                    win.reload();
-                    window.close();
-                })
+                $("#acceptModal").modal('show');
             });
 
             $('#rejectProjectBtn').on('click', function () {
+                $("#rejectModal").modal('show');
+            });
+
+            $("#acceptModalOkBtn").on('click', function () {
                 var projectId = $(this).attr('data-id');
                 var previewRole = $(this).attr('data-role');
-                $.post("/backend/" + previewRole + "-project/" + projectId + "/doReject", function (response) {
-                    var win = window.opener;
-                    if (win) {
-                        win.reload();
-                    }
 
-                    window.close();
-                })
+                $.post("/backend/" + previewRole + "-project/" + projectId + "/doAccept"
+                        , $("#acceptForm").serialize()
+                        , function (response) {
+                            var win = window.opener;
+                            win.reload();
+                            window.close();
+                        })
+
+            });
+
+            $("#acceptModalCancelBtn").on('click', function () {
+                $("#acceptModal").modal('hide');
+
+            });
+
+            $("#rejectModalOkBtn").on('click', function () {
+                var projectId = $(this).attr('data-id');
+                var previewRole = $(this).attr('data-role');
+
+                $.post("/backend/" + previewRole + "-project/" + projectId + "/doReject"
+                        , $("#rejectForm").serialize()
+                        , function (response) {
+                            var win = window.opener;
+                            win.reload();
+                            window.close();
+                        })
+
+            });
+
+
+            $("#rejectModalCancelBtn").on('click', function () {
+                $("#rejectModal").modal('hide');
+
             });
 
             var map;

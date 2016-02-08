@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backends;
 
 use App\Models\Faculty;
 use App\Models\Project\Project;
+use App\Models\Project\ProjectApproveComment;
 use App\Models\Project\ProjectStatus;
 
 use Illuminate\Routing\Controller as BaseController;
@@ -17,7 +18,7 @@ class UniversityProjectController extends BaseController
     public function index()
     {
         /* @var Faculty $faculty */
-        $projects = \App\Models\Project::whereHas('status', function ($q) {
+        $projects = Project::whereHas('status', function ($q) {
             $q->where('key', '=', 'university');
         })->get();
         return view("backends.university.project-index")
@@ -128,6 +129,17 @@ class UniversityProjectController extends BaseController
 
         $nextStatus = ProjectStatus::where("key", '=', "published")->first();
 
+        $approveForm = $request->get('acceptForm');
+
+        $approveComment = new ProjectApproveComment();
+        $approveComment->project_id = $id;
+        $approveComment->user_id = Auth::user()->id;
+        $approveComment->is_accept = true;
+        $approveComment->comment = $approveForm['comment'];
+        $approveComment->from_status_id = $project->status->id;
+        $approveComment->to_status_id = $nextStatus->id;
+        $approveComment->save();
+
         $project->status()->associate($nextStatus)->save();
 
         return $project;
@@ -138,7 +150,18 @@ class UniversityProjectController extends BaseController
         /* @var Project $project */
         $project = Project::with(['status'])->find($id);
 
-        $previousStatus = ProjectStatus::where("key", '=', "faculty")->first();
+        $previousStatus = ProjectStatus::where("key", '=', "draft")->first();
+
+        $approveForm = $request->get('acceptForm');
+
+        $approveComment = new ProjectApproveComment();
+        $approveComment->project_id = $id;
+        $approveComment->user_id = Auth::user()->id;
+        $approveComment->is_accept = false;
+        $approveComment->comment = $approveForm['comment'];
+        $approveComment->from_status_id = $project->status->id;
+        $approveComment->to_status_id = $previousStatus->id;
+        $approveComment->save();
 
         $project->status()->associate($previousStatus)->save();
 

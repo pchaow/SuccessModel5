@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backends;
 
 use App\Models\Faculty;
 use App\Models\Project\Project;
+use App\Models\Project\ProjectApproveComment;
 use App\Models\Project\ProjectStatus;
 use App\Models\Role;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -129,9 +130,20 @@ class FacultyProjectController extends BaseController
         /* @var Project $project */
         $project = Project::with(['status'])->find($id);
 
-        $unviersityStatus = ProjectStatus::where("key", '=', "university")->first();
+        $universityStatus = ProjectStatus::where("key", '=', "university")->first();
 
-        $project->status()->associate($unviersityStatus)->save();
+        $approveForm = $request->get('acceptForm');
+
+        $approveComment = new ProjectApproveComment();
+        $approveComment->project_id = $id;
+        $approveComment->user_id = Auth::user()->id;
+        $approveComment->is_accept = true;
+        $approveComment->comment = $approveForm['comment'];
+        $approveComment->from_status_id = $project->status->id;
+        $approveComment->to_status_id = $universityStatus->id;
+        $approveComment->save();
+
+        $project->status()->associate($universityStatus)->save();
 
         return $project;
     }
@@ -142,6 +154,17 @@ class FacultyProjectController extends BaseController
         $project = Project::with(['status'])->find($id);
 
         $draftStatus = ProjectStatus::where("key", '=', "draft")->first();
+
+        $approveForm = $request->get('acceptForm');
+
+        $approveComment = new ProjectApproveComment();
+        $approveComment->project_id = $id;
+        $approveComment->user_id = Auth::user()->id;
+        $approveComment->is_accept = false;
+        $approveComment->comment = $approveForm['comment'];
+        $approveComment->from_status_id = $project->status->id;
+        $approveComment->to_status_id = $draftStatus->id;
+        $approveComment->save();
 
         $project->status()->associate($draftStatus)->save();
 

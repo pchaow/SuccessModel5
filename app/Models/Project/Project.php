@@ -66,4 +66,8 @@ class Project extends Model
         return $this->belongsTo(User::class, "create_by");
     }
 
+    public function approveComments(){
+        return $this->hasMany(ProjectApproveComment::class);
+    }
+
 }

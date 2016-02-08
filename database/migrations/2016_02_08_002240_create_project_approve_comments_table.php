@@ -16,7 +16,9 @@ class CreateProjectApproveCommentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('project_id');
-            $table->text('comments');
+            $table->integer('from_status_id');
+            $table->integer('to_status_id');
+            $table->text('comment');
             $table->boolean('is_accept');
             $table->timestamps();
         });

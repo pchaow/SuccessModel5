@@ -38,7 +38,7 @@ Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
     });
 
     Route::get('project', function () {
-        return \App\Models\Project\Project::with(['faculty'])->get();
+        return Project::with(['faculty'])->get();
     });
 
     Route::get('project/{id}', function ($id) {
