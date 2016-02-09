@@ -64,14 +64,6 @@ Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
 
     });
 
-
-
-});
-
-Route::group(['middleware' => ['web']], function () {
-
-    Route::get('/', "FrontendController@index");
-
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
@@ -106,14 +98,37 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
 });
 
+
+Route::group(['middleware' => ['web']], function () {
+
+    Route::get('/', "FrontendController@index");
+
+});
+
 Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
     //project
+    Route::get('/',function(\Symfony\Component\HttpFoundation\Request $request){
+        $faculty_id = $request->get('faculty_id');
+        $query = Project::query();
+        
+        if($faculty_id){
+            $query = $query->where('faculty_id','=',$faculty_id);
+
+        }
+
+        $projects = $query->get();
+
+        return view('frontends.index')
+            ->with('projects', $projects);
+
+    });
     Route::get('{id}', "FrontendController@project");
     Route::get('{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
     Route::get('{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
 
 });
+
 
 Route::group(['prefix' => 'post', 'middleware' => ['web']], function () {
 

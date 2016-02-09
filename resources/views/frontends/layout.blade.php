@@ -3,7 +3,7 @@
 @section('layout')
 
     <div class="ui  menu">
-        <a class="active item">
+        <a class="active item" href="/">
             หนัาหลัก
         </a>
         <div class="ui simple dropdown item">
@@ -14,7 +14,7 @@
                 $faculties = \App\Models\Faculty::all();
                 ?>
                 @foreach($faculties as $faculty)
-                    <div class="item">{{$faculty->name_th}}</div>
+                    <a class="link item" href="/project?faculty_id={{$faculty->id}}">{{$faculty->name_th}}</a>
                 @endforeach
 
             </div>

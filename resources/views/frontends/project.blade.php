@@ -68,39 +68,43 @@
                 {!! $project->description_en !!}
             </div>
             <div class="five wide column">
-                <div class="ui segments">
-                    <div class="ui segment">
-                        <h3>รูปภาพ</h3>
-                    </div>
-                    <div class="ui secondary segment">
-                        <div class="ui images">
-                            @foreach($project->photos()->get() as $photo)
-                                <a class="fancybox" rel="group"
-                                   href="/project/{{$project->id}}/photos/{{$photo->filename}}">
-                                    <img style="width: 95px;height:95px;" class="ui image"
-                                         src="/project/{{$project->id}}/photos/{{$photo->filename}}?w=300&h=300&fit=crop">
-                                </a>
-                            @endforeach
+                @if($project->photos->count() != 0 )
+                    <div class="ui segments">
+                        <div class="ui segment">
+                            <h3>รูปภาพ</h3>
+                        </div>
+                        <div class="ui secondary segment">
+                            <div class="ui images">
+                                @foreach($project->photos()->get() as $photo)
+                                    <a class="fancybox" rel="group"
+                                       href="/project/{{$project->id}}/photos/{{$photo->filename}}">
+                                        <img style="width: 95px;height:95px;" class="ui image"
+                                             src="/project/{{$project->id}}/photos/{{$photo->filename}}?w=300&h=300&fit=crop">
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
-                <div class="ui segments">
-                    <div class="ui segment">
-                        <h3>วิดิโอ</h3>
-                    </div>
-                    <div class="ui secondary segment">
-                        <div class="ui tiny images">
-                            @foreach($project->youtubes as $youtube)
-                                <a class="fancybox-media"
-                                   href="http://www.youtube.com/watch?v={{$youtube->youtube_id}}">
-                                    <img style="width: 95px;height:95px;" class="ui image"
-                                         src="http://img.youtube.com/vi/{{$youtube->youtube_id}}/hqdefault.jpg">
-                                </a>
-                            @endforeach
+                @if($project->youtubes->count() != 0)
+                    <div class="ui segments">
+                        <div class="ui segment">
+                            <h3>วิดิโอ</h3>
+                        </div>
+                        <div class="ui secondary segment">
+                            <div class="ui tiny images">
+                                @foreach($project->youtubes as $youtube)
+                                    <a class="fancybox-media"
+                                       href="http://www.youtube.com/watch?v={{$youtube->youtube_id}}">
+                                        <img style="width: 95px;height:95px;" class="ui image"
+                                             src="http://img.youtube.com/vi/{{$youtube->youtube_id}}/hqdefault.jpg">
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="ui segments">
                     <input type="hidden" name="project[geojson]" id="geojson-input" value="{{$project->geojson}}"/>
