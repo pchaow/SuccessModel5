@@ -151,6 +151,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
     //login
     Route::get('login', "BackendController@login");
     Route::get('logout', "BackendController@logout");
+    Route::get('profile', "Backends\\UserController@changeProfile");
+    Route::post('profile', "Backends\\UserController@doChangeProfile");
     Route::post('doLogin', "BackendController@doLogin");
 
     Route::group(['middleware' => 'auth'], function () {

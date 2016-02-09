@@ -77,7 +77,6 @@
         </div>
     </div>
 
-
     <div class="field">
         <button class="ui button" type="submit">ตกลง</button>
         <a class="ui red button" href="{{$cancel}}">ยกเลิก</a>

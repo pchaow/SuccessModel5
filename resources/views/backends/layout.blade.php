@@ -38,8 +38,8 @@
                     </div>
 
                     <div class="menu">
-                        <a href="/backend/change-profile"
-                           class="{{ Request::is('backend/change-profile') || Request::is('backend/change-profile/*') ? 'active' : ''   }} teal item">
+                        <a href="/backend/profile"
+                           class="{{ Request::is('backend/profile') || Request::is('backend/profile/*') ? 'active' : ''   }} teal item">
                             แก้ไขข้อมูลส่วนตัว
                         </a>
                         <a href="/backend/logout" class="item">ออกจากระบบ</a>

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -113,5 +114,25 @@ class UserController extends BaseController
         ];
     }
 
+    public function changeProfile(){
+        $user = Auth::user();
+
+        return view('backends.profile')
+            ->with('user',$user);
+    }
+
+    public function doChangeProfile(Request $request){
+        $user_form = $request->get('user');
+        $id = Auth::user()->id;
+
+        $user = User::find($id);
+        $user->fill($user_form);
+
+        if ($user->password != $user_form["password"]) {
+            $user->password = Hash::make($user_form['password']);
+        }
+        $user->save();
+        return redirect('/backend/profile');
+    }
 
 }
