@@ -20,7 +20,9 @@ class UniversityProjectController extends BaseController
         /* @var Faculty $faculty */
         $projects = Project::whereHas('status', function ($q) {
             $q->where('key', '=', 'university');
-        })->get();
+        })
+            ->orderBy('updated_at','desc')
+            ->get();
         return view("backends.university.project-index")
             ->with('projects', $projects);
     }

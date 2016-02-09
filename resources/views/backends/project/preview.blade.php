@@ -42,12 +42,23 @@
             </div>
         @else
             <div class="item">
-                <button id="acceptProjectBtn" type="button" class="ui blue button" data-id="{{$project->id}}"
+                <button id="submitProjectBtn" type="button" class="ui blue button" data-id="{{$project->id}}"
                         data-role="{{$previewRole}}">
                     ส่งโครงการ
                 </button>
             </div>
         @endif
+    </div>
+
+    <div class="sixteen wide column">
+        <div class="ui segments">
+            <div class="ui segment">
+                <h3>ความเห็นล่าสุดต่อโครงการนี้</h3>
+            </div>
+            <div class="ui secondary segment">
+                {{$project->approveComments()->orderBy('created_at','desc')->first()->comment or ""}}
+            </div>
+        </div>
     </div>
 
     <div class="sixteen wide column">
@@ -224,6 +235,20 @@
             $('#rejectProjectBtn').on('click', function () {
                 $("#rejectModal").modal('show');
             });
+
+            $("#submitProjectBtn").on('click', function () {
+                var projectId = $(this).attr('data-id');
+                var previewRole = $(this).attr('data-role');
+
+                if (confirm("คุณต้องการส่งโครงการนี้ ใช่หรือไม่")) {
+                    $.post("/backend/" + previewRole + "-project/" + projectId + "/doAccept"
+                            , function (response) {
+                                var win = window.opener;
+                                win.reload();
+                                window.close();
+                            })
+                }
+            })
 
             $("#acceptModalOkBtn").on('click', function () {
                 var projectId = $(this).attr('data-id');

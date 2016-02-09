@@ -18,7 +18,7 @@ class ProjectController extends BaseController
     public function index()
     {
         $user = Auth::user();
-        $projects = $user->projects;
+        $projects = $user->projects()->orderBy('updated_at','desc')->get();
         return view("backends.researchers.project-index")
             ->with("projects", $projects);
     }

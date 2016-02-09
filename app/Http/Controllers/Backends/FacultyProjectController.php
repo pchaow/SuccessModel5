@@ -23,7 +23,13 @@ class FacultyProjectController extends BaseController
         /* @var Faculty $faculty */
         $user = Auth::user();
         $faculty = $user->faculty;
-        $projects = $faculty->projects;
+
+        $projects = Project::whereHas('status', function ($q) {
+            $q->where('key', '=', 'faculty');
+        })->whereHas('faculty', function ($q) use ($faculty) {
+            $q->where('id', '=', $faculty->id);
+        })->orderBy('updated_at','desc')->get();
+
         return view("backends.faculty.project-index")
             ->with('projects', $projects);
     }
