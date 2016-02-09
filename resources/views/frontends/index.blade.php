@@ -20,7 +20,7 @@
                             @if($project->cover_file == "")
                                 <img src="/images/uplogo_big.png">
                             @else
-                                <img src="/project/{{$project->id}}/cover/{{$project->cover_file}}?w=357&fit=max">
+                                <img class="lazy" data-src="/project/{{$project->id}}/cover/{{$project->cover_file}}?w=357&fit=max">
                             @endif
                         </div>
                         <div class="content">
@@ -41,4 +41,14 @@
         @endforeach
     </div>
 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.lazy').Lazy({
+                combined : true,
+                delay : 500
+            });
+
+        })
+    </script>
 @endsection
