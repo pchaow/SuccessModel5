@@ -27,11 +27,12 @@
                 </h2>
             </div>
             <div class="ten wide column">
+                <form action="/project" method="get">
                 <div class="ui fluid icon input">
-                    <input type="text" placeholder="ค้นหา...">
+                    <input type="text" name="keyword" placeholder="ค้นหา...">
                     <i class="search icon"></i>
                 </div>
-
+                </form>
             </div>
             <div class="three wide column">
                 <a href="/backend/login" style="text-decoration: none; color:white;">เข้าสู่ระบบ</a>

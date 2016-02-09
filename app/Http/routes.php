@@ -110,11 +110,16 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
     //project
     Route::get('/',function(\Symfony\Component\HttpFoundation\Request $request){
         $faculty_id = $request->get('faculty_id');
+        $keyword = $request->get('keyword');
         $query = Project::query();
-        
+
         if($faculty_id){
             $query = $query->where('faculty_id','=',$faculty_id);
 
+        }
+        if($keyword){
+            $query = $query->where('name_th','LIKE',"%$keyword%");
+            $query = $query->orWhere('name_en','LIKE',"%$keyword%");
         }
 
         $projects = $query->get();
