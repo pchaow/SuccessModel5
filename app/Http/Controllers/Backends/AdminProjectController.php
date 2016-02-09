@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backends;
 
 use App\Services\ProjectService;
 use App\Models\Faculty;
-use App\Models\Photo;
+use App\Models\Project\Photo;
 use App\Models\Project\Project;
 use App\Models\Project\ProjectStatus;
 use App\Models\Project\Youtube;
@@ -137,7 +137,7 @@ class AdminProjectController extends BaseController
         return ProjectService::getCover($server, $request, $id, $file);
     }
 
-    public function doUploadPhoto(Request $request, $id)
+    public function doUploadPhoto(Server $server, Request $request, $id)
     {
         /* @var Project $project */
         $project = Project::find($id);
@@ -159,7 +159,13 @@ class AdminProjectController extends BaseController
             $photo->filename = $newFileName;
 
 
+            $server->makeImage("project/$id/photo/$newFileName",[
+                'w' => 300,
+                'h' => 300
+            ]);
+
             $project->photos()->save($photo);
+
 
         }
 

@@ -22,7 +22,7 @@ class FrontendController extends BaseController
     public function project(Request $request, $projectId)
     {
 
-        $project = Project::find($projectId);
+        $project = Project::with(['photos','youtubes'])->find($projectId);
 
         return view('frontends.project')
             ->with('project', $project);
