@@ -123,7 +123,9 @@
     <script>
         $(document).ready(function () {
 
-            $('.lazy').Lazy();
+            $('.lazy').Lazy({
+                combined : true
+            });
 
 
             $(".fancybox").fancybox();

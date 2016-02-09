@@ -20,7 +20,7 @@ class ProjectService
 
         $path = "project/$id/cover/$cover_file";
 
-        return $server->outputImage($path, $_GET);
+        return $server->getImageResponse($path, $_GET);
     }
 
     public static function getPhoto(Server $server, Request $request, $id, $file)
