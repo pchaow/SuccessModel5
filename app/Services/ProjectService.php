@@ -27,7 +27,7 @@ class ProjectService
     {
         $photo_file = $file;
         $path = "project/$id/photo/$photo_file";
-        return $server->outputImage($path, $_GET);
+        return $server->getImageResponse($path, $_GET);
     }
 
 }
