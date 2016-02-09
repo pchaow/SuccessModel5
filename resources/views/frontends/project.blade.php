@@ -124,7 +124,8 @@
         $(document).ready(function () {
 
             $('.lazy').Lazy({
-                combined : true
+                combined : true,
+				delay : 500
             });
 
 
