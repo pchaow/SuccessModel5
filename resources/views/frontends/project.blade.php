@@ -78,7 +78,7 @@
                                 @foreach($project->photos()->get() as $photo)
                                     <a class="fancybox" rel="group"
                                        href="/project/{{$project->id}}/photos/{{$photo->filename}}">
-                                        <img style="width: 95px;height:95px;" class="ui image"
+                                        <img style="width: 95px;height:95px;" class="ui lazy image"
                                              src="/project/{{$project->id}}/photos/{{$photo->filename}}?w=300&h=300&fit=crop">
                                     </a>
                                 @endforeach
@@ -122,6 +122,10 @@
 
     <script>
         $(document).ready(function () {
+
+            $('.lazy').Lazy();
+
+
             $(".fancybox").fancybox();
 
             $('.fancybox-media').fancybox({
