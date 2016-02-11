@@ -245,6 +245,7 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             //admin project cover
             Route::get('admin/project/{id}/getCover/{filename?}', 'Backends\\AdminProjectController@getCover');
             Route::post('admin/project/{id}/doSaveCover', 'Backends\\AdminProjectController@doSaveCover');
+            Route::get('admin/project/{id}/doGenerateImageCache', 'Backends\\AdminProjectController@doGenerateImageCache');
 
             //admin project photo
             Route::get('admin/project/{id}/photos/{file}', "Backends\\AdminProjectController@getPhoto");

@@ -159,17 +159,27 @@ class AdminProjectController extends BaseController
             $photo->filename = $newFileName;
 
 
-            $server->makeImage("project/$id/photo/$newFileName",[
+            $server->makeImage("project/$id/photo/$newFileName", [
                 'w' => 300,
                 'h' => 300
             ]);
 
             $project->photos()->save($photo);
-
-
         }
 
         return redirect("/backend/admin/project/$id/edit/third");
+    }
+
+    public function doGenerateImageCache(Server $server, Request $request, $id)
+    {
+        $project = Project::find($id);
+        $photos = $project->photos;
+        foreach ($photos as $photo) {
+            $server->makeImage("project/$id/photo/$photo->filename", [
+                'w' => 300,
+                'h' => 300
+            ]);
+        }
     }
 
     public function getPhoto(Server $server, Request $request, $id, $file)
