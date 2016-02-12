@@ -35,12 +35,17 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
         Route::get('faculty/{id}/project', function ($id) {
             $projects = Project::whereHas('faculty', function ($q) use ($id) {
                 $q->where('id', '=', $id);
-            })->with(['faculty'])->get();
+            })->with(['faculty'])
+                ->orderBy('created_at', 'desc')
+                ->get();
             return $projects;
         });
 
         Route::get('project', function () {
-            return Project::with(['faculty'])->get();
+            return Project::with(['faculty'])
+                ->orderBy('created_at', 'desc');
+            ->
+            get();
         });
 
         Route::get('project/{id}', function ($id) {
