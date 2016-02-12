@@ -51,8 +51,6 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
 
     Route::get('project/{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
-
-
     Route::get('project/{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
 
 
@@ -68,8 +66,6 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
         Route::get('/{id}/cover/{filename?}', 'Backends\\PostController@getCover');
         Route::get('/{id}/photos/{file}', "Backends\\PostController@getPhoto");
-
-
     });
 
 });
