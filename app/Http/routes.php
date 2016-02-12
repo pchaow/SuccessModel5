@@ -43,9 +43,8 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
         Route::get('project', function () {
             return Project::with(['faculty'])
-                ->orderBy('created_at', 'desc');
-            ->
-            get();
+                ->orderBy('created_at', 'desc')
+                ->get();
         });
 
         Route::get('project/{id}', function ($id) {
