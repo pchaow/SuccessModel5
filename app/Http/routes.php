@@ -25,26 +25,30 @@
 
 use App\Models\Project\Project;
 
-Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
-    Route::get('faculty', function () {
-        return \App\Models\Faculty::all();
+Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
+
+    Route::group(['middleware' => ['cors']], function () {
+        Route::get('faculty', function () {
+            return \App\Models\Faculty::all();
+        });
+
+        Route::get('faculty/{id}/project', function ($id) {
+            $projects = Project::whereHas('faculty', function ($q) use ($id) {
+                $q->where('id', '=', $id);
+            })->with(['faculty'])->get();
+            return $projects;
+        });
+
+        Route::get('project', function () {
+            return Project::with(['faculty'])->get();
+        });
+
+        Route::get('project/{id}', function ($id) {
+            $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
+            return $project;
+        });
     });
 
-    Route::get('faculty/{id}/project', function ($id) {
-        $projects = Project::whereHas('faculty', function ($q) use ($id) {
-            $q->where('id', '=', $id);
-        })->with(['faculty'])->get();
-        return $projects;
-    });
-
-    Route::get('project', function () {
-        return Project::with(['faculty'])->get();
-    });
-
-    Route::get('project/{id}', function ($id) {
-        $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
-        return $project;
-    });
 
     Route::get('project/{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
 
@@ -54,13 +58,17 @@ Route::group(['prefix' => 'm1', 'middleware' => ['cors', 'api']], function () {
 
     Route::group(['prefix' => 'post'], function () {
 
-        Route::get('/', "Backends\\PostController@listPost");
-        Route::get('/{id}', "Backends\\PostController@getPost");
+        Route::group(['middleware' => ['cors']], function () {
+            Route::get('/', "Backends\\PostController@listPost");
+            Route::get('/{id}', "Backends\\PostController@getPost");
+            Route::post('/{id}/doUploadPhoto', "Backends\\PostController@doUploadPhoto");
+            Route::post('/{id}/photo/{photoId}/delete', "Backends\\PostController@doDeletePhoto");
+            Route::post('/{id}/photo/{photoId}/doEditPhoto', "Backends\\PostController@doEditPhoto");
+        });
+
         Route::get('/{id}/cover/{filename?}', 'Backends\\PostController@getCover');
         Route::get('/{id}/photos/{file}', "Backends\\PostController@getPhoto");
-        Route::post('/{id}/doUploadPhoto', "Backends\\PostController@doUploadPhoto");
-        Route::post('/{id}/photo/{photoId}/delete', "Backends\\PostController@doDeletePhoto");
-        Route::post('/{id}/photo/{photoId}/doEditPhoto', "Backends\\PostController@doEditPhoto");
+
 
     });
 
@@ -108,18 +116,18 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
     //project
-    Route::get('/',function(\Symfony\Component\HttpFoundation\Request $request){
+    Route::get('/', function (\Symfony\Component\HttpFoundation\Request $request) {
         $faculty_id = $request->get('faculty_id');
         $keyword = $request->get('keyword');
         $query = Project::query();
 
-        if($faculty_id){
-            $query = $query->where('faculty_id','=',$faculty_id);
+        if ($faculty_id) {
+            $query = $query->where('faculty_id', '=', $faculty_id);
 
         }
-        if($keyword){
-            $query = $query->where('name_th','LIKE',"%$keyword%");
-            $query = $query->orWhere('name_en','LIKE',"%$keyword%");
+        if ($keyword) {
+            $query = $query->where('name_th', 'LIKE', "%$keyword%");
+            $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
         }
 
         $projects = $query->get();
