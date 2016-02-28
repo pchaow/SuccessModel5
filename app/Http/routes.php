@@ -111,6 +111,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', "FrontendController@index");
 
+    Route::get('/post/{id}', "FrontendController@getPost");
+
 });
 
 Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
@@ -132,7 +134,7 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
         $projects = $query->get();
 
-        return view('frontends.index')
+        return view('frontends.search')
             ->with('projects', $projects);
 
     });
