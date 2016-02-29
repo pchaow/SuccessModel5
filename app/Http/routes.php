@@ -43,14 +43,40 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
         Route::get('project', function () {
             return Project::with(['faculty'])
+                ->whereHas('status', function ($q) {
+                    $q->where('key', '=', 'published');
+                })
                 ->orderBy('created_at', 'desc')
                 ->get();
+        });
+
+        Route::get('project/search', function (\Symfony\Component\HttpFoundation\Request $request) {
+            $faculty_id = $request->get('faculty_id');
+            $keyword = $request->get('keyword');
+            
+            $query = Project::query();
+
+            if ($faculty_id) {
+                $query = $query->where('faculty_id', '=', $faculty_id);
+
+            }
+            if ($keyword) {
+                $query = $query->where('name_th', 'LIKE', "%$keyword%");
+                $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
+            }
+            $projects = $query->get();
+
+            return $projects;
+
         });
 
         Route::get('project/{id}', function ($id) {
             $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
             return $project;
         });
+
+
+
     });
 
 
