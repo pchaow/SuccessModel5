@@ -53,7 +53,7 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
         Route::get('project/search', function (\Symfony\Component\HttpFoundation\Request $request) {
             $faculty_id = $request->get('faculty_id');
             $keyword = $request->get('keyword');
-            
+
             $query = Project::query();
 
             if ($faculty_id) {
@@ -64,6 +64,9 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
                 $query = $query->where('name_th', 'LIKE', "%$keyword%");
                 $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
             }
+            $query->whereHas('status', function ($q) {
+                $q->where('key', '=', 'published');
+            });
             $projects = $query->get();
 
             return $projects;

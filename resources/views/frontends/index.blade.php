@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <h3>โครงการวิจัย</h3>
+
     <?php
 
     $colProject1 = $projects->every(3, 0);
