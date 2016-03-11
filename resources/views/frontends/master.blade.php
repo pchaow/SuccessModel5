@@ -8,7 +8,8 @@
     <script src="/bower/semantic/dist/semantic.min.js" type="text/javascript"></script>
     <script src="/bower/semantic/dist/components/dropdown.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/bower/jquery-lazy/jquery.lazy.min.js"></script>
-
+    <script src="/bower/highcharts/highcharts.js"></script>
+    <script src="/bower/highcharts/modules/map.js"></script>
     @yield('javascript')
 
 </head>
