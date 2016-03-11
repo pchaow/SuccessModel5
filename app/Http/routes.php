@@ -25,6 +25,11 @@
 
 use App\Models\Project\Project;
 
+Route::get('test',function(){
+    $phayao = \App\Models\Thailand\Province::with(['amphurs','amphurs.projects'])->where('province_id','=',44)->first();
+    return $phayao;
+});
+
 Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
     Route::group(['middleware' => ['cors']], function () {

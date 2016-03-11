@@ -8,6 +8,7 @@ namespace App\Models\Thailand;
  * Time: 12:59 PM
  */
 
+use App\Models\Project\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -25,6 +26,11 @@ class Province extends Model
     public function districts()
     {
         return $this->hasMany(District::class, "PROVINCE_ID");
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class,"PROVINCE_ID");
     }
 
 }
