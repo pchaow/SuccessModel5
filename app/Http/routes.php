@@ -24,9 +24,36 @@
 */
 
 use App\Models\Project\Project;
+use \App\Models\Thailand\Province;
+use Illuminate\Support\Collection;
 
-Route::get('test',function(){
-    $phayao = \App\Models\Thailand\Province::with(['amphurs','amphurs.projects'])->where('province_id','=',44)->first();
+Route::get('test', function () {
+
+    $phayao = DB::select("
+    SELECT province.*, amphur.*, count(projects.id) as numProjectAmphur, b.facid as faculty_id, b.name_th as facultyname , countp as numProjectFacultyAmphur
+FROM `province`
+left join amphur on province.PROVINCE_ID = amphur.PROVINCE_ID
+left join projects on amphur.AMPHUR_ID = projects.amphur_id
+left join faculties on projects.faculty_id = faculties.id
+left join (
+    select faculties.id as facid, faculties.name_th, projects.amphur_id , count(projects.id) as countp
+from faculties
+join projects on projects.faculty_id = faculties.id
+where projects.status_id = 4
+group by faculties.id
+    ) as b on b.amphur_id = amphur.amphur_id
+WHERE province.PROVINCE_ID = 44 and projects.status_id = 4  and projects.deleted_at is null
+group by amphur.amphur_id, b.facid
+    ");
+    $collection = Collection::make($phayao);
+    $result = [];
+    $provinceArr = $collection->groupBy('PROVINCE_ID')->toArray();
+    foreach ($provinceArr as $key => $amphur) {
+        $aCollection = Collection::make($amphur)->groupBy("AMPHUR_ID")->toArray();
+        $result[$key] = $aCollection;
+    }
+    $phayao = $result;
+    dd($phayao);
     return $phayao;
 });
 
@@ -82,7 +109,6 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
             $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
             return $project;
         });
-
 
 
     });
