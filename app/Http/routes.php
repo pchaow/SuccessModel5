@@ -45,9 +45,31 @@ group by faculties.id
 WHERE province.PROVINCE_ID = 44 and projects.status_id = 4  and projects.deleted_at is null
 group by amphur.amphur_id, b.facid
     ");
+
+    $query = Province::query();
+    $query->leftJoin('amphur', 'province.province_id', '=', 'amphur.province_id');
+    $query->leftJoin('projects', 'amphur.amphur_id', '=', 'projects.amphur_id');
+//    $query->leftJoin('faculties','projects.faculty_id','=','faculties.id');
+    $query->where('province.province_id', '=', '44');
+
+    dd($query->get(
+        [
+            'province.province_id',
+            'province.province_name',
+            'amphur.amphur_name',
+            'amphur.amphur_id',
+
+//            DB::raw("IFNULL( count(projects.id),0 ) as numProjects"),
+//            DB::raw("IFNULL( faculties.name_th, NULL ) as faculty_name_th"),
+        ])
+        ->groupBy('amphur_id')
+        ->toArray());
+
     $collection = Collection::make($phayao);
     $result = [];
     $provinceArr = $collection->groupBy('PROVINCE_ID')->toArray();
+
+
     foreach ($provinceArr as $key => $amphur) {
         $aCollection = Collection::make($amphur)->groupBy("AMPHUR_ID")->toArray();
         $result[$key] = $aCollection;
