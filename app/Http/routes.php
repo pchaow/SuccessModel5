@@ -27,56 +27,87 @@ use App\Models\Project\Project;
 use \App\Models\Thailand\Province;
 use Illuminate\Support\Collection;
 
+Route::get('test2',function(){
+    $query = \App\Models\Thailand\Amphur::query();
+
+    $query->select([
+        'amphur.amphur_id',
+        'amphur.amphur_name',
+        DB::raw(" count(projects.id) as numProAmp "),
+        "sub.faculty_id",
+        "sub.faculty_name",
+        "sub.numProFacAmp"
+
+    ]);
+
+    $query->leftJoin('projects','projects.amphur_id','=','amphur.amphur_id');
+    $query->leftJoin('faculties','projects.faculty_id','=','faculties.id');
+
+    $query->leftJoin(
+        DB::raw(
+            "
+                (
+                    select
+                        count(projects.id) as numProFacAmp
+                        , projects.amphur_id
+                        , projects.faculty_id
+                        ,faculties.name_th as faculty_name
+                    from projects
+                    left join faculties on projects.faculty_id = faculties.id
+                    where projects.province_id = 44
+                    group by projects.faculty_id , projects.amphur_id
+                ) as sub
+
+            "
+        ),
+        function($join){
+            $join->on('sub.amphur_id','=','amphur.amphur_id');
+        }
+    );
+
+
+    $query->where('amphur.province_id','=','44');
+
+    $query->groupBy('amphur.amphur_id');
+    $query->groupBy('sub.faculty_id');
+
+    $query->orderBy('numProAmp','desc');
+
+    $query = $query->get()->toArray();
+    dd($query);
+});
+
 Route::get('test', function () {
+    $query = \App\Models\Faculty::query();
 
-    $phayao = DB::select("
-    SELECT province.*, amphur.*, count(projects.id) as numProjectAmphur, b.facid as faculty_id, b.name_th as facultyname , countp as numProjectFacultyAmphur
-FROM `province`
-left join amphur on province.PROVINCE_ID = amphur.PROVINCE_ID
-left join projects on amphur.AMPHUR_ID = projects.amphur_id
-left join faculties on projects.faculty_id = faculties.id
-left join (
-    select faculties.id as facid, faculties.name_th, projects.amphur_id , count(projects.id) as countp
-from faculties
-join projects on projects.faculty_id = faculties.id
-where projects.status_id = 4
-group by faculties.id
-    ) as b on b.amphur_id = amphur.amphur_id
-WHERE province.PROVINCE_ID = 44 and projects.status_id = 4  and projects.deleted_at is null
-group by amphur.amphur_id, b.facid
-    ");
+    $query->select([
+        'faculties.id as faculty_id',
+        'faculties.name_th',
+        'amphur.amphur_id',
+        'amphur.amphur_name',
+        DB::raw("count(projects.id) as numProFacAmp"),
+        "sub1.numProAmp"
+    ]);
 
-    $query = Province::query();
-    $query->leftJoin('amphur', 'province.province_id', '=', 'amphur.province_id');
-    $query->leftJoin('projects', 'amphur.amphur_id', '=', 'projects.amphur_id');
-//    $query->leftJoin('faculties','projects.faculty_id','=','faculties.id');
-    $query->where('province.province_id', '=', '44');
+    $query->leftJoin("projects", "projects.faculty_id", '=', 'faculties.id');
+    $query->leftJoin("amphur", function ($join) {
+        $join->on('projects.amphur_id', '=', 'amphur.amphur_id');
+        $join->on('amphur.province_id', '=', DB::raw("44"));
+    });
+    $query->leftJoin(DB::raw(
+        "(
+        select count(projects.id) as numProAmp, amphur.amphur_id from projects
+        left join amphur on projects.amphur_id = amphur.amphur_id and amphur.province_id=44
+        group by projects.amphur_id
+        ) as sub1
+        "
+    ), "sub1.amphur_id", '=', 'amphur.amphur_id');
+    $query->groupBy('faculties.id');
+    $query->groupBy('amphur.amphur_id');
+    $query->orderBy('numProAmp', 'desc');
 
-    dd($query->get(
-        [
-            'province.province_id',
-            'province.province_name',
-            'amphur.amphur_name',
-            'amphur.amphur_id',
-
-//            DB::raw("IFNULL( count(projects.id),0 ) as numProjects"),
-//            DB::raw("IFNULL( faculties.name_th, NULL ) as faculty_name_th"),
-        ])
-        ->groupBy('amphur_id')
-        ->toArray());
-
-    $collection = Collection::make($phayao);
-    $result = [];
-    $provinceArr = $collection->groupBy('PROVINCE_ID')->toArray();
-
-
-    foreach ($provinceArr as $key => $amphur) {
-        $aCollection = Collection::make($amphur)->groupBy("AMPHUR_ID")->toArray();
-        $result[$key] = $aCollection;
-    }
-    $phayao = $result;
-    dd($phayao);
-    return $phayao;
+    $query = $query->get()->groupBy('amphur_id')->toArray();
+    dd($query);
 });
 
 Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
