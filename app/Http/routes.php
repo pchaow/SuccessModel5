@@ -27,7 +27,7 @@ use App\Models\Project\Project;
 use \App\Models\Thailand\Province;
 use Illuminate\Support\Collection;
 
-Route::get('test2',function(){
+Route::get('map-data/{id}', function ($provinceId) {
     $query = \App\Models\Thailand\Amphur::query();
 
     $query->select([
@@ -40,8 +40,8 @@ Route::get('test2',function(){
 
     ]);
 
-    $query->leftJoin('projects','projects.amphur_id','=','amphur.amphur_id');
-    $query->leftJoin('faculties','projects.faculty_id','=','faculties.id');
+    $query->leftJoin('projects', 'projects.amphur_id', '=', 'amphur.amphur_id');
+    $query->leftJoin('faculties', 'projects.faculty_id', '=', 'faculties.id');
 
     $query->leftJoin(
         DB::raw(
@@ -54,28 +54,52 @@ Route::get('test2',function(){
                         ,faculties.name_th as faculty_name
                     from projects
                     left join faculties on projects.faculty_id = faculties.id
-                    where projects.province_id = 44
+                    where projects.province_id = $provinceId
                     group by projects.faculty_id , projects.amphur_id
                 ) as sub
 
             "
         ),
-        function($join){
-            $join->on('sub.amphur_id','=','amphur.amphur_id');
+        function ($join) {
+            $join->on('sub.amphur_id', '=', 'amphur.amphur_id');
         }
     );
 
-
-    $query->where('amphur.province_id','=','44');
+    $query->where('amphur.province_id', '=', "$provinceId");
 
     $query->groupBy('amphur.amphur_id');
     $query->groupBy('sub.faculty_id');
 
-    $query->orderBy('numProAmp','desc');
+    $query->orderBy('numProAmp', 'desc');
 
     $query = $query->get()->toArray();
 
-    dd($query);
+    $result = [];
+    foreach ($query as $item) {
+        $amphur_name = $item["amphur_name"];
+        if (!array_key_exists($amphur_name, $result)) {
+            $result[$amphur_name] = [];
+        }
+        //$result[$amphur_name][] = $item;
+        $result[$amphur_name]["name"] = $amphur_name;
+        $result[$amphur_name]["value"] = $item["numProAmp"];
+        if ($item["faculty_id"]) {
+            $result[$amphur_name]["faculties"][] = $item;
+        }
+
+    }
+
+    $arrayRes = [];
+
+    foreach ($result as $key => $value) {
+        if(!array_key_exists("faculties",$value)){
+            $value['faculties'] = [];
+        }
+        $arrayRes[] = $value;
+    }
+    $query = $arrayRes;
+
+    return $query;
 });
 
 Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
