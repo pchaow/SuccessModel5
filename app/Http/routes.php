@@ -85,6 +85,7 @@ Route::get('map-data/{id}', function ($provinceId) {
         }
         //$result[$amphur_name][] = $item;
         $result[$amphur_name]["name"] = $amphur_name;
+        $result[$amphur_name]["amphur_id"] = $item["amphur_id"];
         $result[$amphur_name]["value"] = $item["numProAmp"];
         if ($item["faculty_id"]) {
             $result[$amphur_name]["faculties"][] = $item;
