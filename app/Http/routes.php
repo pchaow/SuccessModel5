@@ -74,39 +74,7 @@ Route::get('test2',function(){
     $query->orderBy('numProAmp','desc');
 
     $query = $query->get()->toArray();
-    dd($query);
-});
 
-Route::get('test', function () {
-    $query = \App\Models\Faculty::query();
-
-    $query->select([
-        'faculties.id as faculty_id',
-        'faculties.name_th',
-        'amphur.amphur_id',
-        'amphur.amphur_name',
-        DB::raw("count(projects.id) as numProFacAmp"),
-        "sub1.numProAmp"
-    ]);
-
-    $query->leftJoin("projects", "projects.faculty_id", '=', 'faculties.id');
-    $query->leftJoin("amphur", function ($join) {
-        $join->on('projects.amphur_id', '=', 'amphur.amphur_id');
-        $join->on('amphur.province_id', '=', DB::raw("44"));
-    });
-    $query->leftJoin(DB::raw(
-        "(
-        select count(projects.id) as numProAmp, amphur.amphur_id from projects
-        left join amphur on projects.amphur_id = amphur.amphur_id and amphur.province_id=44
-        group by projects.amphur_id
-        ) as sub1
-        "
-    ), "sub1.amphur_id", '=', 'amphur.amphur_id');
-    $query->groupBy('faculties.id');
-    $query->groupBy('amphur.amphur_id');
-    $query->orderBy('numProAmp', 'desc');
-
-    $query = $query->get()->groupBy('amphur_id')->toArray();
     dd($query);
 });
 

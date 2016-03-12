@@ -13,7 +13,6 @@ class AddThailandProvince extends Migration
     public function up()
     {
         DB::unprepared(file_get_contents(resource_path("assets/database/thailand.sql")));
-
     }
 
     /**
