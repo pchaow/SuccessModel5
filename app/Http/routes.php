@@ -40,7 +40,10 @@ Route::get('map-data/{id}', function ($provinceId) {
 
     ]);
 
-    $query->leftJoin('projects', 'projects.amphur_id', '=', 'amphur.amphur_id');
+    $query->leftJoin('projects', function($join){
+        $join->on('projects.amphur_id', '=', 'amphur.amphur_id');
+        $join->on('projects.status_id', '=', DB::raw("4"));
+    });
     $query->leftJoin('faculties', 'projects.faculty_id', '=', 'faculties.id');
 
     $query->leftJoin(
