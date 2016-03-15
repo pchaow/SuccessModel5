@@ -19,6 +19,19 @@
 
             </div>
         </div>
+        <div class="ui simple dropdown item">
+            พื้นที่เป้าหมาย
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <?php
+                $amphurs = \App\Models\Thailand\Amphur::where("province_id","=","44")->get();
+                ?>
+                @foreach($amphurs as $amphur)
+                    <a class="link item" href="/amphur/{{$amphur->AMPHUR_ID}}/{{$amphur->AMPHUR_NAME}}">{{$amphur->AMPHUR_NAME}}</a>
+                @endforeach
+
+            </div>
+        </div>
 
     </div>
 

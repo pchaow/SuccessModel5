@@ -40,7 +40,7 @@ Route::get('map-data/{id}', function ($provinceId) {
 
     ]);
 
-    $query->leftJoin('projects', function($join){
+    $query->leftJoin('projects', function ($join) {
         $join->on('projects.amphur_id', '=', 'amphur.amphur_id');
         $join->on('projects.status_id', '=', DB::raw("4"));
     });
@@ -96,7 +96,7 @@ Route::get('map-data/{id}', function ($provinceId) {
     $arrayRes = [];
 
     foreach ($result as $key => $value) {
-        if(!array_key_exists("faculties",$value)){
+        if (!array_key_exists("faculties", $value)) {
             $value['faculties'] = [];
         }
         $arrayRes[] = $value;
@@ -224,6 +224,20 @@ Route::group(['middleware' => ['web']], function () {
 
 });
 
+Route::get('/amphur/{id}/{name}', function ($id, $name) {
+
+    $amphur = \App\Models\Thailand\Amphur::find($id);
+    $query = Project::query();
+    $query->where('amphur_id', '=', $id);
+
+    $projects = $query->get();
+
+    return view('frontends.amphur')
+        ->with('projects', $projects)
+        ->with('amphur', $amphur);
+});
+
+
 Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
     //project
@@ -247,6 +261,8 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
             ->with('projects', $projects);
 
     });
+
+
     Route::get('{id}', "FrontendController@project");
     Route::get('{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
     Route::get('{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
