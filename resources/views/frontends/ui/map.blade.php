@@ -1,4 +1,4 @@
-<div id="map-container"></div>
+<div id="map-container" style="height: 500px;"></div>
 
 <script>
     $(function () {
