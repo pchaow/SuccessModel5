@@ -7,8 +7,8 @@
     <script>
         $(function () {
 
-            $.getJSON("map-data/44",function(data){
-                console.log(data);
+            $.getJSON("map-data/44",function(response){
+                console.log(response);
                 $('#map-container').highcharts('Map', {
                     title: {
                         text: 'จำนวนโครงการในจังหวัดพะเยา'
@@ -82,7 +82,7 @@
                                 }
                             ],
 
-                            data: data,
+                            data: response,
                             joinBy: ['name', 'name'],
                             dataLabels: {
                                 enabled: true,
