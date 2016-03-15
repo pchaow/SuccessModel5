@@ -13,7 +13,7 @@ $colPosts = [$colPost1, $colPost2, $colPost3];
             @foreach($col as $post)
                 <div class="ui fluid card">
                     <div class="image">
-                        @if($project->cover_file == "")
+                        @if($post->cover_file == "")
                             <img src="/images/uplogo_big.png">
                         @else
                             <img class="lazy"
