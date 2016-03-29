@@ -106,14 +106,111 @@ Route::get('map-data/{id}', function ($provinceId) {
     return $query;
 });
 
-Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
+Route::group(['prefix' => 'm1'], function () {
 
     Route::group(['middleware' => ['cors']], function () {
-        Route::get('faculty', function () {
+
+        Route::get('map-data/{id}', function ($provinceId) {
+            $query = \App\Models\Thailand\Amphur::query();
+
+            $query->select([
+                'amphur.amphur_id',
+                'amphur.amphur_name',
+                DB::raw(" count(projects.id) as numProAmp "),
+                "sub.faculty_id",
+                "sub.faculty_name",
+                "sub.numProFacAmp"
+
+            ]);
+
+            $query->leftJoin('projects', function ($join) {
+                $join->on('projects.amphur_id', '=', 'amphur.amphur_id');
+                $join->on('projects.status_id', '=', DB::raw("4"));
+            });
+            $query->leftJoin('faculties', 'projects.faculty_id', '=', 'faculties.id');
+
+            $query->leftJoin(
+                DB::raw(
+                    "
+                (
+                    select
+                        count(projects.id) as numProFacAmp
+                        , projects.amphur_id
+                        , projects.faculty_id
+                        ,faculties.name_th as faculty_name
+                    from projects
+                    left join faculties on projects.faculty_id = faculties.id
+                    where projects.province_id = $provinceId
+                    group by projects.faculty_id , projects.amphur_id
+                ) as sub
+
+            "
+                ),
+                function ($join) {
+                    $join->on('sub.amphur_id', '=', 'amphur.amphur_id');
+                }
+            );
+
+            $query->where('amphur.province_id', '=', "$provinceId");
+
+            $query->groupBy('amphur.amphur_id');
+            $query->groupBy('sub.faculty_id');
+
+            $query->orderBy('numProAmp', 'desc');
+
+            $query = $query->get()->toArray();
+
+            $result = [];
+            foreach ($query as $item) {
+                $amphur_name = $item["amphur_name"];
+                if (!array_key_exists($amphur_name, $result)) {
+                    $result[$amphur_name] = [];
+                }
+                //$result[$amphur_name][] = $item;
+                $result[$amphur_name]["name"] = $amphur_name;
+                $result[$amphur_name]["amphur_id"] = $item["amphur_id"];
+                $result[$amphur_name]["value"] = $item["numProAmp"];
+                if ($item["faculty_id"]) {
+                    $result[$amphur_name]["faculties"][] = $item;
+                }
+
+            }
+
+            $arrayRes = [];
+
+            foreach ($result as $key => $value) {
+                if (!array_key_exists("faculties", $value)) {
+                    $value['faculties'] = [];
+                }
+                $arrayRes[] = $value;
+            }
+            $query = $arrayRes;
+
+            return $query;
+        });
+
+        Route::get('amphur/{id}/{name}', function ($id, $name) {
+
+            $amphur = \App\Models\Thailand\Amphur::find($id);
+            $query = Project::query();
+            $query->where('amphur_id', '=', $id);
+
+            $projects = $query->get();
+
+            return view('frontends.amphur')
+                ->with('projects', $projects)
+                ->with('amphur', $amphur);
+        });
+
+    });
+
+    Route::group(['prefix' => 'faculty', 'middleware' => ['cors']], function () {
+
+        Route::get('/', function () {
             return \App\Models\Faculty::all();
         });
 
-        Route::get('faculty/{id}/project', function ($id) {
+        Route::get('{id}/project', function ($id) {
             $projects = Project::whereHas('faculty', function ($q) use ($id) {
                 $q->where('id', '=', $id);
             })->with(['faculty'])
@@ -121,17 +218,30 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
                 ->get();
             return $projects;
         });
+    });
 
-        Route::get('project', function () {
-            return Project::with(['faculty'])
-                ->whereHas('status', function ($q) {
-                    $q->where('key', '=', 'published');
-                })
-                ->orderBy('created_at', 'desc')
-                ->get();
+    Route::group(['prefix' => 'project'], function () {
+
+        Route::group(['middleware' => ['cors']], function () {
+
+            Route::get('/', function () {
+
+                return Project::with(['faculty'])
+                    ->whereHas('status', function ($q) {
+                        $q->where('key', '=', 'published');
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            });
+
+            Route::get('{id}', function ($id) {
+                $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
+                return $project;
+            });
         });
 
-        Route::get('project/search', function (\Symfony\Component\HttpFoundation\Request $request) {
+
+        Route::get('search', function (\Symfony\Component\HttpFoundation\Request $request) {
             $faculty_id = $request->get('faculty_id');
             $keyword = $request->get('keyword');
 
@@ -154,18 +264,11 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
         });
 
-        Route::get('project/{id}', function ($id) {
-            $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
-            return $project;
-        });
+        Route::get('{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
+        Route::get('{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
 
 
     });
-
-
-    Route::get('project/{id}/photos/{file}', "Frontends\\ProjectController@getPhoto");
-    Route::get('project/{projectId}/cover/{filename?}', "Frontends\\ProjectController@getCover");
-
 
     Route::group(['prefix' => 'post'], function () {
 
@@ -181,6 +284,7 @@ Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
         Route::get('/{id}/photos/{file}', "Backends\\PostController@getPhoto");
     });
 
+
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
@@ -194,7 +298,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['api']], function () {
 
     Route::get('project/{id}', function ($id) {
         $project = Project::with(['photos', 'youtubes', 'users'])->find($id);
-
         return $project;
     });
 
