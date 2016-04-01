@@ -12,7 +12,7 @@ class AddFulltextProjects extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE projects ADD FULLTEXT search(name_th, name_en,description_en,description_th");
+        DB::statement("ALTER TABLE projects ADD FULLTEXT search(name_th, name_en,description_en,description_th)");
     }
 
     /**
