@@ -109,6 +109,7 @@ Route::get('map-data/{id}', function ($provinceId) {
 Route::group(['prefix' => 'm1', 'middleware' => ['api']], function () {
 
     Route::group(['middleware' => ['cors']], function () {
+
         Route::get('faculty', function () {
             return \App\Models\Faculty::all();
         });
