@@ -197,9 +197,10 @@ Route::group(['prefix' => 'm1'], function () {
 
             $projects = $query->get();
 
-            return view('frontends.amphur')
-                ->with('projects', $projects)
-                ->with('amphur', $amphur);
+            return [
+                'projects' => $projects,
+                'amphur' => $amphur
+            ];
         });
 
     });
@@ -354,8 +355,11 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
         }
         if ($keyword) {
-            $query = $query->where('name_th', 'LIKE', "%$keyword%");
-            $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
+//            $query = $query->where('name_th', 'LIKE', "%$keyword%");
+//            $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
+
+            $query = $query->whereRaw('MATCH (name_th, name_en) AGAINST (?)' , array($keyword));
+
         }
 
         $projects = $query->get();
