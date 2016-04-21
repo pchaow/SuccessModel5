@@ -18,8 +18,8 @@ class PostController extends BaseController
 
     public function index()
     {
-        $posts = Post::all()
-            ->orderBy('created_at', 'desc');
+        $posts = Post::orderBy('created_at', 'desc')->get();
+
         return view("backends.posts.index")
             ->with("posts", $posts);
     }

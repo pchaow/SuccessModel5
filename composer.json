@@ -14,7 +14,9 @@
     "league/glide-laravel": "^1.0",
     "artisaninweb/laravel-soap": "0.2.*",
     "alaouy/youtube": "dev-master",
-    "doctrine/dbal": "^2.5"
+    "doctrine/dbal": "^2.5",
+    "elasticquent/elasticquent": "dev-master"
+
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

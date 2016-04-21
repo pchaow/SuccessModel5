@@ -24,8 +24,28 @@
 */
 
 use App\Models\Project\Project;
-use \App\Models\Thailand\Province;
 use Illuminate\Support\Collection;
+
+Route::get('test/{keyword}', function ($keyword) {
+    //Project::addAllToIndex();
+    $projects = Project::complexSearch([
+        'body' => [
+            'query' => [
+                'query_string' => [
+                    'query' => "*$keyword* OR $keyword",
+                    'analyzer' => 'thai',
+                    'fields' => ["name_th", "name_en", 'description_th', 'description_en']
+                ],
+            ],
+        ],
+        'analyzer' => 'thai',
+    ]);
+
+    $projects = new Collection($projects);
+    //dd($projects);
+    return view('frontends.search')
+        ->with('projects', $projects);
+});
 
 Route::get('map-data/{id}', function ($provinceId) {
     $query = \App\Models\Thailand\Amphur::query();
@@ -239,6 +259,26 @@ Route::group(['prefix' => 'm1'], function () {
                 $project = Project::with(['faculty', 'photos', 'youtubes', 'users', 'province', 'amphur', 'district'])->where('id', '=', $id)->first();
                 return $project;
             });
+
+            Route::get('search/{keyword}', function ($keyword) {
+                //Project::addAllToIndex();
+                $projects = Project::complexSearch([
+                    'body' => [
+                        'query' => [
+                            'query_string' => [
+                                'query' => "*$keyword* OR $keyword",
+                                'analyzer' => 'thai',
+                                'fields' => ["name_th", "name_en", 'description_th', 'description_en']
+                            ],
+                        ],
+                    ],
+                    'analyzer' => 'thai',
+                ]);
+
+                $projects = new Collection($projects);
+                //dd($projects);
+                return $projects;
+            });
         });
 
 
@@ -355,11 +395,8 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
 
         }
         if ($keyword) {
-//            $query = $query->where('name_th', 'LIKE', "%$keyword%");
-//            $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
-
-            $query = $query->whereRaw('MATCH (name_th, name_en) AGAINST (?)' , array($keyword));
-
+            $query = $query->where('name_th', 'LIKE', "%$keyword%");
+            $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
         }
 
         $projects = $query->get();

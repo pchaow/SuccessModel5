@@ -7,16 +7,38 @@ use App\Models\Thailand\District;
 use App\Models\Thailand\Province;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Elasticquent\ElasticquentTrait;
+
 
 class Project extends Model
 {
-
+    use ElasticquentTrait;
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = 'projects';
+
+    protected $mappingProperties = array(
+        'name_th' => array(
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ),
+        'description_th' => array(
+            'type' => 'string',
+            'analyzer' => 'thai'
+        ),
+        'description_en' => array(
+            'type' => 'string',
+            'analyzer' => 'thai'
+        ),
+        'name_en' => array(
+            'type' => 'string',
+            'analyzer' => 'standard'
+        )
+    );
+
 
 
     protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en', 'location', 'amphur_id', 'province_id', 'district_id'];
