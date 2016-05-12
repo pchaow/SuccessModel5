@@ -29,6 +29,18 @@
                 @foreach($amphurs as $amphur)
                     <a class="link item" href="/amphur/{{$amphur->AMPHUR_ID}}/{{$amphur->AMPHUR_NAME}}">{{$amphur->AMPHUR_NAME}}</a>
                 @endforeach
+            </div>
+        </div>
+        <div class="ui simple dropdown item">
+            ปีที่ดำเนินโครงการ
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <?php
+                $years = \App\Models\Year::orderBy('year','desc')->get();
+                ?>
+                @foreach($years as $year)
+                    <a class="link item" href="/project?year={{$year->year}}">{{$year->year}}</a>
+                @endforeach
 
             </div>
         </div>

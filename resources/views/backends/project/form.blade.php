@@ -16,6 +16,31 @@
         <h4 class="ui dividing header">ข้อมูลพื้นฐาน</h4>
 
         <div class="field">
+            <label>ปีที่ดำเนินโครงการ</label>
+            <div class="ui selection dropdown" tabindex="0">
+                <input type="hidden" name="project[year]" value="{{$project->year}}">
+                @if($project->year and $project->year != 0)
+                    <div class="text">{{$project->year}}</div>
+                @else
+                    <div class="default text" value="0">กรุณาเลือก</div>
+                @endif
+                <i class="dropdown icon"></i>
+                <div class="menu transition hidden" tabindex="-1">
+                    <?php
+                    $years = \App\Models\Year::all();
+                    ?>
+                    @foreach($years as $year)
+                        <div class="item {{ $project->year == $year->year ? "active" : ""  }}"
+                             data-value="{{$year->year}}">
+                            {{$year->year}}
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
             <label>ชื่อโครงการภาษาไทย</label>
             <input type="text" name="project[name_th]" placeholder="ชื่อโครงการภาษาไทย" value="{{$project->name_th}}">
         </div>

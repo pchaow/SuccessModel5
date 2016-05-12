@@ -388,6 +388,7 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
     Route::get('/', function (\Symfony\Component\HttpFoundation\Request $request) {
         $faculty_id = $request->get('faculty_id');
         $keyword = $request->get('keyword');
+        $year = $request->get('year');
         $query = Project::query();
 
         if ($faculty_id) {
@@ -397,6 +398,9 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
         if ($keyword) {
             $query = $query->where('name_th', 'LIKE', "%$keyword%");
             $query = $query->orWhere('name_en', 'LIKE', "%$keyword%");
+        }
+        if($year){
+            $query = $query->where('year', '=', $year);
         }
 
         $projects = $query->get();

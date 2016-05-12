@@ -6,6 +6,7 @@ use App\Models\Thailand\Amphur;
 use App\Models\Thailand\District;
 use App\Models\Thailand\Province;
 use App\Models\User;
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Model;
 use Elasticquent\ElasticquentTrait;
 
@@ -41,7 +42,7 @@ class Project extends Model
 
 
 
-    protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en', 'location', 'amphur_id', 'province_id', 'district_id'];
+    protected $fillable = ['name_th', 'name_en', 'description_th', 'description_en', 'location', 'amphur_id', 'province_id', 'district_id','year'];
 
     public function faculty()
     {
@@ -90,6 +91,10 @@ class Project extends Model
 
     public function approveComments(){
         return $this->hasMany(ProjectApproveComment::class);
+    }
+
+    public function project_year(){
+        return $this->belongsTo(Year::class,'year','year');
     }
 
 }

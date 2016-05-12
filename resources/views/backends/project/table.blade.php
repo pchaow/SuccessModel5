@@ -19,7 +19,7 @@
             </th>
         </tr>
         <tr>
-            <th>ลำดับ</th>
+            <th>ปี</th>
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
             <th style="width:15em;">สถานะโครงการ</th>
@@ -31,7 +31,7 @@
         <tbody>
         @foreach($projects as $project)
             <tr>
-                <td class="center aligned collapsing">{{$project->id}}</td>
+                <td class="center aligned collapsing">{{$project->year}}</td>
                 <td>
                     <b>{{$project->name_th}}</b><br/>
                     {{$project->name_en}}
@@ -124,7 +124,7 @@
     <table class="ui celled table">
         <thead>
         <tr>
-            <th>ลำดับ</th>
+            <th>ปี</th>
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
             <th style="width:15em;">สถานะโครงการ</th>
@@ -134,7 +134,7 @@
         <tbody>
         @foreach($projects as $project)
             <tr>
-                <td class="center aligned collapsing">{{$project->id}}</td>
+                <td class="center aligned collapsing">{{$project->year}}</td>
                 <td>
                     <b>{{$project->name_th}}</b><br/>
                     {{$project->name_en}}
@@ -207,7 +207,7 @@
     <table class="ui celled table">
         <thead>
         <tr>
-            <th>ลำดับ</th>
+            <th>ปี</th>
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
             <th style="width:15em;">สถานะโครงการ</th>
@@ -217,7 +217,7 @@
         <tbody>
         @foreach($projects as $project)
             <tr>
-                <td class="center aligned collapsing">{{$project->id}}</td>
+                <td class="center aligned collapsing">{{$project->year}}</td>
                 <td>
                     <b>{{$project->name_th}}</b><br/>
                     {{$project->name_en}}
@@ -307,7 +307,7 @@
             </th>
         </tr>
         <tr>
-            <th>ลำดับ</th>
+            <th>ปี</th>
             <th>ชื่อโครงการ</th>
             <th>กอง/คณะ/วิทยาลัย</th>
             <th>สถานะโครงการ</th>
@@ -318,7 +318,7 @@
         <tbody>
         @foreach($projects as $project)
             <tr>
-                <td class="center aligned collapsing">{{$project->id}}</td>
+                <td class="center aligned collapsing">{{$project->year}}</td>
                 <td>
                     <b>{{$project->name_th}}</b><br/>
                     {{$project->name_en}}
