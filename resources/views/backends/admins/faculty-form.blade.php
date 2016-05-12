@@ -1,4 +1,5 @@
 <form class="ui form" action="{{$action}}" method="post">
+    {{csrf_field()}}
     <div class="field">
         <label>ชื่อคณะภาษาไทย</label>
         <input type="text" name="faculty[name_th]" placeholder="ชื่อคณะภาษาไทย" value="{{$faculty->name_th}}">

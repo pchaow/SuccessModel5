@@ -508,6 +508,11 @@ Route::group(['prefix' => 'backend', 'middleware' => ['web']], function () {
             Route::post('/faculty/{id}/doEdit', 'Backends\\FacultyController@doEdit');
             Route::post('/faculty/{id}/delete', 'Backends\\FacultyController@doDelete');
 
+            //year
+            Route::get('year', 'Backends\\YearController@index');
+            Route::get('year/addForm', 'Backends\\YearController@addForm');
+            Route::post('year/doAdd', 'Backends\\YearController@doAdd');
+
             //role
             Route::get('role', 'Backends\\RoleController@index');
 
