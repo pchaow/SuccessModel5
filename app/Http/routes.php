@@ -402,6 +402,9 @@ Route::group(['prefix' => 'project', 'middleware' => ['web']], function () {
         if($year){
             $query = $query->where('year', '=', $year);
         }
+        $query->whereHas('status',function($q){
+            $q->where('key','=','published');
+        });
 
         $projects = $query->get();
 

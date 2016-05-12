@@ -7,7 +7,7 @@
             หนัาหลัก
         </a>
         <div class="ui simple dropdown item">
-            หน่วยงานที่ทำวิจัย
+            หน่วยงานที่ทำโครงการ
             <i class="dropdown icon"></i>
             <div class="menu">
                 <?php
