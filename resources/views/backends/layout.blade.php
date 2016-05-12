@@ -103,6 +103,10 @@
                                class="{{ Request::is('backend/project-status') || Request::is('backend/project-status/*') ? 'active' : ''   }} teal item">
                                 รายการสถานะโครงการ
                             </a>
+                            <a href="/backend/year"
+                               class="{{ Request::is('backend/year') || Request::is('backend/year/*') ? 'active' : ''   }} teal item">
+                                รายการปีที่ดำเนินโครงการ
+                            </a>
                         </div>
                     </div>
                 @endif
